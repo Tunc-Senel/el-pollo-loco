@@ -12,11 +12,23 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.addObjectsToMap(this.level.backgroundObjects);
         this.character.drawObject(this.ctx);
-        this.level.enemies[0].drawObject(this.ctx);
+        this.addObjectsToMap(this.level.enemies);
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
     }
+
+    addObjectsToMap(objects) {
+        objects.forEach(object =>{
+            this.addObjectToMap(object);
+        }) 
+    }
+
+    addObjectToMap(object) {
+        object.drawObject(this.ctx);
+    }
+    
 }
