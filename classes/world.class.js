@@ -1,4 +1,5 @@
 class World {
+    level = level1;
     character = new Character();
     canvas;
     ctx;
@@ -11,7 +12,8 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
+        this.character.drawObject(this.ctx);
+        this.level.enemies[0].drawObject(this.ctx);
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
