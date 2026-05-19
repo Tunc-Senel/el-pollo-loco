@@ -4,7 +4,7 @@ class Character extends MovableObject {
     img;
     width = 150;
     height = 250;
-    speed = 10;
+    speed = 7.5;
     world;
 
      IMAGES_WALKING = [
@@ -23,12 +23,24 @@ class Character extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        this.otherDirection = false;
+
+         setInterval(() => {
             if (this.world.keyboard.RIGHT) {
-                this.playAnimation(this.IMAGES_WALKING);
                 this.moveRight();
-            }        
-        }, 50);
+                this.otherDirection = false;
+            }
+            if (this.world.keyboard.LEFT) {
+                this.moveLeft();
+                this.otherDirection = true;
+            }
+        }, 1000 / 60);
+
+        setInterval(() => {
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING);
+            }
+        }, 100);
     }
 
 }
