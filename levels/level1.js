@@ -14,6 +14,11 @@ const level1 = new Level(
     ],
     [
         new Cloud()
+    ],
+    [
+        new Coin(300, 100),
+        new Coin(350, 150),
+        new Coin(500, 50),
     ]
     
 );
