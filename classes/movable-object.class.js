@@ -4,6 +4,9 @@ class MovableObject {
     width;
     height;
     img;
+    imageCache = {};
+    currentImage = 0;
+    speed = 0.15;
 
     loadImage(path) {
         this.img = new Image();
@@ -19,7 +22,24 @@ class MovableObject {
     }
 
     drawObject(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        try {
+         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);   
+        } catch {
+            console.log('Could not load image', this.img.src);
+        }
+
+    }
+
+     playAnimation(images) {
+        this.currentImage = this.currentImage % images.length;
+        let path = images[this.currentImage];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
+
+    moveRight() {
+        this.x += this.speed;
     }
     
+
 }
