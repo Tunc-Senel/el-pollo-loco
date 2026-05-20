@@ -4,6 +4,7 @@ class World {
     canvas;
     ctx;
     keyboard;
+    healthBar = new HealthBar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -26,6 +27,7 @@ class World {
         this.addObjectsToMap(this.level.bottles);
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectToMap(this.healthBar);
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -67,6 +69,7 @@ class World {
             this.level.enemies.filter((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
+                    this.healthBar.setPercentage(this.character.energy);
                 }
             });
         }, 1000 / 60);
