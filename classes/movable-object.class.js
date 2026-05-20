@@ -2,6 +2,7 @@ class MovableObject extends DrawableObject {
     currentImage = 0;
     speedY = 0;
     accelaration = 2.0;
+    lastHit = 0;
 
      playAnimation(images) {
         this.currentImage = this.currentImage % images.length;
@@ -33,6 +34,16 @@ class MovableObject extends DrawableObject {
 
     jump() {
         this.speedY = 30;
+    }
+
+    hit() {
+        this.lastHit = new Date().getTime();
+    }
+
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 1;
     }
 
 }
