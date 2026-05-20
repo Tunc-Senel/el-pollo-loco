@@ -72,6 +72,7 @@ class World {
         setInterval(() => {
             this.checkEnemyCollisions();
             this.checkCoinCollisions();
+            this.checkBottleCollisions();
         }, 1000 / 60);
     }
     
@@ -91,6 +92,15 @@ class World {
                 return false;
             }
             return true;
+        });
+    }
+
+    checkBottleCollisions() {
+        this.level.bottles = this.level.bottles.filter((bottle) => {
+            if (this.character.isColliding(bottle)) {
+                return false;
+            }
+                return true;
         });
     }
         
