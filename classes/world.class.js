@@ -82,6 +82,8 @@ class World {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
+            } else if (this.character.isJumpingOnEnemyHead(enemy)) {
+                this.character.jump();
             }
         });
     }

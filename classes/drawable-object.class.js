@@ -47,8 +47,23 @@ class DrawableObject {
         return characterRight > objectLeft &&
                characterLeft < objectRight &&
                characterBottom > objectTop + 25 &&
-               characterTop < objectBottom;
-              
+               characterTop < objectBottom;         
+    }
+
+    isJumpingOnEnemyHead(object) {
+        const characterLeft = this.x + this.offset.left;
+        const characterRight = this.x + this.width - this.offset.right;
+        const characterTop = this.y + this.offset.top;
+        const characterBottom = this.y + this.height - this.offset.bottom;
+        const objectLeft = object.x;
+        const objectRight = object.x + object.width;
+        const objectTop = object.y;
+        const objectBottom = object.y + object.height;
+
+        return characterRight > objectLeft &&
+               characterLeft < objectRight &&
+               characterBottom >= objectTop &&
+               characterBottom <= objectTop + 25;
     }
     
     collectableObjectPlacement(x, y) {
