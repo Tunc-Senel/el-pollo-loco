@@ -89,6 +89,7 @@ class World {
     checkCoinCollisions() {
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
+                this.coinBar.setPercentage(this.coinBar.percentage + 20)
                 return false;
             }
             return true;
@@ -98,6 +99,7 @@ class World {
     checkBottleCollisions() {
         this.level.bottles = this.level.bottles.filter((bottle) => {
             if (this.character.isColliding(bottle)) {
+                this.bottleBar.setPercentage(this.bottleBar.percentage + 20)
                 return false;
             }
                 return true;
