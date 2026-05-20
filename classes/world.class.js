@@ -6,6 +6,7 @@ class World {
     keyboard;
     healthBar = new HealthBar();
     coinBar = new CoinBar();
+    bottleBar = new BottleBar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -30,6 +31,7 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectToMap(this.healthBar);
         this.addObjectToMap(this.coinBar);
+        this.addObjectToMap(this.bottleBar);
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
