@@ -64,6 +64,7 @@ class DrawableObject {
                characterLeft < objectRight &&
                characterBottom >= objectTop &&
                characterBottom <= objectTop + 25;
+               this.speedY < 0;
     }
     
     collectableObjectPlacement(x, y) {

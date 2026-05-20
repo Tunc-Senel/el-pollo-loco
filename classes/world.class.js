@@ -78,13 +78,15 @@ class World {
     
 
     checkEnemyCollisions() {
-        this.level.enemies.filter((enemy) => {
-            if (this.character.isColliding(enemy)) {
+        this.level.enemies = this.level.enemies.filter((enemy) => {
+            if (this.character.isJumpingOnEnemyHead(enemy)) {
+                this.character.jump();
+                return false;
+            } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
-            } else if (this.character.isJumpingOnEnemyHead(enemy)) {
-                this.character.jump();
             }
+            return true;
         });
     }
 
