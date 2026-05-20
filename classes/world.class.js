@@ -70,13 +70,28 @@ class World {
     
     checkCollisions() {
         setInterval(() => {
-            this.level.enemies.filter((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.healthBar.setPercentage(this.character.energy);
-                }
-            });
+            this.checkEnemyCollisions();
+            this.checkCoinCollisions();
         }, 1000 / 60);
+    }
+    
+
+    checkEnemyCollisions() {
+        this.level.enemies.filter((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.healthBar.setPercentage(this.character.energy);
+            }
+        });
+    }
+
+    checkCoinCollisions() {
+        this.level.coins = this.level.coins.filter((coin) => {
+            if (this.character.isColliding(coin)) {
+                return false;
+            }
+            return true;
+        });
     }
         
 }
