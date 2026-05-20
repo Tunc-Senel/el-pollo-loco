@@ -1,4 +1,5 @@
 class Character extends MovableObject {
+    hasStompedEnemyInThisJump = false;
     x = 150;
     y = 170;
     width = 100;

@@ -79,8 +79,9 @@ class World {
 
     checkEnemyCollisions() {
         this.level.enemies = this.level.enemies.filter((enemy) => {
-            if (this.character.isJumpingOnEnemyHead(enemy)) {
+            if (!this.character.hasStompedEnemyInThisJump && this.character.isJumpingOnEnemyHead(enemy)) {
                 this.character.jump();
+                this.character.hasStompedEnemyInThisJump = true;
                 return false;
             } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
@@ -88,6 +89,9 @@ class World {
             }
             return true;
         });
+        if (this.character.canStompEnemyAgain()) {
+            this.character.hasStompedEnemyInThisJump = false;
+        }
     }
 
     checkCoinCollisions() {

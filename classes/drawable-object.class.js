@@ -66,6 +66,11 @@ class DrawableObject {
                characterBottom <= objectTop + 25;
                this.speedY < 0;
     }
+
+    canStompEnemyAgain() {
+        const characterBottom = this.y + this.height - this.offset.bottom;
+        return characterBottom <= 280;
+    }
     
     collectableObjectPlacement(x, y) {
         this.x = x;
