@@ -86,6 +86,7 @@ class World {
             if (!this.character.hasStompedEnemyInThisJump && this.character.isJumpingOnEnemyHead(enemy)) {
                 this.character.jump();
                 this.character.hasStompedEnemyInThisJump = true;
+                this.character.firstStandingTime = null;
                 return false;
             } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
@@ -124,6 +125,7 @@ class World {
             this.bottleBar.setPercentage(this.bottleBar.percentage -= 20);
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
+            this.character.firstStandingTime = null;
         }
 
         this.throwableObjects.forEach((bottle) => {

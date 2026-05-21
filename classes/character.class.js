@@ -1,4 +1,5 @@
 class Character extends MovableObject {
+    firstStandingTime = null;
     hasStompedEnemyInThisJump = false;
     x = 150;
     y = 170;
@@ -24,6 +25,19 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/1_idle/idle/I-8.png",
         "assets/img/2_character_pepe/1_idle/idle/I-9.png",
         "assets/img/2_character_pepe/1_idle/idle/I-10.png"
+    ]
+
+    IMAGES_LONG_STANDING = [
+        "assets/img/2_character_pepe/1_idle/long_idle/I-11.png",
+        "assets/img/2_character_pepe/1_idle/long_idle/I-12.png",
+        "assets/img/2_character_pepe/1_idle/long_idle/I-13.png",
+        "assets/img/2_character_pepe/1_idle/long_idle/I-14.png",
+        "assets/img/2_character_pepe/1_idle/long_idle/I-15.png",
+        "assets/img/2_character_pepe/1_idle/long_idle/I-16.png",
+        "assets/img/2_character_pepe/1_idle/long_idle/I-17.png",
+        "assets/img/2_character_pepe/1_idle/long_idle/I-18.png",
+        "assets/img/2_character_pepe/1_idle/long_idle/I-19.png",
+        "assets/img/2_character_pepe/1_idle/long_idle/I-20.png",
     ]
 
      IMAGES_WALKING = [
@@ -65,7 +79,8 @@ class Character extends MovableObject {
 
     constructor() {
         super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
-        this.loadImages(this.IMAGES_STANDING)
+        this.loadImages(this.IMAGES_STANDING);
+        this.loadImages(this.IMAGES_LONG_STANDING);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_HURT);
@@ -78,17 +93,26 @@ class Character extends MovableObject {
         this.otherDirection = false;
 
         setInterval(() => {
-                this.playAnimation(this.IMAGES_STANDING)
+                if (this.firstStandingTime === null) {
+                    this.firstStandingTime = Date.now();
+                }
+                if (Date.now() - this.firstStandingTime < 8000) {
+                    this.playAnimation(this.IMAGES_STANDING)
+                } else if (Date.now() - this.firstStandingTime >= 8000) {
+                    this.playAnimation(this.IMAGES_LONG_STANDING)
+                }
          }, 500);
 
          setInterval(() => {
             if (this.world.keyboard.RIGHT) {
                 this.moveRight();
                 this.otherDirection = false;
+                this.firstStandingTime = null;
             }
             if (this.world.keyboard.LEFT) {
                 this.moveLeft();
                 this.otherDirection = true;
+                this.firstStandingTime = null;
             }
             if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround()) {
                 this.jump();
