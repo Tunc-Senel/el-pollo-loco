@@ -120,12 +120,23 @@ class World {
 
     checkThrowObjects() {
         
-        if (this.keyboard.F && this.canThrow && this.bottleBar.percentage > 0) {
+        if (this.keyboard.F && this.canThrow) {
             this.canThrow = false;
             this.bottleBar.setPercentage(this.bottleBar.percentage -= 20);
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
         }
+
+        this.throwableObjects.forEach((bottle) => {
+            // 1. Bottle trifft Bodenf
+            if (bottle.y >= 280 && !bottle.objectHit) {
+                bottle.objectHit = true;
+            }
+        });
+
+        this.throwableObjects = this.throwableObjects.filter((bottle) => {
+            return !bottle.remove;
+        });
 
         if (!this.keyboard.F) {
             this.canThrow = true;
@@ -134,3 +145,5 @@ class World {
     }
         
 }
+
+// if (this.keyboard.F && this.canThrow && this.bottleBar.percentage > 0) {
