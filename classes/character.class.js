@@ -1,4 +1,5 @@
 class Character extends MovableObject {
+    characterHurt = false;
     firstStandingTime = null;
     hasStompedEnemyInThisJump = false;
     x = 150;
@@ -104,17 +105,17 @@ class Character extends MovableObject {
          }, 500);
 
          setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.levelEndX) {
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.levelEndX && !this.characterHurt) {
                 this.moveRight();
                 this.otherDirection = false;
                 this.firstStandingTime = null;
             }
-            if (this.world.keyboard.LEFT && this.x > this.world.level.levelStartX) {
+            if (this.world.keyboard.LEFT && this.x > this.world.level.levelStartX && !this.characterHurt) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.firstStandingTime = null;
             }
-            if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround()) {
+            if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround() && !this.characterHurt) {
                 this.jump();
                 this.firstStandingTime = null;
             }
@@ -122,9 +123,9 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-            if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround()) {
+            if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround() && !this.characterHurt) {
                 this.playAnimation(this.IMAGES_WALKING);
-            } else if (this.isAboveGround()) {
+            } else if (this.isAboveGround() && !this.characterHurt) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);

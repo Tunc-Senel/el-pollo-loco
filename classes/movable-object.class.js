@@ -6,7 +6,7 @@ class MovableObject extends DrawableObject {
     accelaration = 2.0;
     lastHit = 0;
 
-     playAnimation(images) {
+    playAnimation(images) {
         this.currentImage = this.currentImage % images.length;
         let path = images[this.currentImage];
         this.img = this.imageCache[path];
@@ -52,12 +52,14 @@ class MovableObject extends DrawableObject {
             if (this.energy < 0) {
                 this.energy = 0;
             } else {
+                this.characterHurt = true;
                 this.lastHit = new Date().getTime()
                 const intervalId = setInterval( () => {
                     this.x -= 1;
                 }, 1000 / 60);
                 setTimeout(() => {
                     clearInterval(intervalId);
+                    this.characterHurt = false;
                 }, 1000);
             }
         }
