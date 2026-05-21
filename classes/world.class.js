@@ -118,8 +118,7 @@ class World {
         });
     }
 
-    checkThrowObjects() {
-        
+    checkThrowObjects() {   
         if (this.keyboard.F && this.canThrow) {
             this.canThrow = false;
             this.bottleBar.setPercentage(this.bottleBar.percentage -= 20);
@@ -128,14 +127,26 @@ class World {
         }
 
         this.throwableObjects.forEach((bottle) => {
-            // 1. Bottle trifft Bodenf
-            if (bottle.y >= 280 && !bottle.objectHit) {
+        // 1. Bottle trifft Bodenf
+        if (bottle.y >= 340 && !bottle.objectHit) {
+            bottle.objectHit = true;
+        }
+
+        // 2. Bottle trifft Enemy
+        this.level.enemies.forEach((enemy) => {
+            if (bottle.isColliding(enemy) && !bottle.objectHit) {
                 bottle.objectHit = true;
-            }
+                enemy.isDead = true;
+                }
+            });
         });
 
         this.throwableObjects = this.throwableObjects.filter((bottle) => {
             return !bottle.remove;
+        });
+
+        this.level.enemies = this.level.enemies.filter((enemy) => {
+            return !enemy.isDead;
         });
 
         if (!this.keyboard.F) {
