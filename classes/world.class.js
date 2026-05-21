@@ -7,6 +7,7 @@ class World {
     healthBar = new HealthBar();
     coinBar = new CoinBar();
     bottleBar = new BottleBar();
+    throwableObjects = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -29,6 +30,7 @@ class World {
         this.addObjectsToMap(this.level.bottles);
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableObjects);
         this.addObjectToMap(this.healthBar);
         this.addObjectToMap(this.coinBar);
         this.addObjectToMap(this.bottleBar);
@@ -73,6 +75,7 @@ class World {
             this.checkEnemyCollisions();
             this.checkCoinCollisions();
             this.checkBottleCollisions();
+            this.checkThrowObjects();
         }, 1000 / 60);
     }
     
@@ -112,6 +115,15 @@ class World {
             }
                 return true;
         });
+    }
+
+    checkThrowObjects() {
+        
+        if (this.keyboard.F) {
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+            this.throwableObjects.push(bottle);
+        }
+      
     }
         
 }
