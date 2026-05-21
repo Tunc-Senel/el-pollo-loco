@@ -8,6 +8,7 @@ class World {
     coinBar = new CoinBar();
     bottleBar = new BottleBar();
     throwableObjects = [];
+    canThrow = true;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -119,9 +120,14 @@ class World {
 
     checkThrowObjects() {
         
-        if (this.keyboard.F) {
+        if (this.keyboard.F && this.canThrow) {
+            this.canThrow = false;
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
+        }
+
+        if (!this.keyboard.F) {
+            this.canThrow = true;
         }
       
     }
