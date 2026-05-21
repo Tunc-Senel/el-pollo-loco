@@ -4,6 +4,7 @@ class World {
     canvas;
     ctx;
     keyboard;
+    camera_x;
     healthBar = new HealthBar();
     coinBar = new CoinBar();
     bottleBar = new BottleBar();
@@ -25,6 +26,7 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.coins);
@@ -32,6 +34,7 @@ class World {
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
+        this.ctx.translate(-this.camera_x, 0);
         this.addObjectToMap(this.healthBar);
         this.addObjectToMap(this.coinBar);
         this.addObjectToMap(this.bottleBar);
