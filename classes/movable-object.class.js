@@ -1,5 +1,6 @@
 class MovableObject extends DrawableObject {
     currentImage = 0;
+    speed = 0;
     speedY = 0;
     accelaration = 2.0;
     lastHit = 0;
@@ -51,9 +52,13 @@ class MovableObject extends DrawableObject {
                 this.energy = 0;
             } else {
                 this.lastHit = new Date().getTime()
+                const intervalId = setInterval( () => {
+                    this.x -= 1;
+                }, 1000 / 60);
+                setTimeout(() => {
+                    clearInterval(intervalId);
+                }, 1000);
             }
-        console.log(this.energy);
-        
         }
     }
 
