@@ -120,8 +120,9 @@ class World {
 
     checkThrowObjects() {
         
-        if (this.keyboard.F && this.canThrow) {
+        if (this.keyboard.F && this.canThrow && this.bottleBar.percentage > 0) {
             this.canThrow = false;
+            this.bottleBar.setPercentage(this.bottleBar.percentage -= 20);
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
         }
