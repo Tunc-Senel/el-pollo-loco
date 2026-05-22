@@ -48,6 +48,7 @@ class MovableObject extends DrawableObject {
 
     hit() {
         if (!this.isHurt()) {
+            this.firstStandingTime = null;
             this.energy -= 10;
             if (this.energy < 0) {
                 this.energy = 0;
