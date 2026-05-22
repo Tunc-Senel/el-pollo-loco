@@ -132,7 +132,6 @@ class Character extends MovableObject {
             } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             }
-
         }, 75);
     }
 

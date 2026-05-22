@@ -55,7 +55,9 @@ class MovableObject extends DrawableObject {
                 this.characterHurt = true;
                 this.lastHit = new Date().getTime()
                 const intervalId = setInterval( () => {
-                    this.x -= 1;
+                    if (this.x > this.world.level.levelStartX) {
+                        this.x -= 1;
+                    }
                 }, 1000 / 60);
                 setTimeout(() => {
                     clearInterval(intervalId);
