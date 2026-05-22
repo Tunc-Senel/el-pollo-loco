@@ -55,13 +55,19 @@ const level1 = new Level(
         new Cloud()
     ],
     [
-        new Coin(300, 100),
-        new Coin(350, 150),
-        new Coin(500, 50),
+        new Coin(500, 150),
+        new Coin(550, 100),
+        new Coin(1800, 355),
+        new Coin(2500, 225),
+        new Coin(3200, 50)
     ],
     [
-        new Bottle(50, 50),
-        new Bottle(325, 335),
-        new Bottle(550, 375)
+        new Bottle(700, 375),
+        new Bottle(1500, 50),
+        new Bottle(2375, 250),
+        new Bottle(2875, 150),
+        new Bottle(3500, 335)
+
+
     ]  
-);
+);0
