@@ -85,12 +85,16 @@ class World {
     
 
     checkEnemyCollisions() {
-        this.level.enemies = this.level.enemies.filter((enemy) => {
+        this.level.enemies = this.level.enemies.filter((enemy, index) => {
             if (!this.character.hasStompedEnemyInThisJump && this.character.isJumpingOnEnemyHead(enemy)) {
+                let currenIndex = index;
                 this.character.jump();
+                enemy.isDeadByStomp = true;
                 this.character.hasStompedEnemyInThisJump = true;
                 this.character.firstStandingTime = null;
-                return false;
+                setTimeout(() => {
+                    this.level.enemies.splice(currenIndex, 1)
+                }, 500);
             } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy);
@@ -141,7 +145,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (bottle.isColliding(enemy) && !bottle.objectHit) {
                 bottle.objectHit = true;
-                enemy.isDead = true;
+                enemy.isDeadByBottle = true;
                 }
             });
         });
@@ -151,7 +155,7 @@ class World {
         });
 
         this.level.enemies = this.level.enemies.filter((enemy) => {
-            return !enemy.isDead;
+            return !enemy.isDeadByBottle;
         });
 
         if (!this.keyboard.F) {

@@ -8,7 +8,8 @@ class Chicken extends MovableObject {
         left: 0,
         right: 0
     }
-    isDead = false;
+    isDeadByBottle = false;
+    isDeadByStomp = false;
 
     IMAGES_WALKING = [
         "assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
@@ -16,9 +17,14 @@ class Chicken extends MovableObject {
         "assets/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png"
     ]
 
+    DEAD_IMAGE = [
+         "assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png"
+    ]
+
     constructor() {
         super().loadImage("assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.DEAD_IMAGE);
         this.x = 600 + (Math.random() * 500);
         this.speed = 0.15 + Math.random() * 0.25;
         this.animate();
@@ -30,7 +36,12 @@ class Chicken extends MovableObject {
         }, 1000 / 60);
         
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
+            if (this.isDeadByStomp) {
+                this.playAnimation(this.DEAD_IMAGE)
+            }
+            else {
+                this.playAnimation(this.IMAGES_WALKING);
+            }   
         }, 200);
     }
    
