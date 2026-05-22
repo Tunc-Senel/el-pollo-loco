@@ -86,7 +86,7 @@ class World {
 
     checkEnemyCollisions() {
         this.level.enemies = this.level.enemies.filter((enemy, index) => {
-            if (!this.character.hasStompedEnemyInThisJump && this.character.isJumpingOnEnemyHead(enemy)) {
+            if (!this.character.hasStompedEnemyInThisJump && this.character.isJumpingOnEnemyHead(enemy) && this.character.speedY < 0) {
                 let currenIndex = index;
                 this.character.jump();
                 enemy.isDeadByStomp = true;
