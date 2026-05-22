@@ -105,14 +105,18 @@ class Character extends MovableObject {
          }, 500);
 
          setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.levelEndX && !this.characterHurt) {
-                this.moveRight();
+            if (this.world.keyboard.RIGHT && !this.characterHurt) {
                 this.otherDirection = false;
+                if (this.x < this.world.level.levelEndX) {
+                    this.moveRight();
+                }
                 this.firstStandingTime = null;
             }
-            if (this.world.keyboard.LEFT && this.x > this.world.level.levelStartX && !this.characterHurt) {
-                this.moveLeft();
+            if (this.world.keyboard.LEFT && !this.characterHurt) {
                 this.otherDirection = true;
+                if (this.x > this.world.level.levelStartX) {
+                    this.moveLeft(); 
+                }
                 this.firstStandingTime = null;
             }
             if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround() && !this.characterHurt) {
