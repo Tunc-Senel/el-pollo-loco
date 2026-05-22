@@ -36,7 +36,7 @@ class Chicken extends MovableObject {
         }, 1000 / 60);
         
         setInterval(() => {
-            if (this.isDeadByStomp) {
+            if (this.isDeadByStomp || this.isDeadByBottle) {
                 this.playAnimation(this.DEAD_IMAGE)
             }
             else {

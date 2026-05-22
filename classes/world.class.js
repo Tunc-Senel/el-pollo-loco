@@ -142,20 +142,20 @@ class World {
         }
 
         // 2. Bottle trifft Enemy
-        this.level.enemies.forEach((enemy) => {
+        this.level.enemies.forEach((enemy, index) => {
             if (bottle.isColliding(enemy) && !bottle.objectHit) {
+                let currenIndex = index;
                 bottle.objectHit = true;
                 enemy.isDeadByBottle = true;
+                setTimeout(() => {
+                    this.level.enemies.splice(currenIndex, 1)
+                }, 500);
                 }
             });
         });
 
         this.throwableObjects = this.throwableObjects.filter((bottle) => {
             return !bottle.remove;
-        });
-
-        this.level.enemies = this.level.enemies.filter((enemy) => {
-            return !enemy.isDeadByBottle;
         });
 
         if (!this.keyboard.F) {
@@ -165,5 +165,3 @@ class World {
     }
         
 }
-
-// if (this.keyboard.F && this.canThrow && this.bottleBar.percentage > 0) {

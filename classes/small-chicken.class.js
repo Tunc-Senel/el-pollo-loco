@@ -36,7 +36,7 @@ class SmallChicken extends MovableObject {
         }, 1000 / 60);
         
         setInterval(() => {
-            if (this.isDeadByStomp) {
+            if (this.isDeadByStomp || this.isDeadByBottle) {
                this.playAnimation(this.IMAGE_DEAD); 
             } else {
                 this.playAnimation(this.IMAGES_WALKING);
