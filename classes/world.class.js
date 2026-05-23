@@ -22,6 +22,7 @@ class World {
 
     setworld() {
         this.character.world = this;
+        this.level.endboss.world = this;
     }
 
     draw() {
@@ -33,6 +34,7 @@ class World {
         this.addObjectsToMap(this.level.bottles);
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
         this.addObjectToMap(this.healthBar);
