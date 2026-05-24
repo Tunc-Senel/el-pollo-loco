@@ -10,6 +10,7 @@ class World {
     bottleBar = new BottleBar();
     throwableObjects = [];
     canThrow = true;
+    bossTriggered = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -34,7 +35,9 @@ class World {
         this.addObjectsToMap(this.level.bottles);
         this.addObjectToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectToMap(this.level.endboss);
+        if (this.bossTriggered) {
+            this.addObjectToMap(this.level.endboss);
+        }
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
         this.addObjectToMap(this.healthBar);
@@ -82,6 +85,7 @@ class World {
             this.checkCoinCollisions();
             this.checkBottleCollisions();
             this.checkThrowObjects();
+            this.checkBossTrigger();
         }, 1000 / 60);
     }
     
@@ -164,6 +168,12 @@ class World {
             this.canThrow = true;
         }
       
+    }
+
+    checkBossTrigger() {
+        if (!this.bossTriggered && this.character.x >= 3200) {
+            this.bossTriggered = true;
+        }
     }
         
 }
