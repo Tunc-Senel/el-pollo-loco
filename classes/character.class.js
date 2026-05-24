@@ -3,6 +3,7 @@ class Character extends MovableObject {
     firstStandingTime = null;
     hasStompedEnemyInThisJump = false;
     inputDisabled = false;
+    lockCameraOnBoss = false;
     x = 150;
     y = 170;
     width = 100;
@@ -130,7 +131,12 @@ class Character extends MovableObject {
                 this.jump();
                 this.firstStandingTime = null;
             }
-            this.world.camera_x = -this.x + 100;
+            if (!this.lockCameraOnBoss) {
+                this.world.camera_x = -this.x + 100;
+            } else if (this.lockCameraOnBoss) {
+                this.world.camera_x = -3100;
+            }
+            
         }, 1000 / 60);
 
         setInterval(() => {

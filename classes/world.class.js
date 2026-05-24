@@ -175,6 +175,8 @@ class World {
         if (!this.bossTriggered && this.character.x >= 3200) {
             this.bossTriggered = true;
             this.startBossIntro();
+            this.character.lockCameraOnBoss = true;
+            this.level.levelStartX = 3100;
         }
     }
 
