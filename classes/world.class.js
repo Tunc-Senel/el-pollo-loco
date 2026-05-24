@@ -86,6 +86,7 @@ class World {
             this.checkBottleCollisions();
             this.checkThrowObjects();
             this.checkBossTrigger();
+            this.checkBossIntroProgress();
         }, 1000 / 60);
     }
     
@@ -173,6 +174,24 @@ class World {
     checkBossTrigger() {
         if (!this.bossTriggered && this.character.x >= 3200) {
             this.bossTriggered = true;
+            this.startBossIntro();
+        }
+    }
+
+    startBossIntro() {
+        let visibleRight = -this.camera_x + 720;
+
+        this.level.endboss.x = visibleRight + 100;
+        this.level.endboss.walkTarget = visibleRight - this.level.endboss.width - 30;
+        this.level.endboss.state = 'walking_in';
+        this.level.endboss.speed = 4;
+    }
+
+    checkBossIntroProgress() {
+        if (this.level.endboss.state === 'walking_in' && this.level.endboss.x <= this.level.endboss.walkTarget) {
+            this.level.endboss.x = this.level.endboss.walkTarget;
+            this.level.endboss.state = 'waiting';
+            this.level.endboss.speed = 0;
         }
     }
         

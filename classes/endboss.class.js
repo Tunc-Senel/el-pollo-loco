@@ -3,7 +3,10 @@ class Endboss extends MovableObject {
     height = 400;
     groundY = 55;
     energy = 100;
+    speed = 3;
+    state = 'hidden';
     world = null;
+    walkTarget = 0;
     currentImage = 0;
 
     offset = {
@@ -26,6 +29,21 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.x = 3500;
         this.y = this.groundY;
+        this.animate();
+    }
+
+    animate() {
+        setInterval(() => {
+            if (this.state === 'walking_in') {
+                this.moveLeft();
+            }
+        }, 1000 / 60);
+
+        setInterval(() => {
+            if (this.state === 'walking_in') {
+                this.playAnimation(this.IMAGES_WALKING);
+            }
+        }, 200);
     }
 
 }
