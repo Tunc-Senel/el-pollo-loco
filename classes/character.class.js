@@ -2,6 +2,7 @@ class Character extends MovableObject {
     characterHurt = false;
     firstStandingTime = null;
     hasStompedEnemyInThisJump = false;
+    inputDisabled = false;
     x = 150;
     y = 170;
     width = 100;
@@ -94,6 +95,9 @@ class Character extends MovableObject {
         this.otherDirection = false;
 
         setInterval(() => {
+                if (this.inputDisabled) {
+                    return;
+                }
                 if (this.firstStandingTime === null) {
                     this.firstStandingTime = Date.now();
                 }
@@ -105,6 +109,9 @@ class Character extends MovableObject {
          }, 500);
 
          setInterval(() => {
+            if (this.inputDisabled) {
+                return;
+            }
             if (this.world.keyboard.RIGHT && !this.characterHurt) {
                 this.otherDirection = false;
                 if (this.x < this.world.level.levelEndX) {
@@ -127,7 +134,10 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-            if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround() && !this.characterHurt) {
+            if (this.inputDisabled) {
+                return;
+            }
+            else if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround() && !this.characterHurt) {
                 this.playAnimation(this.IMAGES_WALKING);
             } else if (this.isAboveGround() && !this.characterHurt) {
                 this.playAnimation(this.IMAGES_JUMPING);

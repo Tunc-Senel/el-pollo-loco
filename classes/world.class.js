@@ -180,6 +180,7 @@ class World {
 
     startBossIntro() {
         let visibleRight = -this.camera_x + 720;
+        this.character.inputDisabled = true;
 
         this.level.endboss.x = visibleRight + 100;
         this.level.endboss.walkTarget = visibleRight - this.level.endboss.width - 30;
@@ -192,6 +193,7 @@ class World {
             this.level.endboss.x = this.level.endboss.walkTarget;
             this.level.endboss.state = 'waiting';
             this.level.endboss.speed = 0;
+            this.character.inputDisabled = false;
         }
     }
         
