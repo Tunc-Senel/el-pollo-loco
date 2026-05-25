@@ -7,6 +7,8 @@ class Endboss extends MovableObject {
     state = 'hidden';
     world = null;
     walkTarget = 0;
+    centerTarget = 0;
+    alertStart = 0;
     currentImage = 0;
 
     offset = {
@@ -39,8 +41,8 @@ class Endboss extends MovableObject {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 3500;
         this.y = this.groundY;
+        this.applyGravity();
         this.animate();
     }
 
@@ -48,7 +50,11 @@ class Endboss extends MovableObject {
         setInterval(() => {
             if (this.state === 'walking_in') {
                 this.moveLeft();
+            } else  if (this.state === 'jumping_to_center' && this.isAboveGround()) {
+                if (this.x > this.centerTarget) {
+                    this.x -= 4;
             }
+    }
         }, 1000 / 60);
 
         setInterval(() => {
@@ -56,8 +62,16 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_WALKING);
             } else if (this.state === 'alert') {
                 this.playAnimation(this.IMAGES_ALERT);
+            } else if (this.state === 'jumping_to_center') {
+                this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.state === 'fighting') {
+                this.playAnimation(this.IMAGES_WALKING);
             }
         }, 200);
+    }
+
+    jump() {
+        this.speedY = 25;
     }
 
 }

@@ -87,6 +87,7 @@ class World {
             this.checkThrowObjects();
             this.checkBossTrigger();
             this.checkBossIntroProgress();
+            this.checkBossAlertProgress();
         }, 1000 / 60);
     }
     
@@ -194,8 +195,21 @@ class World {
         if (this.level.endboss.state === 'walking_in' && this.level.endboss.x <= this.level.endboss.walkTarget) {
             this.level.endboss.x = this.level.endboss.walkTarget;
             this.level.endboss.state = 'alert';
+            this.level.endboss.alertStart = Date.now();
             this.level.endboss.speed = 0;
             this.character.inputDisabled = false;
+        }
+    }
+
+    checkBossAlertProgress() {
+        if (this.level.endboss.state === 'alert' && Date.now() - this.level.endboss.alertStart >= 1500) {
+            this.level.endboss.centerTarget = -this.camera_x + 260;
+            this.level.endboss.state = 'jumping_to_center';
+            this.level.endboss.jump();
+        }
+
+        if (this.level.endboss.state === 'jumping_to_center' && !this.level.endboss.isAboveGround() && this.level.endboss.speedY <= 0) {
+            this.level.endboss.state = 'fighting';
         }
     }
         
