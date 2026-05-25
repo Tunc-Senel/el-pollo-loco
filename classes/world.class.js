@@ -88,6 +88,7 @@ class World {
             this.checkBossTrigger();
             this.checkBossIntroProgress();
             this.checkBossAlertProgress();
+            this.checkBossAttack();
         }, 1000 / 60);
     }
     
@@ -210,6 +211,20 @@ class World {
 
         if (this.level.endboss.state === 'jumping_to_center' && !this.level.endboss.isAboveGround() && this.level.endboss.speedY <= 0) {
             this.level.endboss.state = 'fighting';
+        }
+    }
+
+    checkBossAttack() {
+        let distanceToCharacter = Math.abs(this.level.endboss.x - this.character.x);
+
+        if (this.level.endboss.state === 'fighting' && distanceToCharacter < 350) {
+            this.level.endboss.state = 'attacking';
+
+            setTimeout(() => {
+                if (this.level.endboss.state === 'attacking') {
+                    this.level.endboss.state = 'fighting';
+                }
+            }, 1000);
         }
     }
         
