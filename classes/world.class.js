@@ -193,7 +193,7 @@ class World {
     checkBossIntroProgress() {
         if (this.level.endboss.state === 'walking_in' && this.level.endboss.x <= this.level.endboss.walkTarget) {
             this.level.endboss.x = this.level.endboss.walkTarget;
-            this.level.endboss.state = 'waiting';
+            this.level.endboss.state = 'alert';
             this.level.endboss.speed = 0;
             this.character.inputDisabled = false;
         }
