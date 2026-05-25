@@ -10,6 +10,7 @@ class Endboss extends MovableObject {
     centerTarget = 0;
     alertStart = 0;
     currentImage = 0;
+    lastAttack = 0;
 
     offset = {
         top: 70,

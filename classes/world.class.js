@@ -198,7 +198,6 @@ class World {
             this.level.endboss.state = 'alert';
             this.level.endboss.alertStart = Date.now();
             this.level.endboss.speed = 0;
-            this.character.inputDisabled = false;
         }
     }
 
@@ -211,13 +210,19 @@ class World {
 
         if (this.level.endboss.state === 'jumping_to_center' && !this.level.endboss.isAboveGround() && this.level.endboss.speedY <= 0) {
             this.level.endboss.state = 'fighting';
+            this.character.inputDisabled = false;
         }
     }
 
     checkBossAttack() {
         let distanceToCharacter = Math.abs(this.level.endboss.x - this.character.x);
 
-        if (this.level.endboss.state === 'fighting' && distanceToCharacter < 350) {
+        if (
+            this.level.endboss.state === 'fighting' &&
+            distanceToCharacter < 100 &&
+            !this.level.endboss.attackOnCooldown
+        ) {
+            this.level.endboss.attackOnCooldown = true;
             this.level.endboss.state = 'attacking';
 
             setTimeout(() => {
@@ -225,6 +230,10 @@ class World {
                     this.level.endboss.state = 'fighting';
                 }
             }, 1000);
+
+            setTimeout(() => {
+                this.level.endboss.attackOnCooldown = false;
+            }, 3000);
         }
     }
         
