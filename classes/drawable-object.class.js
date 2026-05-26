@@ -5,6 +5,7 @@ class DrawableObject {
     height;
     img;
     imageCache = {};
+    otherDirection = false;
     energy = 100;
     offset = {
         top: 0,

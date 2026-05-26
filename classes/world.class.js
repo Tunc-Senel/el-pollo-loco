@@ -10,6 +10,7 @@ class World {
     bottleBar = new BottleBar();
     throwableObjects = [];
     canThrow = true;
+    endbossHealthBar = new EndbossHealthBar();
     bossTriggered = false;
 
     constructor(canvas, keyboard) {
@@ -43,6 +44,9 @@ class World {
         this.addObjectToMap(this.healthBar);
         this.addObjectToMap(this.coinBar);
         this.addObjectToMap(this.bottleBar);
+        if (this.endbossHealthBar.endbossAppeared) {
+            this.addObjectToMap(this.endbossHealthBar);
+        }
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -205,6 +209,7 @@ class World {
 
     checkBossAlertProgress() {
         if (this.level.endboss.state === 'alert' && Date.now() - this.level.endboss.alertStart >= 1500) {
+            this.endbossHealthBar.endbossAppeared = true;
             this.level.endboss.centerTarget = -this.camera_x + 260;
             this.level.endboss.state = 'jumping_to_center';
             this.level.endboss.jump();
@@ -241,7 +246,7 @@ class World {
 
     checkEndbossBottleCollisions() {
         this.throwableObjects.forEach((bottle) => {
-            if (this.level.endboss.state !== 'dead' && bottle.isColliding(this.level.endboss)) {
+            if (this.level.endboss.state !== 'dead' && bottle.isColliding(this.level.endboss) && !bottle.objectHithit) {
                 this.level.endboss.bossHit();
                 bottle.objectHit = true;
             }
