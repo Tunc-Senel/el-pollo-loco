@@ -254,7 +254,13 @@ class World {
     }
 
     checkEndbossCollision() {
-        if (!this.character.isHurt() && !this.character.isDead() && this.character.isColliding(this.level.endboss)) {
+        if (
+            this.level.endboss.state !== 'dead' &&
+            this.level.endboss.state !== 'hidden' &&
+            !this.character.isHurt() &&
+            !this.character.isDead() &&
+            this.character.isColliding(this.level.endboss)
+        ) {
             this.character.hit();
             this.healthBar.setPercentage(this.character.energy);
         }
