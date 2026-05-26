@@ -249,6 +249,7 @@ class World {
             if (this.level.endboss.state !== 'dead' && bottle.isColliding(this.level.endboss) && !bottle.objectHit) {
                 this.level.endboss.bossHit();
                 bottle.objectHit = true;
+                this.endbossHealthBar.setPercentage(this.level.endboss.energy);
             }
         });
     }
