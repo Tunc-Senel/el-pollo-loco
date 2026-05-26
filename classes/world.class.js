@@ -90,6 +90,7 @@ class World {
             this.checkBossAlertProgress();
             this.checkBossAttack();
             this.checkEndbossBottleCollisions();
+            this.checkEndbossCollision();
         }, 1000 / 60);
     }
     
@@ -245,6 +246,13 @@ class World {
                 bottle.objectHit = true;
             }
         });
+    }
+
+    checkEndbossCollision() {
+        if (!this.character.isHurt() && !this.character.isDead() && this.character.isColliding(this.level.endboss)) {
+            this.character.hit();
+            this.healthBar.setPercentage(this.character.energy);
+        }
     }
         
 }
