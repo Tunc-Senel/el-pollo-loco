@@ -111,8 +111,9 @@ class Endboss extends MovableObject {
         this.energy -= 20;
         this.state = 'hurt';
 
-        if (this.energy === 0) {
+        if (this.energy <= 0) {
             this.state = 'dead';
+            this.world.endScreen.wonGame = true;
             return;
         }
 

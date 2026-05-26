@@ -12,6 +12,7 @@ class World {
     canThrow = true;
     endbossHealthBar = new EndbossHealthBar();
     bossTriggered = false;
+    endScreen = new Endscreen();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -28,25 +29,45 @@ class World {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.bottles);
-        this.addObjectToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);
-        if (this.bossTriggered) {
-            this.addObjectToMap(this.level.endboss);
+        if (!this.endScreen.lostGame && !this.endScreen.wonGame) {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+            this.ctx.translate(this.camera_x, 0);
+            this.addObjectsToMap(this.level.backgroundObjects);
+            this.addObjectsToMap(this.level.clouds);
+            this.addObjectsToMap(this.level.coins);
+            this.addObjectsToMap(this.level.bottles);
+            this.addObjectToMap(this.character);
+            this.addObjectsToMap(this.level.enemies);
+
+            if (this.bossTriggered) {
+                this.addObjectToMap(this.level.endboss);
+            }
+
+            this.addObjectsToMap(this.throwableObjects);
+            this.ctx.translate(-this.camera_x, 0);
+
+            this.addObjectToMap(this.healthBar);
+            this.addObjectToMap(this.coinBar);
+            this.addObjectToMap(this.bottleBar);
+
+            if (this.endbossHealthBar.endbossAppeared) {
+                this.addObjectToMap(this.endbossHealthBar);
+            }
         }
-        this.addObjectsToMap(this.throwableObjects);
-        this.ctx.translate(-this.camera_x, 0);
-        this.addObjectToMap(this.healthBar);
-        this.addObjectToMap(this.coinBar);
-        this.addObjectToMap(this.bottleBar);
-        if (this.endbossHealthBar.endbossAppeared) {
-            this.addObjectToMap(this.endbossHealthBar);
+
+        if (this.endScreen.lostGame || this.endScreen.wonGame) {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+            if (this.endScreen.lostGame) {
+                this.endScreen.show("lose");
+            } else if (this.endScreen.wonGame) {
+                this.endScreen.show("win");
+            }
+            
+            this.addObjectToMap(this.endScreen);
         }
+
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
