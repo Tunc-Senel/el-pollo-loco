@@ -246,7 +246,7 @@ class World {
 
     checkEndbossBottleCollisions() {
         this.throwableObjects.forEach((bottle) => {
-            if (this.level.endboss.state !== 'dead' && bottle.isColliding(this.level.endboss) && !bottle.objectHithit) {
+            if (this.level.endboss.state !== 'dead' && bottle.isColliding(this.level.endboss) && !bottle.objectHit) {
                 this.level.endboss.bossHit();
                 bottle.objectHit = true;
             }
