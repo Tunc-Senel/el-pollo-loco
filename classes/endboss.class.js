@@ -54,6 +54,12 @@ class Endboss extends MovableObject {
         'assets/img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
 
+    IMAGES_DEAD = [
+        'assets/img/4_enemie_boss_chicken/5_dead/G24.png',
+        'assets/img/4_enemie_boss_chicken/5_dead/G25.png',
+        'assets/img/4_enemie_boss_chicken/5_dead/G26.png'
+    ];
+
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -61,6 +67,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_DEAD);
         this.y = this.groundY;
         this.applyGravity();
         this.animate();
@@ -90,6 +97,8 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_ATTACK);
             } else if (this.state === 'hurt') {
                 this.playAnimation(this.IMAGES_HURT);
+            } else if (this.state === 'dead') {
+                this.playAnimation(this.IMAGES_DEAD);
             }
         }, 200);
     }
@@ -100,18 +109,18 @@ class Endboss extends MovableObject {
 
     bossHit() {
         this.energy -= 20;
-
-        if (this.energy < 0) {
-            this.energy = 0;
-        }
-
         this.state = 'hurt';
+
+        if (this.energy === 0) {
+            this.state = 'dead';
+            return;
+        }
 
         setTimeout(() => {
             if (this.state === 'hurt') {
                 this.state = 'fighting';
             }
-        }, 1000);
+        }, 500);
     }
 
 }
