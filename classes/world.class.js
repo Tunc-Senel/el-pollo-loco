@@ -12,6 +12,9 @@ class World {
     canThrow = true;
     endbossHealthBar = new EndbossHealthBar();
     bossTriggered = false;
+    shakeIntensity = 0;
+    shakeDuration = 0;
+    shakeStart = 0;
     endScreen = new Endscreen();
 
     constructor(canvas, keyboard) {
@@ -32,6 +35,26 @@ class World {
         if (!this.endScreen.lostGame && !this.endScreen.wonGame) {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+            let shakeX = 0;
+            let shakeY = 0;
+
+            if (this.shakeIntensity > 0) {
+                let elapsed = Date.now() - this.shakeStart;
+
+                if (elapsed < this.shakeDuration) {
+                    let progress = elapsed / this.shakeDuration;
+                    let currentIntensity = this.shakeIntensity * (1 - progress);
+
+                    shakeX = (Math.random() - 0.5) * currentIntensity * 2;
+                    shakeY = (Math.random() - 0.5) * currentIntensity * 2;
+                } else {
+                    this.shakeIntensity = 0;
+                }
+            }
+
+            this.ctx.save();
+            this.ctx.translate(shakeX, shakeY);
+
             this.ctx.translate(this.camera_x, 0);
             this.addObjectsToMap(this.level.backgroundObjects);
             this.addObjectsToMap(this.level.clouds);
@@ -46,6 +69,8 @@ class World {
 
             this.addObjectsToMap(this.throwableObjects);
             this.ctx.translate(-this.camera_x, 0);
+
+            this.ctx.restore();
 
             this.addObjectToMap(this.healthBar);
             this.addObjectToMap(this.coinBar);
@@ -64,7 +89,7 @@ class World {
             } else if (this.endScreen.wonGame) {
                 this.endScreen.show("win");
             }
-            
+
             this.addObjectToMap(this.endScreen);
         }
 
@@ -238,7 +263,9 @@ class World {
 
         if (this.level.endboss.state === 'jumping_to_center' && !this.level.endboss.isAboveGround() && this.level.endboss.speedY <= 0) {
             this.level.endboss.state = 'fighting';
+            this.level.endboss.speed = 1.5;
             this.character.inputDisabled = false;
+            this.triggerEarthquake(800, 20);
         }
     }
 
@@ -286,6 +313,12 @@ class World {
             this.character.hit();
             this.healthBar.setPercentage(this.character.energy);
         }
+    }
+
+    triggerEarthquake(duration, intensity) {
+        this.shakeIntensity = intensity;
+        this.shakeDuration = duration;
+        this.shakeStart = Date.now();
     }
         
 }
