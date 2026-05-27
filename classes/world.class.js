@@ -140,6 +140,7 @@ class World {
             this.checkBossAlertProgress();
             this.checkBossAttack();
             this.checkEndbossBottleCollisions();
+            this.checkEndbossStomp();
             this.checkEndbossCollision();
         }, 1000 / 60);
     }
@@ -300,6 +301,24 @@ class World {
                 this.endbossHealthBar.setPercentage(this.level.endboss.energy);
             }
         });
+    }
+
+    checkEndbossStomp() {
+        if (this.level.endboss.state !== 'dead' &&
+            this.level.endboss.state !== 'hidden' &&
+            !this.character.hasStompedEndbossInThisJump &&
+            this.character.isJumpingOnEnemyHead(this.level.endboss) &&
+            this.character.speedY < 0
+        ) {
+            this.character.jumpAfterEndbossStomp();
+            this.character.hasStompedEndbossInThisJump = true;
+            this.level.endboss.bossHit();
+            this.endbossHealthBar.setPercentage(this.level.endboss.energy);
+            this.character.firstStandingTime = null;
+        } 
+        if (!this.character.isAboveGround()) {
+            this.character.hasStompedEndbossInThisJump = false;
+        }
     }
 
     checkEndbossCollision() {

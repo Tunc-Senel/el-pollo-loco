@@ -2,6 +2,7 @@ class Character extends MovableObject {
     characterHurt = false;
     firstStandingTime = null;
     hasStompedEnemyInThisJump = false;
+    hasStompedEndbossInThisJump = false;
     inputDisabled = false;
     lockCameraOnBoss = false;
     x = 150;

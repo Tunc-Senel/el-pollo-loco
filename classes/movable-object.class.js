@@ -48,6 +48,10 @@ class MovableObject extends DrawableObject {
         this.speedY = 30;
     }
 
+    jumpAfterEndbossStomp() {
+        this.speedY = 15;
+    }
+
     hit() {
         if (!this.isHurt()) {
             this.firstStandingTime = null;
