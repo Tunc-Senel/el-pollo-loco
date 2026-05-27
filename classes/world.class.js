@@ -155,6 +155,7 @@ class World {
             if (!this.character.hasStompedEnemyInThisJump && this.character.isJumpingOnEnemyHead(enemy) && this.character.speedY < 0) {
                 let currenIndex = index;
                 this.character.jump();
+                this.audioManager.playSound("stompSound");
                 enemy.isDeadByStomp = true;
                 this.character.hasStompedEnemyInThisJump = true;
                 this.character.firstStandingTime = null;
@@ -176,7 +177,7 @@ class World {
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
                 this.coinBar.setPercentage(this.coinBar.percentage + 20)
-                this.audioManager.playCollectCoinSound();
+                this.audioManager.playSound("collectCoinSound");
                 return false;
             }
             return true;
@@ -316,6 +317,7 @@ class World {
             this.character.speedY < 0
         ) {
             this.character.jumpAfterEndbossStomp();
+            this.audioManager.playSound("stompSound");
             this.character.hasStompedEndbossInThisJump = true;
             this.level.endboss.bossHit();
             this.endbossHealthBar.setPercentage(this.level.endboss.energy);

@@ -131,6 +131,7 @@ class Character extends MovableObject {
             if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround() && !this.characterHurt) {
                 this.jump();
                 this.firstStandingTime = null;
+                this.world.audioManager.playSound("jumpSound");
             }
             if (!this.lockCameraOnBoss) {
                 this.world.camera_x = -this.x + 100;
