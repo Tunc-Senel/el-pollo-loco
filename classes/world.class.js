@@ -164,6 +164,7 @@ class World {
                 }, 500);
             } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
+                this.audioManager.playSound("characterHurt");
                 this.healthBar.setPercentage(this.character.energy);
             }
             return true;
@@ -337,6 +338,7 @@ class World {
             this.character.isColliding(this.level.endboss)
         ) {
             this.character.hit();
+            this.audioManager.playSound("characterHurt");
             this.healthBar.setPercentage(this.character.energy);
         }
     }
