@@ -21,9 +21,13 @@
             El Pollo Locco
         </h1>
 
-        <canvas id="canvas" width="720" height="480">
+        <div class="game-container">
+            <canvas id="canvas" width="720" height="480"></canvas>
 
-        </canvas>
+            <div id="startScreen" class="start-screen">
+                <button class="start-button">START GAME</button>
+            </div>
+        </div>
         
          <!-- AUTOREN-JAVASCRIPT -->
         <script src="./classes/drawable-object.class.js"></script>
@@ -40,6 +44,7 @@
         <script src="./classes/bottle-bar.class.js"></script>
         <script src="./classes/endboss-health-bar.class.js"></script>
         <script src="./classes/endboss.class.js"></script>
+        <script src="./classes/game-state.class.js"></script>
         <script src="./classes/endscreen.class.js"></script>
         <script src="./classes/world.class.js"></script>
         <script src="./classes/background-object.class.js"></script>

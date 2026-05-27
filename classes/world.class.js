@@ -2,6 +2,7 @@ class World {
     level = level1;
     character = new Character();
     canvas;
+    gameState;
     ctx;
     keyboard;
     camera_x;
@@ -17,10 +18,11 @@ class World {
     shakeStart = 0;
     endScreen = new Endscreen();
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, gameState) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.gameState = gameState;
         this.draw();
         this.setworld();
         this.checkCollisions();
@@ -32,7 +34,8 @@ class World {
     }
 
     draw() {
-        if (!this.endScreen.lostGame && !this.endScreen.wonGame) {
+
+        if (!this.endScreen.lostGame && !this.endScreen.wonGame && this.gameState.isGameStarted) {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
             let shakeX = 0;
@@ -81,7 +84,7 @@ class World {
             }
         }
 
-        if (this.endScreen.lostGame || this.endScreen.wonGame) {
+        if ((this.endScreen.lostGame || this.endScreen.wonGame) && this.gameState.isGameStarted) {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
             if (this.endScreen.lostGame) {
@@ -89,7 +92,6 @@ class World {
             } else if (this.endScreen.wonGame) {
                 this.endScreen.show("win");
             }
-
             this.addObjectToMap(this.endScreen);
         }
 
