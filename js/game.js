@@ -2,10 +2,11 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let gameState = new GameState();
+let audioManager = new AudioManager();
 
 function init() {
     canvas = document.getElementById("canvas");
-    world = new World(canvas, keyboard, gameState);
+    world = new World(canvas, keyboard, gameState, audioManager);
 
     document.querySelector(".start-button").addEventListener("click", () => {
         gameState.isGameStarted = true;

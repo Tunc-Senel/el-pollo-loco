@@ -3,6 +3,7 @@ class World {
     character = new Character();
     canvas;
     gameState;
+    audioManager;
     ctx;
     keyboard;
     camera_x;
@@ -18,11 +19,12 @@ class World {
     shakeStart = 0;
     endScreen = new Endscreen();
 
-    constructor(canvas, keyboard, gameState) {
+    constructor(canvas, keyboard, gameState, audioManager) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.gameState = gameState;
+        this.audioManager = audioManager;
         this.draw();
         this.setworld();
         this.checkCollisions();
