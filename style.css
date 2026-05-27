@@ -61,3 +61,41 @@ canvas {
     box-shadow: 0 8px 0 #5a2600;
     cursor: pointer;
 }
+
+.d-none {
+    display: none !important;
+}
+
+.game-controls {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    z-index: 5;
+    pointer-events: auto;
+}
+
+.control-button {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 4px solid #5a2600;
+    background: linear-gradient(#ffd45a, #f59b23);
+    cursor: pointer;
+    pointer-events: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.control-button img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    pointer-events: none;
+}

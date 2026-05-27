@@ -1,4 +1,4 @@
 class GameState {
-    gameStarted = false;
+    isGameStarted = false;
 
 }

@@ -10,6 +10,7 @@ function init() {
     document.querySelector(".start-button").addEventListener("click", () => {
         gameState.isGameStarted = true;
         document.getElementById("startScreen").style.display = "none";
+        document.getElementById("gameControls").classList.remove("d-none");
     });
 }
 
