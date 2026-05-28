@@ -156,9 +156,9 @@ class World {
                 let currenIndex = index;
                 this.character.jump();
                 this.audioManager.playSound("stompSound");
-                if (enemy.height > 55) {
+                if (enemy.height > 60) {
                     this.audioManager.playSound("chickenDeadSound");
-                } else if (enemy.height <= 55) {
+                } else if (enemy.height <= 60) {
                     this.audioManager.playSound("smallChickenDeadSound");
                 }
                 enemy.isDeadByStomp = true;
@@ -213,7 +213,7 @@ class World {
 
         this.throwableObjects.forEach((bottle) => {
         // 1. Bottle trifft Bodenf
-        if (bottle.y >= 340 && !bottle.objectHit) {
+        if (bottle.y >= 350 && !bottle.objectHit) {
             bottle.objectHit = true;
             this.audioManager.playSound("smashBottleSound");
         }
@@ -224,6 +224,11 @@ class World {
                 let currenIndex = index;
                 bottle.objectHit = true;
                 this.audioManager.playSound("smashBottleSound");
+                if (enemy.height > 60) {
+                    this.audioManager.playSound("chickenDeadSound");
+                } else if (enemy.height <= 60) {
+                    this.audioManager.playSound("smallChickenDeadSound");
+                }
                 enemy.isDeadByBottle = true;
                 setTimeout(() => {
                     this.level.enemies.splice(currenIndex, 1)
