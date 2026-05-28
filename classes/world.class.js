@@ -158,6 +158,8 @@ class World {
                 this.audioManager.playSound("stompSound");
                 if (enemy.height > 55) {
                     this.audioManager.playSound("chickenDeadSound");
+                } else if (enemy.height <= 55) {
+                    this.audioManager.playSound("smallChickenDeadSound");
                 }
                 enemy.isDeadByStomp = true;
                 this.character.hasStompedEnemyInThisJump = true;
