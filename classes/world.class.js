@@ -315,6 +315,7 @@ class World {
                 this.level.endboss.bossHit();
                 bottle.objectHit = true;
                 this.endbossHealthBar.setPercentage(this.level.endboss.energy);
+                this.audioManager.stopSound("throwBottleSound");
                 this.audioManager.playSound("smashBottleSound");
             }
         });

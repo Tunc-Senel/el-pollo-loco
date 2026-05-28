@@ -13,7 +13,16 @@ class AudioManager {
     }
 
     playSound(sound) {
-        this.AUDIOS[sound].currentTime = 0;
-        this.AUDIOS[sound].play();
+        const audio = this.AUDIOS[sound];
+
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+    }
+
+    stopSound(sound) {
+        const audio = this.AUDIOS[sound];
+
+        audio.pause();
+        audio.currentTime = 0;
     }
 }
