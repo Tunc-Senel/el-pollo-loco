@@ -84,6 +84,7 @@ class World {
             if (this.endbossHealthBar.endbossAppeared) {
                 this.addObjectToMap(this.endbossHealthBar);
             }
+            this.audioManager.playLoopSound("backgroundMusicSound");
             this.audioManager.playLoopSound("chickenBackgroundSound");
         }
 
@@ -97,6 +98,7 @@ class World {
             }
             this.addObjectToMap(this.endScreen);
             this.audioManager.stopSound("chickenBackgroundSound");
+            this.audioManager.stopSound("backgroundMusicSound");
         }
 
         let self = this;
