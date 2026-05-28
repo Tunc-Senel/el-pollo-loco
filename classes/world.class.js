@@ -182,7 +182,7 @@ class World {
     checkCoinCollisions() {
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
-                this.coinBar.setPercentage(this.coinBar.percentage + 20)
+                this.coinBar.setPercentage(this.coinBar.percentage + 20);
                 this.audioManager.playSound("collectCoinSound");
                 return false;
             }
@@ -193,7 +193,8 @@ class World {
     checkBottleCollisions() {
         this.level.bottles = this.level.bottles.filter((bottle) => {
             if (this.character.isColliding(bottle)) {
-                this.bottleBar.setPercentage(this.bottleBar.percentage + 20)
+                this.bottleBar.setPercentage(this.bottleBar.percentage + 20);
+                this.audioManager.playSound("collectBottleSound");
                 return false;
             }
                 return true;
@@ -207,12 +208,14 @@ class World {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
             this.character.firstStandingTime = null;
+            this.audioManager.playSound("throwBottleSound");
         }
 
         this.throwableObjects.forEach((bottle) => {
         // 1. Bottle trifft Bodenf
         if (bottle.y >= 340 && !bottle.objectHit) {
             bottle.objectHit = true;
+            this.audioManager.playSound("smashBottleSound");
         }
 
         // 2. Bottle trifft Enemy
@@ -220,6 +223,7 @@ class World {
             if (bottle.isColliding(enemy) && !bottle.objectHit) {
                 let currenIndex = index;
                 bottle.objectHit = true;
+                this.audioManager.playSound("smashBottleSound");
                 enemy.isDeadByBottle = true;
                 setTimeout(() => {
                     this.level.enemies.splice(currenIndex, 1)
@@ -311,6 +315,7 @@ class World {
                 this.level.endboss.bossHit();
                 bottle.objectHit = true;
                 this.endbossHealthBar.setPercentage(this.level.endboss.energy);
+                this.audioManager.playSound("smashBottleSound");
             }
         });
     }
