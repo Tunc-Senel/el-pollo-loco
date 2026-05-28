@@ -84,6 +84,7 @@ class World {
             if (this.endbossHealthBar.endbossAppeared) {
                 this.addObjectToMap(this.endbossHealthBar);
             }
+            this.audioManager.playLoopSound("chickenBackgroundSound");
         }
 
         if ((this.endScreen.lostGame || this.endScreen.wonGame) && this.gameState.isGameStarted) {
@@ -95,6 +96,7 @@ class World {
                 this.endScreen.show("win");
             }
             this.addObjectToMap(this.endScreen);
+            this.audioManager.stopSound("chickenBackgroundSound");
         }
 
         let self = this;
