@@ -105,8 +105,10 @@ class Character extends MovableObject {
                 }
                 if (Date.now() - this.firstStandingTime < 8000) {
                     this.playAnimation(this.IMAGES_STANDING)
+                    this.world.audioManager.stopSound("snoringSound");
                 } else if (Date.now() - this.firstStandingTime >= 8000) {
                     this.playAnimation(this.IMAGES_LONG_STANDING)
+                    this.world.audioManager.playLoopSound("snoringSound"); 
                 }
          }, 500);
 
@@ -118,15 +120,20 @@ class Character extends MovableObject {
                 this.otherDirection = false;
                 if (this.x < this.world.level.levelEndX) {
                     this.moveRight();
+                    this.world.audioManager.playLoopSound("characterWalkingSound");
                 }
                 this.firstStandingTime = null;
             }
             if (this.world.keyboard.LEFT && !this.characterHurt) {
                 this.otherDirection = true;
                 if (this.x > this.world.level.levelStartX) {
-                    this.moveLeft(); 
+                    this.moveLeft();
+                    this.world.audioManager.playLoopSound("characterWalkingSound"); 
                 }
                 this.firstStandingTime = null;
+            }
+            if ((!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) || this.characterHurt || this.isAboveGround()) {
+                this.world.audioManager.stopSound("characterWalkingSound");
             }
             if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround() && !this.characterHurt) {
                 this.jump();
