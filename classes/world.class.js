@@ -156,6 +156,9 @@ class World {
                 let currenIndex = index;
                 this.character.jump();
                 this.audioManager.playSound("stompSound");
+                if (enemy.height > 55) {
+                    this.audioManager.playSound("chickenDeadSound");
+                }
                 enemy.isDeadByStomp = true;
                 this.character.hasStompedEnemyInThisJump = true;
                 this.character.firstStandingTime = null;
@@ -164,7 +167,7 @@ class World {
                 }, 500);
             } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                this.audioManager.playSound("characterHurt");
+                this.audioManager.playSound("characterHurtSound");
                 this.healthBar.setPercentage(this.character.energy);
             }
             return true;
@@ -338,7 +341,7 @@ class World {
             this.character.isColliding(this.level.endboss)
         ) {
             this.character.hit();
-            this.audioManager.playSound("characterHurt");
+            this.audioManager.playSound("characterHurtSound");
             this.healthBar.setPercentage(this.character.energy);
         }
     }
