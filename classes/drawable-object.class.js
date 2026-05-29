@@ -51,6 +51,16 @@ class DrawableObject {
                characterTop < objectBottom;         
     }
 
+    isOverlappingHorizontally(object) {
+        const characterLeft = this.x + this.offset.left;
+        const characterRight = this.x + this.width - this.offset.right;
+        const objectLeft = object.x;
+        const objectRight = object.x + object.width;
+  
+        return characterRight > objectLeft &&
+               characterLeft < objectRight 
+    }
+
     isJumpingOnEnemyHead(object) {
         const characterLeft = this.x + this.offset.left;
         const characterRight = this.x + this.width - this.offset.right;

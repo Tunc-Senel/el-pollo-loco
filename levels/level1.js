@@ -81,11 +81,11 @@ const level1 = new Level(
         new Coin(3200, 125)
     ],
     [
-        new Bottle(700, 375),
+        new Bottle(700, 400),
         new Bottle(1500, 125),
-        new Bottle(2375, 250),
+        new Bottle(2385, 265),
         new Bottle(2875, 150),
-        new Bottle(3500, 335)
+        new Bottle(3500, 355)
     ],
     new Endboss()
 

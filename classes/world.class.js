@@ -197,6 +197,9 @@ class World {
 
     checkBottleCollisions() {
         this.level.bottles = this.level.bottles.filter((bottle) => {
+            if (this.character.isOverlappingHorizontally(bottle) && !this.character.isAboveGround()) {
+                return false;
+            }
             if (this.character.isColliding(bottle)) {
                 this.bottleBar.setPercentage(this.bottleBar.percentage + 20);
                 this.audioManager.playSound("collectBottleSound");
