@@ -157,9 +157,14 @@ class World {
 
     checkEnemyCollisions() {
         this.level.enemies = this.level.enemies.filter((enemy, index) => {
-            if (!this.character.hasStompedEnemyInThisJump && this.character.isJumpingOnEnemyHead(enemy) && this.character.speedY < 0) {
+            if (
+                !enemy.isDeadByStomp &&
+                !enemy.isDeadByBottle &&
+                this.character.isStompingEnemy(enemy) &&
+                this.character.speedY < 0
+            ) {
                 let currenIndex = index;
-                this.character.jump();
+                this.character.jumpAfterEnemyStomp();
                 this.audioManager.playSound("stompSound");
                 if (enemy.height > 60) {
                     this.audioManager.playSound("chickenDeadSound");
@@ -167,21 +172,21 @@ class World {
                     this.audioManager.playSound("smallChickenDeadSound");
                 }
                 enemy.isDeadByStomp = true;
-                this.character.hasStompedEnemyInThisJump = true;
                 this.character.firstStandingTime = null;
                 setTimeout(() => {
                     this.level.enemies.splice(currenIndex, 1)
                 }, 500);
-            } else if (this.character.isColliding(enemy)) {
+            } else if (
+                !enemy.isDeadByStomp &&
+                !enemy.isDeadByBottle &&
+                this.character.isColliding(enemy)
+            ) {
                 this.character.hit();
                 this.audioManager.playSound("characterHurtSound");
                 this.healthBar.setPercentage(this.character.energy);
             }
             return true;
         });
-        if (this.character.canStompEnemyAgain()) {
-            this.character.hasStompedEnemyInThisJump = false;
-        }
     }
 
     checkCoinCollisions() {
@@ -375,7 +380,7 @@ class World {
         if (this.level.endboss.state !== 'dead' &&
             this.level.endboss.state !== 'hidden' &&
             !this.character.hasStompedEndbossInThisJump &&
-            this.character.isJumpingOnEnemyHead(this.level.endboss) &&
+            this.character.isStompingEnemy(this.level.endboss) &&
             this.character.speedY < 0
         ) {
             this.character.jumpAfterEndbossStomp();

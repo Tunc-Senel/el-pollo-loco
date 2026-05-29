@@ -3,7 +3,7 @@ class MovableObject extends DrawableObject {
     otherDirection = false; 
     speed = 0;
     speedY = 0;
-    accelaration = 2.0;
+    accelaration = 0.9;
     lastHit = 0;
 
     playAnimation(images) {
@@ -31,7 +31,7 @@ class MovableObject extends DrawableObject {
                 this.y = 275;
                 this.speedY = 0;
             }
-        }, 1000 / 25);
+        }, 1000 / 60);
     }
 
     isAboveGround() {
@@ -45,11 +45,15 @@ class MovableObject extends DrawableObject {
     }
 
     jump() {
-        this.speedY = 30;
+        this.speedY = 22.5;
+    }
+    
+    jumpAfterEnemyStomp() {
+        this.speedY = 17.5;
     }
 
     jumpAfterEndbossStomp() {
-        this.speedY = 15;
+        this.speedY = 12.5;
     }
 
     hit() {

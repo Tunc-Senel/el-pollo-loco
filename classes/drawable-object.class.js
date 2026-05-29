@@ -61,26 +61,20 @@ class DrawableObject {
                characterLeft < objectRight 
     }
 
-    isJumpingOnEnemyHead(object) {
+    isStompingEnemy(enemy) {
+        const characterBottom = this.y + this.height - this.offset.bottom;
         const characterLeft = this.x + this.offset.left;
         const characterRight = this.x + this.width - this.offset.right;
-        const characterTop = this.y + this.offset.top;
-        const characterBottom = this.y + this.height - this.offset.bottom;
-        const objectLeft = object.x;
-        const objectRight = object.x + object.width;
-        const objectTop = object.y;
-        const objectBottom = object.y + object.height;
 
-        return characterRight > objectLeft &&
-               characterLeft < objectRight &&
-               characterBottom >= objectTop &&
-               characterBottom <= objectTop + 25;
-               this.speedY < 0;
-    }
+        const enemyTop = enemy.y + enemy.offset.top;
+        const enemyLeft = enemy.x + enemy.offset.left;
+        const enemyRight = enemy.x + enemy.width - enemy.offset.right;
 
-    canStompEnemyAgain() {
-        const characterBottom = this.y + this.height - this.offset.bottom;
-        return characterBottom <= 280;
+        const isFalling = this.speedY < 0;
+        const isHorizontallyOverlapping = characterRight > enemyLeft && characterLeft < enemyRight;
+        const isCloseToEnemyTop = characterBottom >= enemyTop - 20 && characterBottom <= enemyTop + 5;
+
+        return isFalling && isHorizontallyOverlapping && isCloseToEnemyTop;
     }
     
     collectableObjectPlacement(x, y) {
