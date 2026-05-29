@@ -1,5 +1,6 @@
 class Bottle extends DrawableObject {
-
+    width = 50;
+    height = 75;  
     IMAGES = [
         "assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png",
         "assets/img/6_salsa_bottle/2_salsa_bottle_on_ground.png",
