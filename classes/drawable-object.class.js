@@ -40,10 +40,10 @@ class DrawableObject {
         const characterRight = this.x + this.width - this.offset.right;
         const characterTop = this.y + this.offset.top;
         const characterBottom = this.y + this.height - this.offset.bottom;
-        const objectLeft = object.x;
-        const objectRight = object.x + object.width;
-        const objectTop = object.y;
-        const objectBottom = object.y + object.height;
+        const objectLeft = object.x + object.offset.left;
+        const objectRight = object.x + object.width - object.offset.right;
+        const objectTop = object.y + object.offset.top;
+        const objectBottom = object.y + object.height - object.offset.bottom;
 
         return characterRight > objectLeft &&
                characterLeft < objectRight &&
