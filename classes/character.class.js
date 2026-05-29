@@ -6,9 +6,9 @@ class Character extends MovableObject {
     inputDisabled = false;
     lockCameraOnBoss = false;
     x = 150;
-    y = 170;
+    y = 275;
     width = 100;
-    height = 260;
+    height = 150;
     speed = 7.5;
     world;
     offset = {

@@ -27,8 +27,8 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.accelaration;
             }
-            if (this.y > 170 && this instanceof Character) {
-                this.y = 170;
+            if (this.y > 275 && this instanceof Character) {
+                this.y = 275;
                 this.speedY = 0;
             }
         }, 1000 / 25);
@@ -41,7 +41,7 @@ class MovableObject extends DrawableObject {
         if (this instanceof Endboss) {
             return this.y < this.groundY;
         }
-        return this.y < 170;
+        return this.y < 275;
     }
 
     jump() {
