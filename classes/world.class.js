@@ -147,6 +147,7 @@ class World {
             this.checkBossIntroProgress();
             this.checkBossAlertProgress();
             this.checkBossAttack();
+            this.finishEndbossAttack();
             this.checkEndbossBottleCollisions();
             this.checkEndbossStomp();
             this.checkEndbossCollision();
@@ -300,21 +301,58 @@ class World {
 
         if (
             this.level.endboss.state === 'fighting' &&
-            distanceToCharacter < 100 &&
+            distanceToCharacter < 350 &&
             !this.level.endboss.attackOnCooldown
         ) {
             this.level.endboss.attackOnCooldown = true;
+            this.level.endboss.hasJumpedToAttack = false;
             this.level.endboss.state = 'attacking';
+        }
+        if (this.level.endboss.state === 'attacking') {
+            this.moveEndbossToAttack();
+        }
+    }
 
-            setTimeout(() => {
-                if (this.level.endboss.state === 'attacking') {
-                    this.level.endboss.state = 'fighting';
-                }
-            }, 1000);
+    moveEndbossToAttack() {
+        const distanceToCharacter = Math.abs(this.level.endboss.x - this.character.x);
+
+        if (this.level.endboss.hasJumpedToAttack) {
+            return;
+        }
+
+        if (distanceToCharacter > 80 && !this.level.endboss.isAboveGround()) {
+            this.level.endboss.speed = 2.5;
+
+            if (this.level.endboss.x > this.character.x) {
+                this.level.endboss.moveLeft();
+                this.level.endboss.otherDirection = false;
+            } else {
+                this.level.endboss.moveRight();
+                this.level.endboss.otherDirection = true;
+            }
+
+            return;
+        }
+
+        if (!this.level.endboss.isAboveGround()) {
+            this.level.endboss.hasJumpedToAttack = true;
+            this.level.endboss.jump();
+        }
+    }
+
+    finishEndbossAttack() {
+        if (
+            this.level.endboss.state === 'attacking' &&
+            this.level.endboss.hasJumpedToAttack &&
+            !this.level.endboss.isAboveGround() &&
+            this.level.endboss.speedY <= 0
+        ) {
+            this.level.endboss.state = 'fighting';
 
             setTimeout(() => {
                 this.level.endboss.attackOnCooldown = false;
-            }, 3000);
+                this.level.endboss.hasJumpedToAttack = false;
+            }, 2000);
         }
     }
 
@@ -368,5 +406,7 @@ class World {
         this.shakeDuration = duration;
         this.shakeStart = Date.now();
     }
+
+    
         
 }
