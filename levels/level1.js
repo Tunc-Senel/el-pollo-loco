@@ -64,7 +64,14 @@ const level1 = new Level(
 
     ],
     [
-        new Cloud()
+        new Cloud(-720),
+        new Cloud(0),
+        new Cloud(720),
+        new Cloud(720*2),
+        new Cloud(720*3),
+        new Cloud(720*4),
+        new Cloud(720*5),
+        new Cloud(720*6),
     ],
     [
         new Coin(500, 150),
