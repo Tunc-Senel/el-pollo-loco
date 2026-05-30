@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let gameState = new GameState();
+let isPaused = false;
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -11,6 +12,18 @@ function init() {
         gameState.isGameStarted = true;
         document.getElementById("startScreen").style.display = "none";
         document.getElementById("gameControls").classList.remove("d-none");
+    });
+
+    document.getElementById("pauseButton").addEventListener("click", () => {
+        isPaused = !isPaused;
+
+        world.level.enemies.forEach((enemy) => {
+            if (isPaused) {
+                enemy.stopIntervalls();
+            } else {
+                enemy.startIntervalls();
+            }
+        });
     });
 }
 

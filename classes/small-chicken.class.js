@@ -10,6 +10,8 @@ class SmallChicken extends MovableObject {
     }
     isDeadByBottle = false;
     isDeadByStomp = false;
+    intervalIds = [];
+    intervalStopped = false;
 
     IMAGES_WALKING = [
         "assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
@@ -31,17 +33,37 @@ class SmallChicken extends MovableObject {
     }
 
     animate() {
-        setInterval( () => {
-            this.moveLeft();
-        }, 1000 / 60);
+        if (!this.intervalStopped) {
+            this.intervalIds.push(setInterval( () => {
+                this.moveLeft();
+            }, 1000 / 60)
+            );
         
-        setInterval(() => {
-            if (this.isDeadByStomp || this.isDeadByBottle) {
-               this.playAnimation(this.IMAGE_DEAD); 
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
-            }
-        }, 200);
+        this.intervalIds.push(setInterval(() => {
+                if (this.isDeadByStomp || this.isDeadByBottle) {
+                    this.playAnimation(this.IMAGE_DEAD); 
+                } else {
+                    this.playAnimation(this.IMAGES_WALKING);
+                }
+            }, 200)
+            );
+    }
+        
+    }
+
+    startIntervalls() {
+        if (!this.intervalStopped) {
+            return;
+        }
+
+        this.intervalStopped = false;
+        this.animate();
+    }
+
+    stopIntervalls() {
+        this.intervalIds.forEach((intervallId) => clearInterval(intervallId));
+        this.intervalIds = [];
+        this.intervalStopped = true;
     }
    
 }
