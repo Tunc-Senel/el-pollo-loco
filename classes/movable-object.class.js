@@ -31,6 +31,10 @@ class MovableObject extends DrawableObject {
                 this.y = 275;
                 this.speedY = 0;
             }
+            if (this.y > this.groundY && this instanceof Endboss) {
+                this.y = this.groundY;
+                this.speedY = 0;
+            }
         }, 1000 / 60);
     }
 
