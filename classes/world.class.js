@@ -165,6 +165,7 @@ class World {
             this.checkBossAlertProgress();
             this.checkBossFightPositioning();
             this.checkBossAttack();
+            this.moveEndbossToAttack();
             this.finishEndbossAttack();
             this.checkEndbossBottleCollisions();
             this.checkEndbossStomp();
@@ -452,29 +453,28 @@ class World {
     }
 
     moveEndbossToAttack() {
-        const distanceToCharacter = Math.abs(this.level.endboss.x - this.character.x);
+        const endboss = this.level.endboss;
 
-        if (this.level.endboss.hasJumpedToAttack) {
+        if (!endboss.hasJumpedToAttack) {
             return;
         }
 
-        if (distanceToCharacter > 80 && !this.level.endboss.isAboveGround()) {
-            this.level.endboss.speed = 2.5;
-
-            if (this.level.endboss.x > this.character.x) {
-                this.level.endboss.moveLeft();
-                this.level.endboss.otherDirection = false;
-            } else {
-                this.level.endboss.moveRight();
-                this.level.endboss.otherDirection = true;
-            }
-
-            return;
+        if (endboss.isAboveGround()) {
+            this.moveEndbossInAirToAttackTarget();
         }
+    }
 
-        if (!this.level.endboss.isAboveGround()) {
-            this.level.endboss.hasJumpedToAttack = true;
-            this.level.endboss.jump();
+    moveEndbossInAirToAttackTarget() {
+        const endboss = this.level.endboss;
+        const endbossCenter = endboss.x + endboss.width / 2;
+        const characterCenterAtJumpStart = endboss.attackTargetX;
+
+        if (endbossCenter < characterCenterAtJumpStart - 4) {
+            endboss.x += 4;
+            endboss.otherDirection = true;
+        } else if (endbossCenter > characterCenterAtJumpStart + 4) {
+            endboss.x -= 4;
+            endboss.otherDirection = false;
         }
     }
 
