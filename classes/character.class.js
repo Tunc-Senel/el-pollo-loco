@@ -142,8 +142,6 @@ class Character extends MovableObject {
             }
             if (!this.lockCameraOnBoss) {
                 this.world.camera_x = -this.x + 100;
-            } else if (this.lockCameraOnBoss) {
-                this.world.camera_x = -3100;
             }
             
         }, 1000 / 60);

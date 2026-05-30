@@ -14,6 +14,9 @@ class World {
     canThrow = true;
     endbossHealthBar = new EndbossHealthBar();
     bossTriggered = false;
+    bossIntroCameraTargetX = -3800;
+    bossFightCameraTargetX = -3100;
+    endbossFightTargetX = 3500;
     shakeIntensity = 0;
     shakeDuration = 0;
     shakeStart = 0;
@@ -68,7 +71,7 @@ class World {
             this.addObjectToMap(this.character);
             this.addObjectsToMap(this.level.enemies);
 
-            if (this.bossTriggered) {
+            if (this.bossTriggered && this.level.endboss.state !== 'camera_to_boss') {
                 this.addObjectToMap(this.level.endboss);
             }
 
@@ -146,6 +149,7 @@ class World {
             this.checkBossTrigger();
             this.checkBossIntroProgress();
             this.checkBossAlertProgress();
+            this.checkBossFightPositioning();
             this.checkBossAttack();
             this.finishEndbossAttack();
             this.checkEndbossBottleCollisions();
@@ -262,16 +266,16 @@ class World {
 
     checkBossTrigger() {
         if (!this.bossTriggered && this.character.x >= 3200) {
-            this.bossTriggered = true;
-            this.startBossIntro();
+            this.bossTriggered = true
+            this.character.inputDisabled = true;
             this.character.lockCameraOnBoss = true;
             this.level.levelStartX = 3100;
+            this.level.endboss.state = 'camera_to_boss';
         }
     }
 
     startBossIntro() {
         let visibleRight = -this.camera_x + 720;
-        this.character.inputDisabled = true;
 
         this.level.endboss.x = visibleRight + 100;
         this.level.endboss.walkTarget = visibleRight - this.level.endboss.width - 30;
@@ -280,11 +284,28 @@ class World {
     }
 
     checkBossIntroProgress() {
-        if (this.level.endboss.state === 'walking_in' && this.level.endboss.x <= this.level.endboss.walkTarget) {
+        if (this.level.endboss.state === 'camera_to_boss') {
+            this.moveCameraToBossIntro();
+            return;
+        }
+
+        if (
+            this.level.endboss.state === 'walking_in' &&
+            this.level.endboss.x <= this.level.endboss.walkTarget
+        ) {
             this.level.endboss.x = this.level.endboss.walkTarget;
             this.level.endboss.state = 'alert';
             this.level.endboss.alertStart = Date.now();
             this.level.endboss.speed = 0;
+        }
+    }
+
+        moveCameraToBossIntro() {
+        if (this.camera_x > this.bossIntroCameraTargetX) {
+            this.camera_x -= 4;
+        } else {
+            this.camera_x = this.bossIntroCameraTargetX;
+            this.startBossIntro();
         }
     }
 
@@ -297,10 +318,51 @@ class World {
         }
 
         if (this.level.endboss.state === 'jumping_to_center' && !this.level.endboss.isAboveGround() && this.level.endboss.speedY <= 0) {
+            this.level.endboss.state = 'walking_to_fight_position';
+            this.level.endboss.speed = 2.5;
+            this.triggerEarthquake(800, 20);
+        }
+    }
+
+    checkBossFightPositioning() {
+        if (this.level.endboss.state !== 'walking_to_fight_position') {
+            return;
+        }
+
+        this.moveCameraToFightArea();
+        this.moveEndbossToFightPosition();
+
+        if (
+            this.camera_x === this.bossFightCameraTargetX &&
+            this.level.endboss.x === this.endbossFightTargetX
+        ) {
             this.level.endboss.state = 'fighting';
             this.level.endboss.speed = 1.5;
             this.character.inputDisabled = false;
-            this.triggerEarthquake(800, 20);
+        }
+    }
+
+    moveCameraToFightArea() {
+        if (this.camera_x < this.bossFightCameraTargetX) {
+            this.camera_x += 4;
+        } else {
+            this.camera_x = this.bossFightCameraTargetX;
+        }
+    }
+
+    moveEndbossToFightPosition() {
+        if (this.level.endboss.x > this.endbossFightTargetX) {
+            this.level.endboss.moveLeft();
+            this.level.endboss.otherDirection = false;
+        } else if (this.level.endboss.x < this.endbossFightTargetX) {
+            this.level.endboss.moveRight();
+            this.level.endboss.otherDirection = true;
+        } else {
+            this.level.endboss.x = this.endbossFightTargetX;
+        }
+
+        if (Math.abs(this.level.endboss.x - this.endbossFightTargetX) < this.level.endboss.speed) {
+            this.level.endboss.x = this.endbossFightTargetX;
         }
     }
 

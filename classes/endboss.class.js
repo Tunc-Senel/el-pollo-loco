@@ -10,9 +10,6 @@ class Endboss extends MovableObject {
     centerTarget = 0;
     alertStart = 0;
     currentImage = 0;
-    lastAttack = 0;
-    isMovingToAttack = false;
-    isJumpingToAttack = false;
     attackOnCooldown = false;
     hasJumpedToAttack = false;
 
@@ -94,6 +91,8 @@ class Endboss extends MovableObject {
             } else if (this.state === 'alert') {
                 this.playAnimation(this.IMAGES_ALERT);
             } else if (this.state === 'jumping_to_center') {
+                this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.state === 'walking_to_fight_position') {
                 this.playAnimation(this.IMAGES_WALKING);
             } else if (this.state === 'fighting') {
                 this.playAnimation(this.IMAGES_WALKING);
