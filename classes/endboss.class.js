@@ -12,6 +12,8 @@ class Endboss extends MovableObject {
     currentImage = 0;
     attackOnCooldown = false;
     hasJumpedToAttack = false;
+    attackTargetX = 0;
+    attackStarted = false;
 
     offset = {
         top: 70,

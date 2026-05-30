@@ -395,20 +395,60 @@ class World {
     }
 
     checkBossAttack() {
-        let distanceToCharacter = Math.abs(this.level.endboss.x - this.character.x);
+        const endboss = this.level.endboss;
 
-        if (
-            this.level.endboss.state === 'fighting' &&
-            distanceToCharacter < 350 &&
-            !this.level.endboss.attackOnCooldown
-        ) {
-            this.level.endboss.attackOnCooldown = true;
-            this.level.endboss.hasJumpedToAttack = false;
-            this.level.endboss.state = 'attacking';
+        if (endboss.state !== 'fighting' || endboss.attackOnCooldown) {
+            return;
         }
-        if (this.level.endboss.state === 'attacking') {
-            this.moveEndbossToAttack();
+
+        this.faceEndbossToCharacter();
+
+        const distanceToCharacter = Math.abs(endboss.x - this.character.x);
+
+        if (distanceToCharacter > 220 && !endboss.isAboveGround()) {
+            this.moveEndbossTowardsCharacter();
+            return;
         }
+
+        if (!endboss.isAboveGround()) {
+            this.startEndbossJumpAttack();
+        }
+    }
+
+    faceEndbossToCharacter() {
+        const endboss = this.level.endboss;
+
+        if (endboss.x > this.character.x) {
+            endboss.otherDirection = false;
+        } else {
+            endboss.otherDirection = true;
+        }
+    }
+
+    moveEndbossTowardsCharacter() {
+        const endboss = this.level.endboss;
+
+        endboss.speed = 1.8;
+
+        if (endboss.x > this.character.x + 140) {
+            endboss.moveLeft();
+            endboss.otherDirection = false;
+        } else if (endboss.x + endboss.width < this.character.x - 140) {
+            endboss.moveRight();
+            endboss.otherDirection = true;
+        }
+    }
+
+    startEndbossJumpAttack() {
+        const endboss = this.level.endboss;
+
+        endboss.attackOnCooldown = true;
+        endboss.hasJumpedToAttack = true;
+        endboss.attackStarted = true;
+        endboss.attackTargetX = this.character.x + this.character.width / 2;
+        endboss.state = 'attacking';
+        endboss.speed = 0;
+        endboss.jump();
     }
 
     moveEndbossToAttack() {
