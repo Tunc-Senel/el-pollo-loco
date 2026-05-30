@@ -63,8 +63,9 @@ class World {
             this.ctx.save();
             this.ctx.translate(shakeX, shakeY);
 
+            this.addBackgroundObjectsToMap(this.level.backgroundObjects);
+
             this.ctx.translate(this.camera_x, 0);
-            this.addObjectsToMap(this.level.backgroundObjects);
             this.addObjectsToMap(this.level.clouds);
             this.addObjectsToMap(this.level.coins);
             this.addObjectsToMap(this.level.bottles);
@@ -108,6 +109,19 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         });
+    }
+
+    addBackgroundObjectsToMap(objects) {
+        objects.forEach((object) => {
+            this.addBackgroundObjectToMap(object);
+        });
+    }
+
+    addBackgroundObjectToMap(object) {
+        this.ctx.save();
+        this.ctx.translate(this.camera_x * object.parallaxFactor, 0);
+        this.addObjectToMap(object);
+        this.ctx.restore();
     }
 
     addObjectsToMap(objects) {
