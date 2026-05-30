@@ -399,22 +399,22 @@ class World {
     checkBossAttack() {
         const endboss = this.level.endboss;
 
-        if (endboss.state !== 'fighting' || endboss.attackOnCooldown) {
+        if (endboss.state !== 'fighting' || endboss.attackOnCooldown || endboss.isAboveGround()) {
             return;
         }
 
         this.faceEndbossToCharacter();
 
-        const distanceToCharacter = Math.abs(endboss.x - this.character.x);
+        const endbossCenter = endboss.x + endboss.width / 2;
+        const characterCenter = this.character.x + this.character.width / 2;
+        const distanceToCharacter = Math.abs(endbossCenter - characterCenter);
 
-        if (distanceToCharacter > 220 && !endboss.isAboveGround()) {
+        if (distanceToCharacter > 180) {
             this.moveEndbossTowardsCharacter();
             return;
         }
 
-        if (!endboss.isAboveGround()) {
-            this.startEndbossJumpAttack();
-        }
+        this.startEndbossJumpAttack();
     }
 
     faceEndbossToCharacter() {
@@ -430,12 +430,15 @@ class World {
     moveEndbossTowardsCharacter() {
         const endboss = this.level.endboss;
 
+        const endbossCenter = endboss.x + endboss.width / 2;
+        const characterCenter = this.character.x + this.character.width / 2;
+
         endboss.speed = 1.8;
 
-        if (endboss.x > this.character.x + 140) {
+        if (endbossCenter > characterCenter + 20) {
             endboss.moveLeft();
             endboss.otherDirection = false;
-        } else if (endboss.x + endboss.width < this.character.x - 140) {
+        } else if (endbossCenter < characterCenter - 20) {
             endboss.moveRight();
             endboss.otherDirection = true;
         }
@@ -447,6 +450,7 @@ class World {
         endboss.attackOnCooldown = true;
         endboss.hasJumpedToAttack = true;
         endboss.attackStarted = true;
+        endboss.attackLanded = false;
         endboss.attackTargetX = this.character.x + this.character.width / 2;
         endboss.state = 'attacking';
         endboss.speed = 0;

@@ -122,6 +122,12 @@ class Endboss extends MovableObject {
 
     bossHit() {
         this.energy -= 20;
+        this.attackOnCooldown = false;
+        this.hasJumpedToAttack = false;
+        this.attackStarted = false;
+        this.attackLanded = false;
+        this.attackPauseStarted = false;
+        this.speed = 0;
         this.state = 'hurt';
 
         if (this.energy <= 0) {
@@ -133,9 +139,8 @@ class Endboss extends MovableObject {
         setTimeout(() => {
             if (this.state === 'hurt') {
                 this.state = 'fighting';
+                this.speed = 1.5;
             }
-        }, 500);
+        }, 1000);
     }
-
 }
- 
