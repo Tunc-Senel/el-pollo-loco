@@ -1,7 +1,7 @@
 class Endboss extends MovableObject {
     width = 200;
-    height = 300;
-    groundY = 155;
+    height = 200;
+    groundY = 230;
     energy = 100;
     speed = 3;
     state = 'hidden';
