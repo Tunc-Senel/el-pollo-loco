@@ -167,6 +167,7 @@ class World {
             this.checkBossAttack();
             this.moveEndbossToAttack();
             this.finishEndbossAttack();
+            this.checkEndbossAttackPause();
             this.checkEndbossBottleCollisions();
             this.checkEndbossStomp();
             this.checkEndbossCollision();
@@ -479,19 +480,43 @@ class World {
     }
 
     finishEndbossAttack() {
-        if (
-            this.level.endboss.state === 'attacking' &&
-            this.level.endboss.hasJumpedToAttack &&
-            !this.level.endboss.isAboveGround() &&
-            this.level.endboss.speedY <= 0
-        ) {
-            this.level.endboss.state = 'fighting';
+        const endboss = this.level.endboss;
 
-            setTimeout(() => {
-                this.level.endboss.attackOnCooldown = false;
-                this.level.endboss.hasJumpedToAttack = false;
-            }, 2000);
+        if (
+            endboss.state === 'attacking' &&
+            endboss.hasJumpedToAttack &&
+            !endboss.isAboveGround() &&
+            endboss.speedY <= 0 &&
+            !endboss.attackLanded
+        ) {
+            endboss.attackLanded = true;
+            endboss.attackPauseStarted = false;
+            endboss.speed = 0;
+            endboss.state = 'attack_pause';
+            this.triggerEarthquake(800, 18);
         }
+    }
+
+    checkEndbossAttackPause() {
+        const endboss = this.level.endboss;
+
+        if (endboss.state !== 'attack_pause' || endboss.attackPauseStarted) {
+            return;
+        }
+
+        endboss.attackPauseStarted = true;
+
+        setTimeout(() => {
+            if (endboss.state === 'attack_pause') {
+                endboss.state = 'fighting';
+                endboss.speed = 1.5;
+                endboss.attackOnCooldown = false;
+                endboss.hasJumpedToAttack = false;
+                endboss.attackStarted = false;
+                endboss.attackLanded = false;
+                endboss.attackPauseStarted = false;
+            }
+        }, 1500);
     }
 
     checkEndbossBottleCollisions() {

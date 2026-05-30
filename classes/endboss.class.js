@@ -14,6 +14,8 @@ class Endboss extends MovableObject {
     hasJumpedToAttack = false;
     attackTargetX = 0;
     attackStarted = false;
+    attackLanded = false;
+    attackPauseStarted = false;
 
     offset = {
         top: 70,
@@ -104,6 +106,8 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_WALKING);
             } else if (this.state === 'attacking') {
                 this.playAnimation(this.IMAGES_ATTACK);
+            } else if (this.state === 'attack_pause') {
+                this.playAnimation(this.IMAGES_ALERT);
             } else if (this.state === 'hurt') {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.state === 'dead') {
