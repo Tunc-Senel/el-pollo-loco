@@ -92,8 +92,12 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_ALERT);
             } else if (this.state === 'jumping_to_center') {
                 this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.state === 'pause_after_intro_jump') {
+                this.playAnimation(this.IMAGES_ALERT);
             } else if (this.state === 'walking_to_fight_position') {
                 this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.state === 'short_pause_after_intro') {
+                this.playAnimation(this.IMAGES_ALERT);
             } else if (this.state === 'fighting') {
                 this.playAnimation(this.IMAGES_WALKING);
             } else if (this.state === 'attacking') {

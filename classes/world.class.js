@@ -294,7 +294,7 @@ class World {
         this.level.endboss.x = visibleRight + 100;
         this.level.endboss.walkTarget = visibleRight - this.level.endboss.width - 30;
         this.level.endboss.state = 'walking_in';
-        this.level.endboss.speed = 4;
+        this.level.endboss.speed = 2;
     }
 
     checkBossIntroProgress() {
@@ -332,9 +332,17 @@ class World {
         }
 
         if (this.level.endboss.state === 'jumping_to_center' && !this.level.endboss.isAboveGround() && this.level.endboss.speedY <= 0) {
-            this.level.endboss.state = 'walking_to_fight_position';
-            this.level.endboss.speed = 2.5;
+            this.level.endboss.state = 'pause_after_intro_jump';
+            this.level.endboss.speed = 0;
+            this.level.endboss.otherDirection = false;
             this.triggerEarthquake(800, 20);
+
+            setTimeout(() => {
+                if (this.level.endboss.state === 'pause_after_intro_jump') {
+                    this.level.endboss.state = 'walking_to_fight_position';
+                    this.level.endboss.speed = 2.5;
+                }
+            }, 800);
         }
     }
 
@@ -350,9 +358,15 @@ class World {
             this.camera_x === this.bossFightCameraTargetX &&
             this.level.endboss.x === this.endbossFightTargetX
         ) {
-            this.level.endboss.state = 'fighting';
-            this.level.endboss.speed = 1.5;
-            this.character.inputDisabled = false;
+            this.level.endboss.state = 'short_pause_after_intro';
+            this.level.endboss.speed = 0;
+            this.level.endboss.otherDirection = false;
+            setTimeout(() => {
+                this.level.endboss.state = 'fighting';
+                this.level.endboss.speed = 1.5;
+                this.character.inputDisabled = false;
+            }, 1000);
+            
         }
     }
 
