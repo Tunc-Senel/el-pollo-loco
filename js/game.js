@@ -19,6 +19,12 @@ function init() {
         isPaused = !isPaused;
 
         if (isPaused) {
+            world.stopIntervalls();
+        } else {
+            world.startIntervalls();
+        }
+
+        if (isPaused) {
             world.character.stopIntervalls();
         } else {
             world.character.startIntervalls();

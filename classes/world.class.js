@@ -21,6 +21,7 @@ class World {
     shakeDuration = 0;
     shakeStart = 0;
     endScreen = new Endscreen();
+    intervalIds = [];
 
     constructor(canvas, keyboard, gameState, audioManager) {
         this.ctx = canvas.getContext('2d');
@@ -155,23 +156,25 @@ class World {
     }
     
     checkCollisions() {
-        setInterval(() => {
-            this.checkEnemyCollisions();
-            this.checkCoinCollisions();
-            this.checkBottleCollisions();
-            this.checkThrowObjects();
-            this.checkBossTrigger();
-            this.checkBossIntroProgress();
-            this.checkBossAlertProgress();
-            this.checkBossFightPositioning();
-            this.checkBossAttack();
-            this.moveEndbossToAttack();
-            this.finishEndbossAttack();
-            this.checkEndbossAttackPause();
-            this.checkEndbossBottleCollisions();
-            this.checkEndbossStomp();
-            this.checkEndbossCollision();
-        }, 1000 / 60);
+        this.intervalIds.push(
+            setInterval(() => {
+                this.checkEnemyCollisions();
+                this.checkCoinCollisions();
+                this.checkBottleCollisions();
+                this.checkThrowObjects();
+                this.checkBossTrigger();
+                this.checkBossIntroProgress();
+                this.checkBossAlertProgress();
+                this.checkBossFightPositioning();
+                this.checkBossAttack();
+                this.moveEndbossToAttack();
+                this.finishEndbossAttack();
+                this.checkEndbossAttackPause();
+                this.checkEndbossBottleCollisions();
+                this.checkEndbossStomp();
+                this.checkEndbossCollision();
+            }, 1000 / 60)
+        );
     }
     
 
@@ -574,6 +577,12 @@ class World {
         this.shakeStart = Date.now();
     }
 
-    
-        
+    startIntervalls() {
+        this.checkCollisions();
+    }
+
+    stopIntervalls() {
+        this.intervalIds.forEach((intervallId) => clearInterval(intervallId));
+        this.intervalIds = [];
+    }  
 }

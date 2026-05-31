@@ -23,20 +23,22 @@ class MovableObject extends DrawableObject {
     }
 
     applyGravity() {
-        setInterval( () => {
-            if (this.isAboveGround() || this.speedY > 0) {    
-                this.y -= this.speedY;
-                this.speedY -= this.accelaration;
-            }
-            if (this.y > 275 && this instanceof Character) {
-                this.y = 275;
-                this.speedY = 0;
-            }
-            if (this.y > this.groundY && this instanceof Endboss) {
-                this.y = this.groundY;
-                this.speedY = 0;
-            }
-        }, 1000 / 60);
+        this.intervalIds.push(
+            setInterval( () => {
+                if (this.isAboveGround() || this.speedY > 0) {    
+                    this.y -= this.speedY;
+                    this.speedY -= this.accelaration;
+                }
+                if (this.y > 275 && this instanceof Character) {
+                    this.y = 275;
+                    this.speedY = 0;
+                }
+                if (this.y > this.groundY && this instanceof Endboss) {
+                    this.y = this.groundY;
+                    this.speedY = 0;
+                }
+            }, 1000 / 60)
+        );
     }
 
     isAboveGround() {
@@ -71,11 +73,13 @@ class MovableObject extends DrawableObject {
             } else {
                 this.characterHurt = true;
                 this.lastHit = new Date().getTime()
-                const intervalId = setInterval( () => {
-                    if (this.x > this.world.level.levelStartX) {
-                        this.x -= 1;
-                    }
-                }, 1000 / 60);
+                const intervalId = this.intervalIds.push(
+                    setInterval( () => {
+                        if (this.x > this.world.level.levelStartX) {
+                            this.x -= 1;
+                        }
+                    }, 1000 / 60)
+                );
                 setTimeout(() => {
                     clearInterval(intervalId);
                     this.characterHurt = false;
