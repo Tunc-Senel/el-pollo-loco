@@ -579,10 +579,40 @@ class World {
 
     startIntervalls() {
         this.checkCollisions();
+
+        this.character.startIntervalls();
+        this.level.endboss.startIntervalls();
+
+        this.level.enemies.forEach((enemy) => {
+            enemy.startIntervalls();
+        });
+
+        this.level.clouds.forEach((cloud) => {
+            cloud.startIntervalls();
+        });
+
+        this.throwableObjects.forEach((object) => {
+            object.startIntervalls();
+        });
     }
 
     stopIntervalls() {
-        this.intervalIds.forEach((intervallId) => clearInterval(intervallId));
+        this.intervalIds.forEach((intervalId) => clearInterval(intervalId));
         this.intervalIds = [];
-    }  
+
+        this.character.stopIntervalls();
+        this.level.endboss.stopIntervalls();
+
+        this.level.enemies.forEach((enemy) => {
+            enemy.stopIntervalls();
+        });
+
+        this.level.clouds.forEach((cloud) => {
+            cloud.stopIntervalls();
+        });
+
+        this.throwableObjects.forEach((object) => {
+            object.stopIntervalls();
+        });
+    } 
 }

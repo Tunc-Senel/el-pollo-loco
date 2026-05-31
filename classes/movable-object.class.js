@@ -73,13 +73,12 @@ class MovableObject extends DrawableObject {
             } else {
                 this.characterHurt = true;
                 this.lastHit = new Date().getTime()
-                const intervalId = this.intervalIds.push(
-                    setInterval( () => {
+                const intervalId = setInterval( () => {
                         if (this.x > this.world.level.levelStartX) {
                             this.x -= 1;
                         }
-                    }, 1000 / 60)
-                );
+                    }, 1000 / 60);
+                this.intervalIds.push(intervalId);
                 setTimeout(() => {
                     clearInterval(intervalId);
                     this.characterHurt = false;
@@ -100,6 +99,9 @@ class MovableObject extends DrawableObject {
 
     startIntervalls() {
         this.animate();
+        if (this instanceof Character || this instanceof ThrowableObject || this instanceof Endboss) {
+            this.applyGravity();
+        }
     }
 
     stopIntervalls() {
