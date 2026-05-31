@@ -1,7 +1,7 @@
 class Endboss extends MovableObject {
     width = 200;
-    height = 300;
-    groundY = 155;
+    height = 200;
+    groundY = 230;
     energy = 100;
     speed = 3;
     state = 'hidden';
@@ -10,7 +10,12 @@ class Endboss extends MovableObject {
     centerTarget = 0;
     alertStart = 0;
     currentImage = 0;
-    lastAttack = 0;
+    attackOnCooldown = false;
+    hasJumpedToAttack = false;
+    attackTargetX = 0;
+    attackStarted = false;
+    attackLanded = false;
+    attackPauseStarted = false;
 
     offset = {
         top: 70,
@@ -91,10 +96,18 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_ALERT);
             } else if (this.state === 'jumping_to_center') {
                 this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.state === 'pause_after_intro_jump') {
+                this.playAnimation(this.IMAGES_ALERT);
+            } else if (this.state === 'walking_to_fight_position') {
+                this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.state === 'short_pause_after_intro') {
+                this.playAnimation(this.IMAGES_ALERT);
             } else if (this.state === 'fighting') {
                 this.playAnimation(this.IMAGES_WALKING);
             } else if (this.state === 'attacking') {
                 this.playAnimation(this.IMAGES_ATTACK);
+            } else if (this.state === 'attack_pause') {
+                this.playAnimation(this.IMAGES_ALERT);
             } else if (this.state === 'hurt') {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.state === 'dead') {
@@ -109,6 +122,12 @@ class Endboss extends MovableObject {
 
     bossHit() {
         this.energy -= 20;
+        this.attackOnCooldown = false;
+        this.hasJumpedToAttack = false;
+        this.attackStarted = false;
+        this.attackLanded = false;
+        this.attackPauseStarted = false;
+        this.speed = 0;
         this.state = 'hurt';
 
         if (this.energy <= 0) {
@@ -120,9 +139,8 @@ class Endboss extends MovableObject {
         setTimeout(() => {
             if (this.state === 'hurt') {
                 this.state = 'fighting';
+                this.speed = 1.5;
             }
-        }, 500);
+        }, 1000);
     }
-
 }
- 

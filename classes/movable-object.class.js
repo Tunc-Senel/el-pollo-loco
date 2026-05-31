@@ -3,7 +3,7 @@ class MovableObject extends DrawableObject {
     otherDirection = false; 
     speed = 0;
     speedY = 0;
-    accelaration = 2.0;
+    accelaration = 0.9;
     lastHit = 0;
 
     playAnimation(images) {
@@ -27,11 +27,15 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.accelaration;
             }
-            if (this.y > 170 && this instanceof Character) {
-                this.y = 170;
+            if (this.y > 275 && this instanceof Character) {
+                this.y = 275;
                 this.speedY = 0;
             }
-        }, 1000 / 25);
+            if (this.y > this.groundY && this instanceof Endboss) {
+                this.y = this.groundY;
+                this.speedY = 0;
+            }
+        }, 1000 / 60);
     }
 
     isAboveGround() {
@@ -41,15 +45,19 @@ class MovableObject extends DrawableObject {
         if (this instanceof Endboss) {
             return this.y < this.groundY;
         }
-        return this.y < 170;
+        return this.y < 275;
     }
 
     jump() {
-        this.speedY = 30;
+        this.speedY = 22.5;
+    }
+    
+    jumpAfterEnemyStomp() {
+        this.speedY = 17.5;
     }
 
     jumpAfterEndbossStomp() {
-        this.speedY = 15;
+        this.speedY = 12.5;
     }
 
     hit() {

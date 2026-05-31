@@ -1,4 +1,5 @@
 class ThrowableObject extends MovableObject {
+    accelaration = 0.5;
     objectHit = false;
     remove = false;
     splashAnimationIndex = 0;
@@ -34,7 +35,7 @@ class ThrowableObject extends MovableObject {
         this.speedY = 10;
         this.applyGravity();
         setInterval( () => {
-            this.x += 10;
+            this.x += 8.5;
         }, 25);
 
         setInterval(() => {
