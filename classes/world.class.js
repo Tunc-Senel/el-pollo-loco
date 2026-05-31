@@ -251,6 +251,7 @@ class World {
         // 1. Bottle trifft Bodenf
         if (bottle.y >= 350 && !bottle.objectHit) {
             bottle.objectHit = true;
+            bottle.isFlying = false;
             this.audioManager.playSound("smashBottleSound");
         }
 
@@ -259,6 +260,7 @@ class World {
             if (bottle.isColliding(enemy) && !bottle.objectHit) {
                 let currenIndex = index;
                 bottle.objectHit = true;
+                bottle.isFlying = false;
                 this.audioManager.playSound("smashBottleSound");
                 if (enemy.height > 60) {
                     this.audioManager.playSound("chickenDeadSound");

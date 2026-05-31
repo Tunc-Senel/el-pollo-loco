@@ -102,6 +102,10 @@ class MovableObject extends DrawableObject {
         if (this instanceof Character || this instanceof ThrowableObject || this instanceof Endboss) {
             this.applyGravity();
         }
+        if (this instanceof ThrowableObject) {
+            this.throw();
+        }
+
     }
 
     stopIntervalls() {
