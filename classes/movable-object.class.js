@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     accelaration = 0.9;
     lastHit = 0;
+    intervalIds = [];
 
     playAnimation(images) {
         this.currentImage = this.currentImage % images.length;
@@ -93,4 +94,12 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
+    startIntervalls() {
+        this.animate();
+    }
+
+    stopIntervalls() {
+        this.intervalIds.forEach((intervallId) => clearInterval(intervallId));
+        this.intervalIds = [];
+    }
 }

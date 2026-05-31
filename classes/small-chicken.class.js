@@ -34,21 +34,22 @@ class SmallChicken extends MovableObject {
 
     animate() {
         if (!this.intervalStopped) {
-            this.intervalIds.push(setInterval( () => {
-                this.moveLeft();
-            }, 1000 / 60)
+            this.intervalIds.push(
+                setInterval( () => {
+                    this.moveLeft();
+                }, 1000 / 60)
             );
         
-        this.intervalIds.push(setInterval(() => {
-                if (this.isDeadByStomp || this.isDeadByBottle) {
-                    this.playAnimation(this.IMAGE_DEAD); 
-                } else {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
-            }, 200)
+            this.intervalIds.push(
+                setInterval(() => {
+                    if (this.isDeadByStomp || this.isDeadByBottle) {
+                        this.playAnimation(this.IMAGE_DEAD); 
+                    } else {
+                        this.playAnimation(this.IMAGES_WALKING);
+                    }
+                }, 200)
             );
-    }
-        
+        }
     }
 
     startIntervalls() {

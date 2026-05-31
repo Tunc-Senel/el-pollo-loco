@@ -34,36 +34,32 @@ class Chicken extends MovableObject {
 
     animate() {
         if (!this.intervalStopped) {
-            this.intervalIds.push(setInterval( () => {
-                this.moveLeft();
-            }, 1000 / 60)
-        );
+            this.intervalIds.push(
+                setInterval( () => {
+                    this.moveLeft();
+                }, 1000 / 60)
+            );
         
-        this.intervalIds.push(setInterval(() => {
-                if (this.isDeadByStomp || this.isDeadByBottle) {
-                    this.playAnimation(this.DEAD_IMAGE)
-                }
-                else {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }   
+            this.intervalIds.push(
+                setInterval(() => {
+                    if (this.isDeadByStomp || this.isDeadByBottle) {
+                        this.playAnimation(this.DEAD_IMAGE)
+                    }
+                    else {
+                        this.playAnimation(this.IMAGES_WALKING);
+                    }   
                 }, 200)
             );
         }
     }
 
     startIntervalls() {
-        if (!this.intervalStopped) {
-            return;
-        }
-
-        this.intervalStopped = false;
         this.animate();
     }
 
     stopIntervalls() {
         this.intervalIds.forEach((intervallId) => clearInterval(intervallId));
         this.intervalIds = [];
-        this.intervalStopped = true;
     }
    
 }

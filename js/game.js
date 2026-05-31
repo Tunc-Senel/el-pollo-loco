@@ -18,6 +18,18 @@ function init() {
     document.getElementById("pauseButton").addEventListener("click", () => {
         isPaused = !isPaused;
 
+        if (isPaused) {
+            world.character.stopIntervalls();
+        } else {
+            world.character.startIntervalls();
+        }
+
+        if (isPaused) {
+            world.level.endboss.stopIntervalls();
+        } else {
+            world.level.endboss.startIntervalls();
+        }
+
         world.level.enemies.forEach((enemy) => {
             if (isPaused) {
                 enemy.stopIntervalls();
@@ -25,6 +37,15 @@ function init() {
                 enemy.startIntervalls();
             }
         });
+        
+        world.level.clouds.forEach((cloud) => {
+            if (isPaused) {
+                cloud.stopIntervalls();
+            } else {
+                cloud.startIntervalls();
+            }
+        });
+    
     });
 }
 

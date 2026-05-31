@@ -79,41 +79,45 @@ class Endboss extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
-            if (this.state === 'walking_in') {
-                this.moveLeft();
-            } else  if (this.state === 'jumping_to_center' && this.isAboveGround()) {
-                if (this.x > this.centerTarget) {
-                    this.x -= 4;
-            }
-    }
-        }, 1000 / 60);
+        this.intervalIds.push(
+            setInterval(() => {
+                if (this.state === 'walking_in') {
+                    this.moveLeft();
+                } else if (this.state === 'jumping_to_center' && this.isAboveGround()) {
+                    if (this.x > this.centerTarget) {
+                        this.x -= 4;
+                    }
+                }
+            }, 1000 / 60)
+        );
 
-        setInterval(() => {
-            if (this.state === 'walking_in') {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else if (this.state === 'alert') {
-                this.playAnimation(this.IMAGES_ALERT);
-            } else if (this.state === 'jumping_to_center') {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else if (this.state === 'pause_after_intro_jump') {
-                this.playAnimation(this.IMAGES_ALERT);
-            } else if (this.state === 'walking_to_fight_position') {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else if (this.state === 'short_pause_after_intro') {
-                this.playAnimation(this.IMAGES_ALERT);
-            } else if (this.state === 'fighting') {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else if (this.state === 'attacking') {
-                this.playAnimation(this.IMAGES_ATTACK);
-            } else if (this.state === 'attack_pause') {
-                this.playAnimation(this.IMAGES_ALERT);
-            } else if (this.state === 'hurt') {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.state === 'dead') {
-                this.playAnimation(this.IMAGES_DEAD);
-            }
-        }, 200);
+        this.intervalIds.push(
+            setInterval(() => {
+                if (this.state === 'walking_in') {
+                    this.playAnimation(this.IMAGES_WALKING);
+                } else if (this.state === 'alert') {
+                    this.playAnimation(this.IMAGES_ALERT);
+                } else if (this.state === 'jumping_to_center') {
+                    this.playAnimation(this.IMAGES_WALKING);
+                } else if (this.state === 'pause_after_intro_jump') {
+                    this.playAnimation(this.IMAGES_ALERT);
+                } else if (this.state === 'walking_to_fight_position') {
+                    this.playAnimation(this.IMAGES_WALKING);
+                } else if (this.state === 'short_pause_after_intro') {
+                    this.playAnimation(this.IMAGES_ALERT);
+                } else if (this.state === 'fighting') {
+                    this.playAnimation(this.IMAGES_WALKING);
+                } else if (this.state === 'attacking') {
+                    this.playAnimation(this.IMAGES_ATTACK);
+                } else if (this.state === 'attack_pause') {
+                    this.playAnimation(this.IMAGES_ALERT);
+                } else if (this.state === 'hurt') {
+                    this.playAnimation(this.IMAGES_HURT);
+                } else if (this.state === 'dead') {
+                    this.playAnimation(this.IMAGES_DEAD);
+                }
+            }, 200)
+        );
     }
 
     jump() {
