@@ -14,7 +14,8 @@ class AudioManager {
         characterWalkingSound: new Audio("assets/audio/character-walking.mp3"),
         chickenBackgroundSound: new Audio("assets/audio/chicken-background-noises.mp3"),
         backgroundMusicSound: new Audio("assets/audio/mexican-background-music.mp3"),
-        lostGameSound: new Audio("assets/audio/lost-game.mp3")
+        lostGameSound: new Audio("assets/audio/lost-game.mp3"),
+        characterDieSound: new Audio("assets/audio/character-die.mp3")
     }
 
     playLoopSound(sound) {

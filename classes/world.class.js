@@ -23,6 +23,7 @@ class World {
     endScreen = new Endscreen();
     intervalIds = [];
     gameEnded = false;
+    characterDeathStarted = false;
 
     constructor(canvas, keyboard, gameState, audioManager) {
         this.ctx = canvas.getContext('2d');
@@ -210,8 +211,16 @@ class World {
                 this.character.isColliding(enemy)
             ) {
                 this.character.hit();
-                this.audioManager.playSound("characterHurtSound");
                 this.healthBar.setPercentage(this.character.energy);
+                if (this.character.energy > 0) {
+                    this.audioManager.playSound("characterHurtSound");
+                } else if (this.character.energy <= 0 && !this.characterDeathStarted) {
+                    this.characterDeathStarted = true;
+                    this.audioManager.playSound("characterDieSound");
+                    setTimeout(() => {
+                        this.endScreen.lostGame = true;
+                    }, 750);
+                }
             }
             return true;
         });

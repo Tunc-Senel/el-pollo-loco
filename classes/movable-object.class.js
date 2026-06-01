@@ -69,7 +69,6 @@ class MovableObject extends DrawableObject {
             this.energy -= 10;
             if (this.energy <= 0) {
                 this.energy = 0;
-                this.world.endScreen.lostGame = true;
             } else {
                 this.characterHurt = true;
                 this.lastHit = new Date().getTime()
