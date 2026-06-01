@@ -189,9 +189,9 @@ class World {
                 let currenIndex = index;
                 this.character.jumpAfterEnemyStomp();
                 this.audioManager.playSound("stompSound");
-                if (enemy.height > 60) {
+                if (enemy.height > 50) {
                     this.audioManager.playSound("chickenDeadSound");
-                } else if (enemy.height <= 60) {
+                } else if (enemy.height <= 50) {
                     this.audioManager.playSound("smallChickenDeadSound");
                 }
                 enemy.isDeadByStomp = true;
@@ -262,9 +262,9 @@ class World {
                 bottle.objectHit = true;
                 bottle.isFlying = false;
                 this.audioManager.playSound("smashBottleSound");
-                if (enemy.height > 60) {
+                if (enemy.height > 50) {
                     this.audioManager.playSound("chickenDeadSound");
-                } else if (enemy.height <= 60) {
+                } else if (enemy.height <= 50) {
                     this.audioManager.playSound("smallChickenDeadSound");
                 }
                 enemy.isDeadByBottle = true;
