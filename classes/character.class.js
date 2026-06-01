@@ -5,6 +5,7 @@ class Character extends MovableObject {
     hasStompedEndbossInThisJump = false;
     inputDisabled = false;
     lockCameraOnBoss = false;
+    energy = 20;
     x = 150;
     y = 275;
     width = 100;

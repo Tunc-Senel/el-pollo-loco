@@ -22,6 +22,7 @@ class World {
     shakeStart = 0;
     endScreen = new Endscreen();
     intervalIds = [];
+    gameEnded = false;
 
     constructor(canvas, keyboard, gameState, audioManager) {
         this.ctx = canvas.getContext('2d');
@@ -95,15 +96,19 @@ class World {
 
         if ((this.endScreen.lostGame || this.endScreen.wonGame) && this.gameState.isGameStarted) {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+            this.stopIntervalls();
+            this.audioManager.stopSound("backgroundMusicSound");
+            this.audioManager.stopSound("chickenBackgroundSound");
             if (this.endScreen.lostGame) {
                 this.endScreen.show("lose");
+                if (!this.gameEnded) {
+                    this.audioManager.playSound("lostGameSound")  
+                }
             } else if (this.endScreen.wonGame) {
                 this.endScreen.show("win");
             }
             this.addObjectToMap(this.endScreen);
-            this.audioManager.stopSound("chickenBackgroundSound");
-            this.audioManager.stopSound("backgroundMusicSound");
+            this.gameEnded = true;
         }
 
         let self = this;
