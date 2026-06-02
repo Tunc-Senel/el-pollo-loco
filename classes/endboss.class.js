@@ -125,11 +125,10 @@ class Endboss extends MovableObject {
     }
 
     jump() {
-        this.speedY = 25;
+        this.speedY = 22.5;
     }
 
     bossHit() {
-        this.energy -= 20;
         this.attackOnCooldown = false;
         this.hasJumpedToAttack = false;
         this.attackStarted = false;
