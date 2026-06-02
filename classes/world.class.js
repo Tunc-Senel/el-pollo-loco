@@ -357,6 +357,7 @@ class World {
             this.level.endboss.speed = 0;
             this.level.endboss.otherDirection = false;
             this.triggerEarthquake(800, 20);
+            this.audioManager.playSound("earthquakeSound");
 
             setTimeout(() => {
                 if (this.level.endboss.state === 'pause_after_intro_jump') {
@@ -517,6 +518,7 @@ class World {
             endboss.speed = 0;
             endboss.state = 'attack_pause';
             this.triggerEarthquake(800, 18);
+            this.audioManager.playSound("earthquakeSound");
         }
     }
 
