@@ -365,7 +365,7 @@ class World {
             setTimeout(() => {
                 if (this.level.endboss.state === 'pause_after_intro_jump') {
                     this.level.endboss.state = 'walking_to_fight_position';
-                    this.level.endboss.speed = 2.5;
+                    this.level.endboss.speed = 5;
                 }
             }, 800);
         }
@@ -389,7 +389,7 @@ class World {
             this.audioManager.playSound("endbossAlertSound");
             setTimeout(() => {
                 this.level.endboss.state = 'fighting';
-                this.level.endboss.speed = 1.5;
+                this.level.endboss.speed = 5;
                 this.character.inputDisabled = false;
             }, 1000);
             
@@ -457,7 +457,7 @@ class World {
         const endbossCenter = endboss.x + endboss.width / 2;
         const characterCenter = this.character.x + this.character.width / 2;
 
-        endboss.speed = 1.8;
+        endboss.speed = 5;
 
         if (endbossCenter > characterCenter + 20) {
             endboss.moveLeft();
@@ -538,7 +538,7 @@ class World {
         setTimeout(() => {
             if (endboss.state === 'attack_pause') {
                 endboss.state = 'fighting';
-                endboss.speed = 1.5;
+                endboss.speed = 5;
                 endboss.attackOnCooldown = false;
                 endboss.hasJumpedToAttack = false;
                 endboss.attackStarted = false;
