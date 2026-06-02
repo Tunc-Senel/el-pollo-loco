@@ -3,7 +3,6 @@ class Character extends MovableObject {
     firstStandingTime = null;
     hasStompedEnemyInThisJump = false;
     hasStompedEndbossInThisJump = false;
-    inputDisabled = false;
     lockCameraOnBoss = false;
     energy = 100;
     x = 150;
@@ -158,7 +157,7 @@ class Character extends MovableObject {
                     }
                     this.playAnimationOnce(this.IMAGES_DEAD);
                 } else if (this.inputDisabled) {
-                    return;
+                    this.playAnimationOnce(this.IMAGES_STANDING);
                 } else if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround() && !this.characterHurt) {
                     this.playAnimation(this.IMAGES_WALKING);
                 } else if (this.isAboveGround() && !this.characterHurt) {

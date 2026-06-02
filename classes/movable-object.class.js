@@ -8,6 +8,8 @@ class MovableObject extends DrawableObject {
     accelaration = 0.9;
     lastHit = 0;
     intervalIds = [];
+    inputDisabled = false;
+    freezeGravity = false;
 
     playAnimation(images) {
         this.currentImage = this.currentImage % images.length;
@@ -38,6 +40,9 @@ class MovableObject extends DrawableObject {
     applyGravity() {
         this.intervalIds.push(
             setInterval( () => {
+                if (this.freezeGravity) {
+                    return;
+                }
                 if (this.isAboveGround() || this.speedY > 0) {    
                     this.y -= this.speedY;
                     this.speedY -= this.accelaration;

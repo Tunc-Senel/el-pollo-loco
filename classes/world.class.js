@@ -25,6 +25,7 @@ class World {
     gameEnded = false;
     characterDeathStarted = false;
     endbossDeathStarted = false;
+    throwDisabled = false;
 
     constructor(canvas, keyboard, gameState, audioManager) {
         this.ctx = canvas.getContext('2d');
@@ -253,7 +254,10 @@ class World {
         });
     }
 
-    checkThrowObjects() {   
+    checkThrowObjects() {
+        if (this.throwDisabled) {
+            return;
+        }
         if (this.keyboard.F && this.canThrow) {
             this.canThrow = false;
             this.bottleBar.setPercentage(this.bottleBar.percentage -= 20);
@@ -305,9 +309,16 @@ class World {
         if (!this.bossTriggered && this.character.x >= 3200) {
             this.bossTriggered = true
             this.character.inputDisabled = true;
+            this.throwDisabled = true;
+            this.character.freezeGravity = true;
             this.character.lockCameraOnBoss = true;
             this.level.levelStartX = 3100;
             this.level.endboss.state = 'camera_to_boss';
+
+            setTimeout(() => {
+                this.character.speedY = 0;
+                this.character.freezeGravity = false;
+            }, 2000);
         }
     }
 
@@ -391,6 +402,7 @@ class World {
                 this.level.endboss.state = 'fighting';
                 this.level.endboss.speed = 5;
                 this.character.inputDisabled = false;
+                this.throwDisabled = false;
             }, 1000);
             
         }
