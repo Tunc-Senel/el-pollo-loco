@@ -24,6 +24,7 @@ class World {
     intervalIds = [];
     gameEnded = false;
     characterDeathStarted = false;
+    endbossDeathStarted = false;
 
     constructor(canvas, keyboard, gameState, audioManager) {
         this.ctx = canvas.getContext('2d');
@@ -179,6 +180,7 @@ class World {
                 this.checkEndbossBottleCollisions();
                 this.checkEndbossStomp();
                 this.checkEndbossCollision();
+                this.checkEndbossDeath();
             }, 1000 / 60)
         );
     }
@@ -332,6 +334,7 @@ class World {
             this.level.endboss.state = 'alert';
             this.level.endboss.alertStart = Date.now();
             this.level.endboss.speed = 0;
+            this.audioManager.playSound("endbossAlertSound");
         }
     }
 
@@ -552,7 +555,12 @@ class World {
                 this.endbossHealthBar.setPercentage(this.level.endboss.energy);
                 this.audioManager.stopSound("throwBottleSound");
                 this.audioManager.playSound("smashBottleSound");
-            }
+                this.audioManager.playSound("endbossHurtSound");
+            } else if (this.level.endboss.state == 'dead') {
+                setTimeout(() => {
+                    this.world.endScreen.wonGame = true;
+                }, 1000);
+        }
         });
     }
 
@@ -569,7 +577,12 @@ class World {
             this.level.endboss.bossHit();
             this.endbossHealthBar.setPercentage(this.level.endboss.energy);
             this.character.firstStandingTime = null;
-        } 
+            this.audioManager.playSound("endbossHurtSound");
+        } else if (this.level.endboss.state == 'dead') {
+            setTimeout(() => {
+                this.world.endScreen.wonGame = true;
+            }, 1000);
+        }
         if (!this.character.isAboveGround()) {
             this.character.hasStompedEndbossInThisJump = false;
         }
@@ -586,6 +599,19 @@ class World {
             this.character.hit();
             this.audioManager.playSound("characterHurtSound");
             this.healthBar.setPercentage(this.character.energy);
+        }
+    }
+
+    checkEndbossDeath() {
+        const endboss = this.level.endboss;
+
+        if (endboss.state === 'dead' && !this.endbossDeathStarted) {
+            this.endbossDeathStarted = true;
+            this.audioManager.playSound("endbossDieSound");
+
+            setTimeout(() => {
+                this.endScreen.wonGame = true;
+            }, 1000);
         }
     }
 

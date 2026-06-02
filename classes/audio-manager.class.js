@@ -16,7 +16,10 @@ class AudioManager {
         backgroundMusicSound: new Audio("assets/audio/mexican-background-music.mp3"),
         lostGameSound: new Audio("assets/audio/lost-game.mp3"),
         characterDieSound: new Audio("assets/audio/character-die.mp3"),
-        earthquakeSound: new Audio("assets/audio/earthquake-sound.mp3")
+        earthquakeSound: new Audio("assets/audio/earthquake-sound.mp3"),
+        endbossAlertSound: new Audio("assets/audio/endboss-alert-sound.mp3"),
+        endbossHurtSound: new Audio("assets/audio/endboss-hurt-sound.mp3"),
+        endbossDieSound: new Audio("assets/audio/endboss-die-sound.mp3")
     }
 
     playLoopSound(sound) {

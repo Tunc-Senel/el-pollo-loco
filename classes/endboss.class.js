@@ -136,7 +136,6 @@ class Endboss extends MovableObject {
 
         if (this.energy <= 0) {
             this.state = 'dead';
-            this.world.endScreen.wonGame = true;
             return;
         }
 
