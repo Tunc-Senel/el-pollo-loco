@@ -76,10 +76,10 @@ class MovableObject extends DrawableObject {
         this.speedY = 12.5;
     }
 
-    hit() {
+    hit(damage = 5) {
         if (!this.isHurt()) {
             this.firstStandingTime = null;
-            this.energy -= 10;
+            this.energy -= damage;
             if (this.energy <= 0) {
                 this.energy = 0;
             } else {

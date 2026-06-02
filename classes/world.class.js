@@ -552,7 +552,6 @@ class World {
         this.throwableObjects.forEach((bottle) => {
             if (this.level.endboss.state !== 'dead' && bottle.isColliding(this.level.endboss) && !bottle.objectHit) {
                 this.level.endboss.bossHit();
-                this.level.endboss.energy -= 20;
                 bottle.objectHit = true;
                 this.endbossHealthBar.setPercentage(this.level.endboss.energy);
                 this.audioManager.stopSound("throwBottleSound");
@@ -603,7 +602,7 @@ class World {
             !this.character.isDead() &&
             this.character.isColliding(this.level.endboss)
         ) {
-            this.character.hit();
+            this.character.hit(10);
             this.audioManager.playSound("characterHurtSound");
             this.healthBar.setPercentage(this.character.energy);
         }

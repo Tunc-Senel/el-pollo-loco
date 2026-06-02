@@ -128,7 +128,8 @@ class Endboss extends MovableObject {
         this.speedY = 22.5;
     }
 
-    bossHit() {
+    bossHit(damage = 10) {
+        this.energy -= damage;
         this.attackOnCooldown = false;
         this.hasJumpedToAttack = false;
         this.attackStarted = false;
