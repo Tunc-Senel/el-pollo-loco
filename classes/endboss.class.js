@@ -114,7 +114,11 @@ class Endboss extends MovableObject {
                 } else if (this.state === 'hurt') {
                     this.playAnimation(this.IMAGES_HURT);
                 } else if (this.state === 'dead') {
-                    this.playAnimation(this.IMAGES_DEAD);
+                    if (!this.onceAnimationStarted) {
+                        this.onceAnimationIndex = 0;
+                        this.onceAnimationStarted = true;
+                    }
+                    this.playAnimationOnce(this.IMAGES_DEAD);
                 }
             }, 200)
         );

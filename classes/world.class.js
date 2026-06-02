@@ -581,7 +581,7 @@ class World {
         } else if (this.level.endboss.state == 'dead') {
             setTimeout(() => {
                 this.world.endScreen.wonGame = true;
-            }, 1000);
+            }, 1500);
         }
         if (!this.character.isAboveGround()) {
             this.character.hasStompedEndbossInThisJump = false;
@@ -611,7 +611,7 @@ class World {
 
             setTimeout(() => {
                 this.endScreen.wonGame = true;
-            }, 1000);
+            }, 1500);
         }
     }
 
