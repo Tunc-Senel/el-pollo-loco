@@ -386,6 +386,7 @@ class World {
             this.level.endboss.state = 'short_pause_after_intro';
             this.level.endboss.speed = 0;
             this.level.endboss.otherDirection = false;
+            this.audioManager.playSound("endbossAlertSound");
             setTimeout(() => {
                 this.level.endboss.state = 'fighting';
                 this.level.endboss.speed = 1.5;
@@ -555,7 +556,9 @@ class World {
                 this.endbossHealthBar.setPercentage(this.level.endboss.energy);
                 this.audioManager.stopSound("throwBottleSound");
                 this.audioManager.playSound("smashBottleSound");
-                this.audioManager.playSound("endbossHurtSound");
+                if (this.level.endboss.state !== 'dead') {
+                    this.audioManager.playSound("endbossHurtSound");
+                }
             } else if (this.level.endboss.state == 'dead') {
                 setTimeout(() => {
                     this.world.endScreen.wonGame = true;
@@ -577,7 +580,9 @@ class World {
             this.level.endboss.bossHit();
             this.endbossHealthBar.setPercentage(this.level.endboss.energy);
             this.character.firstStandingTime = null;
-            this.audioManager.playSound("endbossHurtSound");
+            if (this.level.endboss.state !== 'dead') {
+                this.audioManager.playSound("endbossHurtSound");
+            }
         } else if (this.level.endboss.state == 'dead') {
             setTimeout(() => {
                 this.world.endScreen.wonGame = true;
