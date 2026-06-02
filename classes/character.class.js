@@ -78,8 +78,7 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/5_dead/D-53.png",
         "assets/img/2_character_pepe/5_dead/D-54.png",
         "assets/img/2_character_pepe/5_dead/D-55.png",
-        "assets/img/2_character_pepe/5_dead/D-56.png",
-        "assets/img/2_character_pepe/5_dead/D-57.png"
+        "assets/img/2_character_pepe/5_dead/D-56.png"
     ]
 
     constructor() {
@@ -99,7 +98,7 @@ class Character extends MovableObject {
 
         this.intervalIds.push(
             setInterval(() => {
-                if (this.inputDisabled) {
+                if (this.inputDisabled || this.isDead()) {
                     return;
                 }
                 if (this.firstStandingTime === null) {
@@ -152,17 +151,20 @@ class Character extends MovableObject {
 
         this.intervalIds.push(
             setInterval(() => {
-                if (this.inputDisabled) {
+                if (this.isDead()) {
+                    if (!this.onceAnimationStarted) {
+                        this.onceAnimationIndex  = 0;
+                        this.onceAnimationStarted = true;
+                    }
+                    this.playAnimationOnce(this.IMAGES_DEAD);
+                } else if (this.inputDisabled) {
                     return;
-                }
-                else if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround() && !this.characterHurt) {
+                } else if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround() && !this.characterHurt) {
                     this.playAnimation(this.IMAGES_WALKING);
                 } else if (this.isAboveGround() && !this.characterHurt) {
                     this.playAnimation(this.IMAGES_JUMPING);
                 } else if (this.isHurt()) {
                     this.playAnimation(this.IMAGES_HURT);
-                } else if (this.isDead()) {
-                    this.playAnimation(this.IMAGES_DEAD);
                 }
             }, 75)
         );

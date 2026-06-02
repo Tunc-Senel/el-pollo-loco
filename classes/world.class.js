@@ -219,7 +219,7 @@ class World {
                     this.audioManager.playSound("characterDieSound");
                     setTimeout(() => {
                         this.endScreen.lostGame = true;
-                    }, 750);
+                    }, 1000);
                 }
             }
             return true;

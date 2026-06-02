@@ -1,5 +1,7 @@
 class MovableObject extends DrawableObject {
     currentImage = 0;
+    onceAnimationIndex = 0;
+    onceAnimationStarted  = false;
     otherDirection = false; 
     speed = 0;
     speedY = 0;
@@ -12,6 +14,17 @@ class MovableObject extends DrawableObject {
         let path = images[this.currentImage];
         this.img = this.imageCache[path];
         this.currentImage++;
+    }
+
+    playAnimationOnce(images) {
+        if (this.onceAnimationIndex < images.length) {
+            let path = images[this.onceAnimationIndex];
+            this.img = this.imageCache[path];
+            this.onceAnimationIndex++;
+        } else {
+            let path = images[images.length - 1];
+            this.img = this.imageCache[path];
+        }
     }
 
     moveRight() {
@@ -93,7 +106,7 @@ class MovableObject extends DrawableObject {
     }
 
     isDead() {
-        return this.energy == 0;
+        return this.energy <= 0;
     }
 
     startIntervalls() {
