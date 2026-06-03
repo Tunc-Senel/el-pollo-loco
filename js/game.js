@@ -1,33 +1,57 @@
 let canvas;
 let world;
-let keyboard = new Keyboard();
-let gameState = new GameState();
+let keyboard;
+let gameState;
 let isPaused = false;
-let audioManager = new AudioManager();
+let audioManager;
 
 function init() {
     document.querySelector(".start-button").addEventListener("click", () => {
-        canvas = document.getElementById("canvas");
-        world = new World(canvas, keyboard, gameState, audioManager);
-        gameState.isGameStarted = true;
-        document.getElementById("startScreen").style.display = "none";
-        document.getElementById("gameControls").classList.remove("d-none");
+        startGame();
+    });
+
+    document.getElementById("restartButton").addEventListener("click", () => {
+        restartGame();
     });
 
     document.getElementById("pauseButton").addEventListener("click", () => {
-        isPaused = !isPaused;
-
-        if (isPaused) {
-            world.stopIntervalls();
-        } else {
-            world.startIntervalls();
-        }
-    
+        togglePause();
     });
+}
+
+function startGame() {
+    canvas = document.getElementById("canvas");
+    keyboard = new Keyboard();
+    gameState = new GameState();
+    audioManager = new AudioManager();
+    world = new World(canvas, keyboard, gameState, audioManager);
+
+    gameState.isGameStarted = true;
+    isPaused = false;
+
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("endScreenOverlay").classList.add("d-none");
+    document.getElementById("gameControls").classList.remove("d-none");
+}
+
+function restartGame() {
+    location.reload();
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+
+    if (isPaused) {
+        world.stopIntervalls();
+    } else {
+        world.startIntervalls();
+    }
 }
 
 
 document.addEventListener("keydown", (event) => {
+    if (!keyboard) return;
+
     if (event.key == "ArrowUp") {
         keyboard.UP = true;
     } 
@@ -46,6 +70,8 @@ document.addEventListener("keydown", (event) => {
 })
 
 document.addEventListener("keyup", (event) => {
+    if (!keyboard) return;
+    
     if (event.key == "ArrowUp") {
         keyboard.UP = false;
     }

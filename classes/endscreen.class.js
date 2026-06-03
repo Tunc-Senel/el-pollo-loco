@@ -1,4 +1,4 @@
-class Endscreen extends DrawableObject {
+class Endscreen{
     lostGame = false;
     wonGame = false;
     currentScreen = null;
@@ -8,19 +8,19 @@ class Endscreen extends DrawableObject {
         lose: 'assets/img/You won, you lost/Game Over.png'
     };
 
-    constructor() {
-        super();
-        this.x = 0;
-        this.y = 0;
-        this.width = 720;
-        this.height = 480;
-    }
-
-    show(type) { 
-        if (this.currentScreen !== type) {
-            this.currentScreen = type;
-            this.loadImage(this.IMAGES[type]);
+    show(type) {
+        if (this.currentScreen === type) {
+            return;
         }
+
+        this.currentScreen = type;
+
+        const overlay = document.getElementById("endScreenOverlay");
+        const image = document.getElementById("endScreenImage");
+
+        image.src = this.IMAGES[type];
+        overlay.classList.remove("d-none");
+        document.getElementById("gameControls").classList.add("d-none");
     }
 
 }

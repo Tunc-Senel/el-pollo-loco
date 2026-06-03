@@ -102,17 +102,20 @@ class World {
             this.stopIntervalls();
             this.audioManager.stopSound("backgroundMusicSound");
             this.audioManager.stopSound("chickenBackgroundSound");
+           
             if (this.endScreen.lostGame) {
                 this.endScreen.show("lose");
+
                 if (!this.gameEnded) {
-                    this.audioManager.playSound("lostGameSound")  
+                    this.audioManager.playSound("lostGameSound");
                 }
             } else if (this.endScreen.wonGame) {
                 this.endScreen.show("win");
             }
-            this.addObjectToMap(this.endScreen);
+
             this.gameEnded = true;
-        }
+            
+            }
 
         let self = this;
         requestAnimationFrame(function () {
@@ -689,5 +692,19 @@ class World {
         this.throwableObjects.forEach((object) => {
             object.stopIntervalls();
         });
-    } 
+    }
+
+    showHtmlEndScreen(type) {
+        const overlay = document.getElementById("endScreenOverlay");
+        const image = document.getElementById("endScreenImage");
+
+        if (type === "lose") {
+            image.src = "assets/img/You won, you lost/Game Over.png";
+        } else if (type === "win") {
+            image.src = "assets/img/You won, you lost/You won A.png";
+        }
+
+        overlay.classList.remove("d-none");
+        document.getElementById("gameControls").classList.add("d-none");
+    }
 }
