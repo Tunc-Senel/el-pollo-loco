@@ -6,10 +6,9 @@ let isPaused = false;
 let audioManager = new AudioManager();
 
 function init() {
-    canvas = document.getElementById("canvas");
-    world = new World(canvas, keyboard, gameState, audioManager);
-
     document.querySelector(".start-button").addEventListener("click", () => {
+        canvas = document.getElementById("canvas");
+        world = new World(canvas, keyboard, gameState, audioManager);
         gameState.isGameStarted = true;
         document.getElementById("startScreen").style.display = "none";
         document.getElementById("gameControls").classList.remove("d-none");
