@@ -94,8 +94,6 @@ class Character extends MovableObject {
     }
 
     animate() {
-        this.otherDirection = false;
-
         this.intervalIds.push(
             setInterval(() => {
                 if (this.inputDisabled || this.isDead()) {

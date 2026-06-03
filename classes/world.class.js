@@ -263,7 +263,8 @@ class World {
         if (this.keyboard.F && this.canThrow) {
             this.canThrow = false;
             this.bottleBar.setPercentage(this.bottleBar.percentage -= 20);
-            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 50, this.character.otherDirection);
+            let throwDirection = this.character.otherDirection ? 'left' : 'right';
+            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 50, throwDirection);
             this.throwableObjects.push(bottle);
             this.character.firstStandingTime = null;
             this.audioManager.playSound("throwBottleSound");
