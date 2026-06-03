@@ -80,8 +80,8 @@ canvas {
 }
 
 .start-button {
-    margin: 20px 0 0;
-    padding: 8px 32px;
+    margin: 64px 0 0;
+    padding: 4px 24px;
     font-family: 'Rye', cursive;
     font-size: 32px;
     color: #5a2600;
