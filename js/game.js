@@ -7,16 +7,44 @@ let audioManager;
 
 function init() {
     document.querySelector(".start-button").addEventListener("click", () => {
-        startGame();
+        showLoadingAndStartGame();
     });
 
     document.getElementById("restartButton").addEventListener("click", () => {
-        restartGame();
+        showLoadingAndStartGame();
     });
 
     document.getElementById("pauseButton").addEventListener("click", () => {
         togglePause();
     });
+}
+
+function showLoadingAndStartGame() {
+    const loadingScreen = document.getElementById("loadingScreen");
+    const loadingText = document.getElementById("loadingText");
+
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("endScreenOverlay").classList.add("d-none");
+
+    loadingScreen.classList.remove("d-none");
+    loadingText.innerText = "Loading... 0%";
+
+    let progress = 0;
+
+    const loadingInterval = setInterval(() => {
+        progress += 4;
+        loadingText.innerText = `Loading... ${progress}%`;
+
+        if (progress >= 100) {
+            clearInterval(loadingInterval);
+
+            startGame();
+
+            setTimeout(() => {
+                loadingScreen.classList.add("d-none");
+            }, 200);
+        }
+    }, 30);
 }
 
 function startGame() {
@@ -28,10 +56,6 @@ function startGame() {
 
     gameState.isGameStarted = true;
     isPaused = false;
-
-    document.getElementById("startScreen").style.display = "none";
-    document.getElementById("endScreenOverlay").classList.add("d-none");
-    document.getElementById("gameControls").classList.remove("d-none");
 }
 
 function restartGame() {
@@ -47,7 +71,6 @@ function togglePause() {
         world.startIntervalls();
     }
 }
-
 
 document.addEventListener("keydown", (event) => {
     if (!keyboard) return;
