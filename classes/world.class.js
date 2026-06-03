@@ -642,6 +642,10 @@ class World {
     }
 
     startIntervalls() {
+        if (this.character.standingTimeBeforePause !== null) {
+            this.character.firstStandingTime = Date.now() - this.character.standingTimeBeforePause;
+        }
+        
         this.checkCollisions();
 
         this.character.startIntervalls();
@@ -661,6 +665,12 @@ class World {
     }
 
     stopIntervalls() {
+        if (Date.now() - this.character.firstStandingTime < 8000) {
+            this.character.standingTimeBeforePause = Date.now() - this.character.firstStandingTime;
+            this.character.firstStandingTime = Date.now() + 100000000
+        } else {
+            this.character.standingTimeBeforePause = null
+        }
         this.intervalIds.forEach((intervalId) => clearInterval(intervalId));
         this.intervalIds = [];
 
