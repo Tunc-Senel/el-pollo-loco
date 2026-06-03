@@ -35,7 +35,7 @@ function startGame() {
 }
 
 function restartGame() {
-    location.reload();
+    startGame();
 }
 
 function togglePause() {
