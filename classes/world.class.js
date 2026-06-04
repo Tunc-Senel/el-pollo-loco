@@ -106,12 +106,11 @@ class World {
            
             if (this.endScreen.lostGame) {
                 this.endScreen.show("lose");
-
-                if (!this.gameEnded) {
-                    this.audioManager.playSound("lostGameSound");
-                }
             } else if (this.endScreen.wonGame) {
                 this.endScreen.show("win");
+            }
+            if (!this.gameEnded) {
+                this.endScreen.lostGame ? this.audioManager.playSound("lostGameSound") : this.audioManager.playSound("wonGameSound") ;
             }
 
             this.gameEnded = true;

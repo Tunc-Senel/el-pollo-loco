@@ -15,6 +15,7 @@ class AudioManager {
         chickenBackgroundSound: new Audio("assets/audio/chicken-background-noises.mp3"),
         backgroundMusicSound: new Audio("assets/audio/mexican-background-music.mp3"),
         lostGameSound: new Audio("assets/audio/lost-game.mp3"),
+        wonGameSound: new Audio("assets/audio/won-game.mp3"),
         characterDieSound: new Audio("assets/audio/character-die.mp3"),
         earthquakeSound: new Audio("assets/audio/earthquake-sound.mp3"),
         endbossAlertSound: new Audio("assets/audio/endboss-alert-sound.mp3"),
