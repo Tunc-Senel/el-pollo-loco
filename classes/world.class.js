@@ -123,6 +123,22 @@ class World {
         });
     }
 
+    updateCamera() {
+        const leftCameraLimit = -this.level.levelStartX;
+        const rightCameraLimit = -this.level.levelEndX;
+
+        this.camera_x = -this.character.x + 100;
+
+        if (this.camera_x > leftCameraLimit) {
+            this.camera_x = leftCameraLimit;
+        }
+
+        if (this.camera_x < rightCameraLimit) {
+            this.camera_x = rightCameraLimit;
+        }
+    }
+
+
     addBackgroundObjectsToMap(objects) {
         objects.forEach((object) => {
             this.addBackgroundObjectToMap(object);

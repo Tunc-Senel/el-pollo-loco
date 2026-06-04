@@ -5,7 +5,7 @@ class Level {
     coins;
     bottles;
     endboss;
-    levelStartX = 0;
+    levelStartX = -700;
     levelEndX = 3750;
 
     constructor(enemies, backgroundObjects, clouds, coins, bottles, endboss) {

@@ -142,7 +142,7 @@ class Character extends MovableObject {
                     this.world.audioManager.playSound("jumpSound");
                 }
                 if (!this.lockCameraOnBoss) {
-                    this.world.camera_x = -this.x + 100;
+                    this.world.updateCamera();
                 }
             }, 1000 / 60)
         );
