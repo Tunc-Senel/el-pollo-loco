@@ -74,10 +74,10 @@ function createLevel() {
             new Cloud(720*6),
         ],
         [
+            new Coin(-680, 110),
             new Coin(500, 150),
             new Coin(550, 100),
             new Coin(1800, 355),
-            new Coin(2500, 225),
             new Coin(3200, 125)
         ],
         [
