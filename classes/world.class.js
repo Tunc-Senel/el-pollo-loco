@@ -1,5 +1,5 @@
 class World {
-    level = level1;
+    level
     character = new Character();
     canvas;
     gameState;
@@ -28,6 +28,7 @@ class World {
     throwDisabled = false;
 
     constructor(canvas, keyboard, gameState, audioManager) {
+        this.level = createLevel();
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
