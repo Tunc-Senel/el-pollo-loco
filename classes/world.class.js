@@ -26,7 +26,7 @@ class World {
     characterDeathStarted = false;
     endbossDeathStarted = false;
     throwDisabled = false;
-
+    
     constructor(canvas, keyboard, gameState, audioManager) {
         this.level = createLevel();
         this.ctx = canvas.getContext('2d');

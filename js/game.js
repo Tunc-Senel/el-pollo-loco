@@ -7,11 +7,11 @@ let audioManager;
 
 function init() {
     document.querySelector(".start-button").addEventListener("click", () => {
-        showLoadingAndStartGame();
+        showLoadingAndStartGame(false);
     });
 
     document.getElementById("restartButton").addEventListener("click", () => {
-        showLoadingAndStartGame();
+        showLoadingAndStartGame(true);
     });
 
     document.getElementById("pauseButton").addEventListener("click", () => {
@@ -19,7 +19,7 @@ function init() {
     });
 }
 
-function showLoadingAndStartGame() {
+function showLoadingAndStartGame(isRestart = false) {
     const loadingScreen = document.getElementById("loadingScreen");
     const loadingText = document.getElementById("loadingText");
 
@@ -28,6 +28,8 @@ function showLoadingAndStartGame() {
 
     loadingScreen.classList.remove("d-none");
     loadingText.innerText = "Loading... 0%";
+
+    startGame(isRestart);
 
     let progress = 0;
 
@@ -38,21 +40,27 @@ function showLoadingAndStartGame() {
         if (progress >= 100) {
             clearInterval(loadingInterval);
 
-            startGame();
-
             setTimeout(() => {
                 loadingScreen.classList.add("d-none");
             }, 200);
         }
-    }, 30);
+    }, 20);
 }
 
-function startGame() {
+function startGame(isRestart = false) {
     canvas = document.getElementById("canvas");
     keyboard = new Keyboard();
     gameState = new GameState();
     audioManager = new AudioManager();
     world = new World(canvas, keyboard, gameState, audioManager);
+
+    if (isRestart) {
+        setTimeout(() => {
+            world.character.y = 220;
+            world.character.speedY = 0;
+        }, 710);
+     
+    }
 
     gameState.isGameStarted = true;
     isPaused = false;
