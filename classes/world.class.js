@@ -637,8 +637,16 @@ class World {
             this.character.isColliding(this.level.endboss)
         ) {
             this.character.hit(10);
-            this.audioManager.playSound("characterHurtSound");
             this.healthBar.setPercentage(this.character.energy);
+            if (this.character.energy > 0) {
+                this.audioManager.playSound("characterHurtSound");
+            } else if (this.character.energy <= 0 && !this.characterDeathStarted) {
+                this.characterDeathStarted = true;
+                this.audioManager.playSound("characterDieSound");
+                setTimeout(() => {
+                    this.endScreen.lostGame = true;
+                }, 1000);
+            }
         }
     }
 

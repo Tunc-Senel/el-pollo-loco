@@ -78,7 +78,7 @@ class MovableObject extends DrawableObject {
     }
 
     jumpAfterEndbossStomp() {
-        this.speedY = 12.5;
+        this.speedY = 15;
     }
 
     hit(damage = 5) {
@@ -92,7 +92,7 @@ class MovableObject extends DrawableObject {
                 this.lastHit = new Date().getTime()
                 const intervalId = setInterval( () => {
                         if (this.x > this.world.level.levelStartX) {
-                            this.x -= 3;
+                            this.x -= 4;
                         }
                     }, 1000 / 60);
                 this.intervalIds.push(intervalId);
