@@ -92,14 +92,14 @@ class MovableObject extends DrawableObject {
                 this.lastHit = new Date().getTime()
                 const intervalId = setInterval( () => {
                         if (this.x > this.world.level.levelStartX) {
-                            this.x -= 1;
+                            this.x -= 3;
                         }
                     }, 1000 / 60);
                 this.intervalIds.push(intervalId);
                 setTimeout(() => {
                     clearInterval(intervalId);
                     this.characterHurt = false;
-                }, 1000);
+                }, 500);
             }
         }
     }
