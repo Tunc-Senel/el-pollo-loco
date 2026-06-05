@@ -28,6 +28,15 @@ function init() {
         document.getElementById("settingsOverlay").classList.add("d-none")
     })
 
+    document.querySelectorAll(".settings-tab").forEach((tabButtonClicked) => {
+        tabButtonClicked.addEventListener("click", () => {
+            document.querySelectorAll(".settings-tab").forEach((tabButton) => {
+                tabButton.classList.remove("active");
+            })
+            tabButtonClicked.classList.add("active");
+        })
+    })
+
     document.getElementById("pauseButton").addEventListener("click", () => {
         if (!gameState.isGameStarted) {
             showLoadingAndStartGame(false);
