@@ -130,6 +130,11 @@ canvas {
     pointer-events: none;
 }
 
+.control-button .play-btn {
+    padding-left: 2px;
+}
+
+
 .loading-screen {
     position: absolute;
     inset: 0;

@@ -717,18 +717,4 @@ class World {
             object.stopIntervalls();
         });
     }
-
-    showHtmlEndScreen(type) {
-        const overlay = document.getElementById("endScreenOverlay");
-        const image = document.getElementById("endScreenImage");
-
-        if (type === "lose") {
-            image.src = "assets/img/You won, you lost/Game Over.png";
-        } else if (type === "win") {
-            image.src = "assets/img/You won, you lost/You won A.png";
-        }
-
-        overlay.classList.remove("d-none");
-        document.getElementById("gameControls").classList.add("d-none");
-    }
 }

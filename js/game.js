@@ -1,9 +1,8 @@
-let canvas;
+let canvas = document.getElementById("canvas");
+let keyboard = new Keyboard();
+let gameState = new GameState();
 let world;
-let keyboard;
-let gameState;
-let isPaused = false;
-let audioManager;
+let audioManager = new AudioManager();
 
 function init() {
     document.querySelector(".start-button").addEventListener("click", () => {
@@ -15,7 +14,13 @@ function init() {
     });
 
     document.getElementById("pauseButton").addEventListener("click", () => {
-        togglePause();
+        if (!gameState.isGameStarted) {
+            showLoadingAndStartGame(false);
+        } else if (gameState.isGameStarted) {
+            togglePause();
+            document.getElementById("pause-btn").classList.toggle("d-none");
+            document.getElementById("play-btn").classList.toggle("d-none");
+        }
     });
 }
 
@@ -48,10 +53,7 @@ function showLoadingAndStartGame(isRestart = false) {
 }
 
 function startGame(isRestart = false) {
-    canvas = document.getElementById("canvas");
-    keyboard = new Keyboard();
-    gameState = new GameState();
-    audioManager = new AudioManager();
+
     world = new World(canvas, keyboard, gameState, audioManager);
 
     if (isRestart) {
