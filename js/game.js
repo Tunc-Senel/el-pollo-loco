@@ -33,10 +33,20 @@ function init() {
             document.querySelectorAll(".settings-tab").forEach((tabButton) => {
                 tabButton.classList.remove("active");
             })
+
+            document.querySelectorAll(".settings-panel").forEach((panel) => {
+                panel.classList.remove("active");
+            });
+
             tabButtonClicked.classList.add("active");
-            
-        })
-    })
+
+            const selectedTab = tabButtonClicked.dataset.settingsTab;
+
+            document
+                .querySelector(`[data-settings-panel="${selectedTab}"]`)
+                .classList.add("active");     
+        });
+    });
 
     document.getElementById("pauseButton").addEventListener("click", () => {
         if (!gameState.isGameStarted) {

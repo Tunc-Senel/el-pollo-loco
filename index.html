@@ -24,7 +24,7 @@
         <div class="game-container">
             <canvas id="canvas" width="720" height="480"></canvas>
 
-            <div id="settingsOverlay" class="settings-overlay">
+            <div id="settingsOverlay" class="settings-overlay d-none">
                 <section class="settings-window">
                     <header class="settings-header">
                         <h2>Settings</h2>
@@ -39,23 +39,24 @@
                     </header>
 
                     <nav class="settings-tabs" aria-label="Settings tabs">
-                        <button class="settings-tab active">
+                        <button class="settings-tab active" data-settings-tab="sounds">
                             Sounds
                         </button>
 
-                        <button class="settings-tab">
+                        <button class="settings-tab" data-settings-tab="keys">
                             Key Assignment
                         </button>
 
-                        <button class="settings-tab">
+                        <button class="settings-tab" data-settings-tab="story">
                             Story
                         </button>
                     </nav>
 
                     <div class="settings-content">
                         <section
-                            id="sounds-settings"
-                            class="settings-panel"
+                            id="soundsSettings"
+                            class="settings-panel active"
+                            data-settings-panel="sounds"
                         >
                             <div class="sound-setting-row">
                                 <div>
@@ -83,8 +84,8 @@
                         </section>
 
                         <section
-                            id="keys-settings"
-                            class="settings-panel active"
+                            class="settings-panel"
+                            data-settings-panel="keys"
                         >
                             <div class="key-assignment-table">
                                 <div class="key-table-row key-table-header">
@@ -117,10 +118,34 @@
                                     <kbd>—</kbd>
                                 </div>
 
-                                </div>
                             </div>
                         </section>
 
+                        <section
+                            class="settings-panel"
+                            data-settings-panel="story"
+                        >
+                            <div class="story-card">
+                                <h4>Save the Desert!</h4>
+
+                                <p>
+                                    Pepe travels through the desert when a group of wild
+                                    chickens suddenly blocks his way.
+                                </p>
+
+                                <p>
+                                    Collect coins and salsa bottles, defeat the chickens
+                                    and prepare yourself for the final battle against the
+                                    giant endboss.
+                                </p>
+
+                                <p>
+                                    Reach the end of the level and defeat the endboss to
+                                    win the game.
+                                </p>
+                            </div>
+                        </section>
+                    </div>
                 </section>
             </div>
 
