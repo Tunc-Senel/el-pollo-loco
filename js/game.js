@@ -13,6 +13,11 @@ function init() {
         showLoadingAndStartGame(true);
     });
 
+    document.getElementById("soundButton").addEventListener("click", () => {
+        document.getElementById("sound-on-btn").classList.toggle("d-none");
+        document.getElementById("sound-off-btn").classList.toggle("d-none");
+    })
+
     document.getElementById("pauseButton").addEventListener("click", () => {
         if (!gameState.isGameStarted) {
             showLoadingAndStartGame(false);

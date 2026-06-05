@@ -130,10 +130,14 @@ canvas {
     pointer-events: none;
 }
 
-.control-button .play-btn {
+.control-button .sound-off-btn {
+    transform: scale(1.25);
     padding-left: 2px;
 }
 
+.control-button .play-btn {
+    padding-left: 2px;
+}
 
 .loading-screen {
     position: absolute;
