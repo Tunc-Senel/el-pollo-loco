@@ -263,6 +263,72 @@ canvas {
     background-color: #f6ae50;
 }
 
+.settings-content {
+    height: calc(100% - 112px);
+    padding: 18px 22px 18px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.settings-panel {
+    display: none;
+}
+
+.settings-panel.active {
+    display: block;
+}
+
+.sound-setting-row {
+    min-height: 76px;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border: 2px solid #7a3500;
+    border-radius: 14px;
+    background-color: rgba(255, 220, 145, 0.42);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.sound-setting-row h4 {
+    margin: 0 0 6px;
+    font-size: 19px;
+}
+
+.sound-setting-row p {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+}
+
+.toggle-selection {
+    display: flex;
+    flex-shrink: 0;
+    border: 3px solid #5a2600;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.toggle-option {
+    min-width: 56px;
+    padding: 8px 10px;
+    border: none;
+    background-color: #ffd47a;
+    color: #5a2600;
+    font-family: 'Rye', cursive;
+    cursor: pointer;
+}
+
+.toggle-option.active {
+    background-color: #e78320;
+    color: #fff3cf;
+}
+
+
+
+
 @keyframes loadingRotate {
     from {
         transform: rotate(0deg);
