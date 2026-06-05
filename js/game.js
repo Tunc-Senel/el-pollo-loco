@@ -34,6 +34,7 @@ function init() {
                 tabButton.classList.remove("active");
             })
             tabButtonClicked.classList.add("active");
+            
         })
     })
 

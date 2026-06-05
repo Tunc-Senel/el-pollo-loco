@@ -326,6 +326,55 @@ canvas {
     color: #fff3cf;
 }
 
+.key-assignment-table {
+    border: 3px solid #5a2600;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.key-table-row {
+    min-height: 42px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    align-items: center;
+    border-bottom: 2px solid #9c4b13;
+}
+
+.key-table-row:last-child {
+    border-bottom: none;
+}
+
+.key-table-row > * {
+    padding: 8px 12px;
+}
+
+.key-table-header {
+    justify-content: center;
+    background-color: #dc7e21;
+    color: #fff2cf;
+}
+
+.key-table-header span {
+    text-align: center;
+    font-size: 15px;
+}
+
+.key-table-header span:first-of-type {
+    text-align: left;
+}
+
+.key-table-row kbd {
+    margin: 5px 8px;
+    padding: 6px 8px;
+    border: 2px solid #5a2600;
+    border-radius: 7px;
+    background-color: #ffe1a0;
+    color: #421c00;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 3px 0 #8b410d;
+}
 
 
 
