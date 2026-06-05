@@ -1,4 +1,5 @@
 class AudioManager {
+    isMuted = false;
 
     AUDIOS = {
         collectCoinSound: new Audio("assets/audio/collect-coin.mp3"),
@@ -44,5 +45,13 @@ class AudioManager {
 
         audio.pause();
         audio.currentTime = 0;
+    }
+
+    toggleMute() {
+        this.isMuted = !this.isMuted;
+
+        Object.values(this.AUDIOS).forEach((sound) => {
+            sound.muted = this.isMuted;
+        });
     }
 }
