@@ -20,6 +20,14 @@ function init() {
         document.getElementById("sound-off-btn").classList.toggle("d-none");
     })
 
+    document.getElementById("settingsButton").addEventListener("click", () => {
+        document.getElementById("settingsOverlay").classList.remove("d-none")
+    })
+
+    document.getElementById("closeSettingsButton").addEventListener("click", () => {
+        document.getElementById("settingsOverlay").classList.add("d-none")
+    })
+
     document.getElementById("pauseButton").addEventListener("click", () => {
         if (!gameState.isGameStarted) {
             showLoadingAndStartGame(false);
@@ -29,6 +37,8 @@ function init() {
             document.getElementById("play-btn").classList.toggle("d-none");
         }
     });
+
+    
 }
 
 function showLoadingAndStartGame(isRestart = false) {

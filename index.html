@@ -24,6 +24,22 @@
         <div class="game-container">
             <canvas id="canvas" width="720" height="480"></canvas>
 
+            <div id="settingsOverlay" class="settings-overlay">
+                <section class="settings-window">
+                    <header class="settings-header">
+                        <h2>Settings</h2>
+
+                        <button
+                            id="closeSettingsButton"
+                            class="settings-close-button"
+                            aria-label="Close settings"
+                        >
+                            ×
+                        </button>
+                    </header>
+                </section>
+            </div>
+
             <div id="gameControls" class="game-controls">
                 <button class="control-button" id="soundButton">
                     <img id="sound-on-btn" src="assets/img/favicons/sound-on.png" alt="Sound On">
