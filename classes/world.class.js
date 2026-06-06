@@ -598,7 +598,7 @@ class World {
                 }
             } else if (this.level.endboss.state == 'dead') {
                 setTimeout(() => {
-                    this.world.endScreen.wonGame = true;
+                    this.endScreen.wonGame = true;
                 }, 1000);
         }
         });
@@ -623,7 +623,7 @@ class World {
             }
         } else if (this.level.endboss.state == 'dead') {
             setTimeout(() => {
-                this.world.endScreen.wonGame = true;
+                this.endScreen.wonGame = true;
             }, 1500);
         }
         if (!this.character.isAboveGround()) {
