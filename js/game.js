@@ -11,6 +11,7 @@ function init() {
 
     document.getElementById("restartButton").addEventListener("click", () => {
         showLoadingAndStartGame(true);
+        document.getElementById("gameControls").classList.remove("d-none");
     });
 
     document.getElementById("soundButton").addEventListener("click", () => {
@@ -151,10 +152,6 @@ function startGame(isRestart = false) {
 
     gameState.isGameStarted = true;
     isPaused = false;
-}
-
-function restartGame() {
-    startGame();
 }
 
 function togglePause() {
