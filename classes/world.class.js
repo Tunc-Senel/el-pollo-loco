@@ -282,7 +282,7 @@ class World {
         if (this.throwDisabled) {
             return;
         }
-        if (this.keyboard.F && this.canThrow) {
+        if (this.keyboard.F && this.canThrow && this.bottleBar.percentage > 0) {
             this.canThrow = false;
             this.bottleBar.setPercentage(this.bottleBar.percentage -= 20);
             let throwDirection = this.character.otherDirection ? 'left' : 'right';
