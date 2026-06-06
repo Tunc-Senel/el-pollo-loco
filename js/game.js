@@ -33,7 +33,6 @@ function init() {
 
     document.addEventListener("click", function (event) {
         const overlay = document.getElementById("settingsOverlay");
-        const settingsButton = document.getElementById("settingsButton");
 
         if (overlay.classList.contains("d-none")) {
             return;
@@ -42,7 +41,7 @@ function init() {
             overlay.classList.add("d-none");
             return;
         }
-        if (!overlay.contains(event.target) && !settingsButton.contains(event.target)) {
+        if (!overlay.contains(event.target) && !document.getElementById("settingsButton").contains(event.target)) {
             overlay.classList.add("d-none");
         }
     });
@@ -93,6 +92,10 @@ function init() {
             document.getElementById("pause-btn").classList.toggle("d-none");
             document.getElementById("play-btn").classList.toggle("d-none");
         }
+    });
+
+    document.getElementById("fullscreenButton").addEventListener("click", () => {
+        toggleFullscreen(document.getElementById("game-container"));
     });
 
     
@@ -178,6 +181,36 @@ function syncSoundIcon() {
     const allMuted = audioManager.soundEffectsIsMuted && audioManager.musicIsMuted;
     document.getElementById("sound-on-btn").classList.toggle("d-none", allMuted);
     document.getElementById("sound-off-btn").classList.toggle("d-none", !allMuted);
+}
+
+function toggleFullscreen(elem) {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        openFullscreen(elem);
+    } else {
+        closeFullscreen();
+    }
+}
+
+/* View in fullscreen */
+function openFullscreen(elem) {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  }
+}
+
+/* Close fullscreen */
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
 }
 
 document.addEventListener("keydown", (event) => {
