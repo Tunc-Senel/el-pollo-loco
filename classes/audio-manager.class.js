@@ -1,5 +1,7 @@
 class AudioManager {
     isMuted = false;
+    soundEffectsIsMuted = false;
+    musicIsMuted = false;
 
     AUDIOS = {
         collectCoinSound: new Audio("assets/audio/collect-coin.mp3"),
@@ -47,11 +49,32 @@ class AudioManager {
         audio.currentTime = 0;
     }
 
-    toggleMute() {
-        this.isMuted = !this.isMuted;
-
-        Object.values(this.AUDIOS).forEach((sound) => {
-            sound.muted = this.isMuted;
-        });
+    toggleMute(sounds) {
+        if (sounds == "both") {
+            this.isMuted = !this.isMuted;
+            this.soundEffectsIsMuted = this.isMuted;
+            this.musicIsMuted = this.isMuted;
+            Object.values(this.AUDIOS).forEach((sound) => {
+                sound.muted = this.isMuted;
+            });
+        } else if (sounds == "sound effects") {
+            this.soundEffectsIsMuted = !this.soundEffectsIsMuted;
+            for (const [key, value] of Object.entries(this.AUDIOS)) {
+                if (key === "backgroundMusicSound") {
+                    continue;
+                } else {
+                    value.muted = this.soundEffectsIsMuted;
+                }
+            }
+        } else if (sounds == "music") {
+            this.musicIsMuted = !this.musicIsMuted;
+            for (const [key, value] of Object.entries(this.AUDIOS)) {
+                if (key === "backgroundMusicSound") {
+                    value.muted = this.musicIsMuted;
+                } else {
+                    continue;
+                }
+            }
+        }
     }
 }

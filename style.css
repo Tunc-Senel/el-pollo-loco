@@ -311,7 +311,8 @@ canvas {
     overflow: hidden;
 }
 
-.toggle-option {
+.sfx-toggle-option,
+.music-toggle-option {
     min-width: 56px;
     padding: 8px 10px;
     border: none;
@@ -321,7 +322,8 @@ canvas {
     cursor: pointer;
 }
 
-.toggle-option.active {
+.sfx-toggle-option.active,
+.music-toggle-option.active {
     background-color: #e78320;
     color: #fff3cf;
 }

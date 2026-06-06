@@ -14,10 +14,12 @@ function init() {
     });
 
     document.getElementById("soundButton").addEventListener("click", () => {
-        audioManager.toggleMute();
+        audioManager.toggleMute("both");
 
         document.getElementById("sound-on-btn").classList.toggle("d-none");
         document.getElementById("sound-off-btn").classList.toggle("d-none");
+
+        syncSoundToggleButtons();
     })
 
     document.getElementById("settingsButton").addEventListener("click", () => {
@@ -47,6 +49,52 @@ function init() {
                 .classList.add("active");     
         });
     });
+
+    document.querySelectorAll(".sfx-toggle-option").forEach((sfxButtonClicked) => {
+        sfxButtonClicked.addEventListener("click", () => {
+            document.querySelectorAll(".sfx-toggle-option").forEach((sfxButton) => {
+                sfxButton.classList.remove("active")
+             });
+        sfxButtonClicked.classList.add("active");
+
+        const selectedButton = sfxButtonClicked.dataset.toggleSfxButton;
+        console.log(selectedButton, audioManager.soundEffectsIsMuted);
+           
+        if ((selectedButton == "on" && audioManager.soundEffectsIsMuted === true) 
+            || (selectedButton == "off" && audioManager.soundEffectsIsMuted === false)) {
+            audioManager.toggleMute("sound effects");
+            if ((audioManager.musicIsMuted && audioManager.soundEffectsIsMuted)
+                ||(!audioManager.musicIsMuted && !audioManager.soundEffectsIsMuted)) {
+                document.getElementById("sound-on-btn").classList.toggle("d-none");
+                document.getElementById("sound-off-btn").classList.toggle("d-none");
+            }
+        }
+
+        });
+    });
+
+    document.querySelectorAll(".music-toggle-option").forEach((musicButtonClicked) => {
+        musicButtonClicked.addEventListener("click", () => {
+            document.querySelectorAll(".music-toggle-option").forEach((musicButton) => {
+                musicButton.classList.remove("active")
+             });
+        musicButtonClicked.classList.add("active");
+
+        const selectedButton = musicButtonClicked.dataset.toggleMusicButton;
+        console.log(selectedButton, audioManager.musicIsMuted);
+
+        if ((selectedButton == "on" && audioManager.musicIsMuted === true) 
+            || (selectedButton == "off" && audioManager.musicIsMuted === false)) {
+            audioManager.toggleMute("music");
+            if ((audioManager.musicIsMuted && audioManager.soundEffectsIsMuted)
+                ||(!audioManager.musicIsMuted && !audioManager.soundEffectsIsMuted)) {
+                document.getElementById("sound-on-btn").classList.toggle("d-none");
+                document.getElementById("sound-off-btn").classList.toggle("d-none");
+            }
+        }
+        });
+    });
+
 
     document.getElementById("pauseButton").addEventListener("click", () => {
         if (!gameState.isGameStarted) {
@@ -117,6 +165,22 @@ function togglePause() {
     } else {
         world.startIntervalls();
     }
+}
+
+function syncSoundToggleButtons() {
+    updateToggleGroup(".sfx-toggle-option", audioManager.soundEffectsIsMuted);
+    updateToggleGroup(".music-toggle-option", audioManager.musicIsMuted);
+}
+
+function updateToggleGroup(selector, isMuted) {
+    const activeState = isMuted ? "off" : "on";
+
+    document.querySelectorAll(selector).forEach((button) => {
+        const isActive = button.dataset.toggleSfxButton === activeState
+            || button.dataset.toggleMusicButton === activeState;
+
+        button.classList.toggle("active", isActive);
+    });
 }
 
 document.addEventListener("keydown", (event) => {
