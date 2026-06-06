@@ -26,6 +26,7 @@ class World {
     characterDeathStarted = false;
     endbossDeathStarted = false;
     throwDisabled = false;
+    stopped = false;
     
     constructor(canvas, keyboard, gameState, audioManager) {
         this.level = createLevel();
@@ -118,9 +119,11 @@ class World {
             }
 
         let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
+        if (!this.stopped) {
+            requestAnimationFrame(function () {
+                self.draw();
+            });
+        }
     }
 
     updateCamera() {

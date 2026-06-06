@@ -49,6 +49,12 @@ class AudioManager {
         audio.currentTime = 0;
     }
 
+    stopAllSounds() {
+        Object.keys(this.AUDIOS).forEach((sound) => {
+            this.stopSound(sound);
+        });
+    }
+
     toggleMute(sounds) {
         if (sounds == "both") {
             this.isMuted = !this.isMuted;

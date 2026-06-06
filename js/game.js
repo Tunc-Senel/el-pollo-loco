@@ -140,6 +140,12 @@ function showLoadingAndStartGame(isRestart = false) {
 
 function startGame(isRestart = false) {
 
+    if (world) {
+        world.stopped = true;
+        world.stopIntervalls();
+    }
+    audioManager.stopAllSounds();
+
     world = new World(canvas, keyboard, gameState, audioManager);
 
     if (isRestart) {
