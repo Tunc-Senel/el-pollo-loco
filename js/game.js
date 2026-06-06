@@ -31,6 +31,22 @@ function init() {
         document.getElementById("settingsOverlay").classList.add("d-none")
     })
 
+    document.addEventListener("click", function (event) {
+        const overlay = document.getElementById("settingsOverlay");
+        const settingsButton = document.getElementById("settingsButton");
+
+        if (overlay.classList.contains("d-none")) {
+            return;
+        }
+        if (event.target === overlay) {
+            overlay.classList.add("d-none");
+            return;
+        }
+        if (!overlay.contains(event.target) && !settingsButton.contains(event.target)) {
+            overlay.classList.add("d-none");
+        }
+    });
+
     document.querySelectorAll(".settings-tab").forEach((tabButtonClicked) => {
         tabButtonClicked.addEventListener("click", () => {
             document.querySelectorAll(".settings-tab").forEach((tabButton) => {
