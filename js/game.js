@@ -53,49 +53,21 @@ function init() {
 
     document.querySelectorAll(".sfx-toggle-option").forEach((sfxButtonClicked) => {
         sfxButtonClicked.addEventListener("click", () => {
-            document.querySelectorAll(".sfx-toggle-option").forEach((sfxButton) => {
-                sfxButton.classList.remove("active")
-             });
-        sfxButtonClicked.classList.add("active");
-
-        const selectedButton = sfxButtonClicked.dataset.toggleSfxButton;
-        console.log(selectedButton, audioManager.soundEffectsIsMuted);
-           
-        if ((selectedButton == "on" && audioManager.soundEffectsIsMuted === true) 
-            || (selectedButton == "off" && audioManager.soundEffectsIsMuted === false)) {
-            audioManager.toggleMute("sound effects");
-            if ((audioManager.musicIsMuted && audioManager.soundEffectsIsMuted)
-                ||(!audioManager.musicIsMuted && !audioManager.soundEffectsIsMuted)) {
-                document.getElementById("sound-on-btn").classList.toggle("d-none");
-                document.getElementById("sound-off-btn").classList.toggle("d-none");
-            }
-        }
-
+            const shouldMute = sfxButtonClicked.dataset.toggleSfxButton === "off";
+            audioManager.setMuteState("sound effects", shouldMute);
+            syncSoundToggleButtons();
+            syncSoundIcon();
         });
     });
 
     document.querySelectorAll(".music-toggle-option").forEach((musicButtonClicked) => {
         musicButtonClicked.addEventListener("click", () => {
-            document.querySelectorAll(".music-toggle-option").forEach((musicButton) => {
-                musicButton.classList.remove("active")
-             });
-        musicButtonClicked.classList.add("active");
-
-        const selectedButton = musicButtonClicked.dataset.toggleMusicButton;
-        console.log(selectedButton, audioManager.musicIsMuted);
-
-        if ((selectedButton == "on" && audioManager.musicIsMuted === true) 
-            || (selectedButton == "off" && audioManager.musicIsMuted === false)) {
-            audioManager.toggleMute("music");
-            if ((audioManager.musicIsMuted && audioManager.soundEffectsIsMuted)
-                ||(!audioManager.musicIsMuted && !audioManager.soundEffectsIsMuted)) {
-                document.getElementById("sound-on-btn").classList.toggle("d-none");
-                document.getElementById("sound-off-btn").classList.toggle("d-none");
-            }
-        }
+            const shouldMute = musicButtonClicked.dataset.toggleMusicButton === "off";
+            audioManager.setMuteState("music", shouldMute);
+            syncSoundToggleButtons();
+            syncSoundIcon();
         });
     });
-
 
     document.getElementById("pauseButton").addEventListener("click", () => {
         if (!gameState.isGameStarted) {
@@ -184,6 +156,12 @@ function updateToggleGroup(selector, isMuted) {
 
         button.classList.toggle("active", isActive);
     });
+}
+
+function syncSoundIcon() {
+    const allMuted = audioManager.soundEffectsIsMuted && audioManager.musicIsMuted;
+    document.getElementById("sound-on-btn").classList.toggle("d-none", allMuted);
+    document.getElementById("sound-off-btn").classList.toggle("d-none", !allMuted);
 }
 
 document.addEventListener("keydown", (event) => {

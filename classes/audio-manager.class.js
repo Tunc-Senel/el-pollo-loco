@@ -55,6 +55,26 @@ class AudioManager {
         });
     }
 
+    setMuteState(sounds, shouldMute) {
+        if (sounds == "sound effects") {
+            this.soundEffectsIsMuted = shouldMute;
+        } else if (sounds == "music") {
+            this.musicIsMuted = shouldMute;
+        }
+        this.isMuted = this.soundEffectsIsMuted && this.musicIsMuted;
+        this.applyMuteState();
+    }
+
+    applyMuteState() {
+        for (const [key, value] of Object.entries(this.AUDIOS)) {
+            if (key === "backgroundMusicSound") {
+                value.muted = this.musicIsMuted;
+            } else {
+                value.muted = this.soundEffectsIsMuted;
+            }
+        }
+    }
+
     toggleMute(sounds) {
         if (sounds == "both") {
             this.isMuted = !this.isMuted;
