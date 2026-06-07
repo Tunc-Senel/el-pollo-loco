@@ -98,7 +98,7 @@ function init() {
         toggleFullscreen(document.getElementById("game-container"));
     });
 
-    
+    bindTouchControls();
 }
 
 function showLoadingAndStartGame(isRestart = false) {
@@ -149,6 +149,27 @@ function startGame(isRestart = false) {
 
     gameState.isGameStarted = true;
     isPaused = false;
+}
+
+function bindTouchControls() {
+    bindTouchButton("touchLeft", "LEFT");
+    bindTouchButton("touchRight", "RIGHT");
+    bindTouchButton("touchJump", "UP");
+    bindTouchButton("touchThrow", "F");
+}
+
+function bindTouchButton(buttonId, key) {
+    const button = document.getElementById(buttonId);
+
+    button.addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        keyboard[key] = true;
+    });
+
+    button.addEventListener("touchend", (event) => {
+        event.preventDefault();
+        keyboard[key] = false;
+    });
 }
 
 function togglePause() {
