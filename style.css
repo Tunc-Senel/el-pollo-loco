@@ -520,3 +520,35 @@ canvas {
         height: 100vh;
     }
 }
+
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 64px;
+}
+
+.footer-link {
+    font-family: 'Rye', cursive;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: #5a2600;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    color: #421c00;
+}
+
+.footer-divider {
+    width: 3px;
+    height: 22px;
+    background-color: #5a2600;
+}
