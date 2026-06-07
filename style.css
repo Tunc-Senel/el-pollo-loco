@@ -501,6 +501,13 @@ canvas {
         align-items: center;
         padding: 0;
     }
+
+    .mobile-button img {
+        width: 26px;
+        height: 26px;
+        object-fit: contain;
+        pointer-events: none;
+    }
 }
 
 @media (max-height: 600px) {
