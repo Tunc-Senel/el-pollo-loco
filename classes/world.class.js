@@ -13,10 +13,7 @@ class World {
     throwableObjects = [];
     canThrow = true;
     endbossHealthBar = new EndbossHealthBar();
-    bossTriggered = false;
-    bossIntroCameraTargetX = -3800;
-    bossFightCameraTargetX = -3100;
-    endbossFightTargetX = 3500;
+    endbossFight;
     shakeIntensity = 0;
     shakeDuration = 0;
     shakeStart = 0;
@@ -24,7 +21,6 @@ class World {
     intervalIds = [];
     gameEnded = false;
     characterDeathStarted = false;
-    endbossDeathStarted = false;
     throwDisabled = false;
     stopped = false;
     
@@ -35,6 +31,7 @@ class World {
         this.keyboard = keyboard;
         this.gameState = gameState;
         this.audioManager = audioManager;
+        this.endbossFight = new EndbossFight(this);
         this.draw();
         this.setworld();
         this.checkCollisions();
@@ -79,7 +76,7 @@ class World {
             this.addObjectToMap(this.character);
             this.addObjectsToMap(this.level.enemies);
 
-            if (this.bossTriggered && this.level.endboss.state !== 'camera_to_boss') {
+            if (this.endbossFight.bossTriggered && this.level.endboss.state !== 'camera_to_boss') {
                 this.addObjectToMap(this.level.endboss);
             }
 
@@ -192,18 +189,18 @@ class World {
                 this.checkCoinCollisions();
                 this.checkBottleCollisions();
                 this.checkThrowObjects();
-                this.checkBossTrigger();
-                this.checkBossIntroProgress();
-                this.checkBossAlertProgress();
-                this.checkBossFightPositioning();
-                this.checkBossAttack();
-                this.moveEndbossToAttack();
-                this.finishEndbossAttack();
-                this.checkEndbossAttackPause();
-                this.checkEndbossBottleCollisions();
-                this.checkEndbossStomp();
-                this.checkEndbossCollision();
-                this.checkEndbossDeath();
+                this.endbossFight.checkBossTrigger();
+                this.endbossFight.checkBossIntroProgress();
+                this.endbossFight.checkBossAlertProgress();
+                this.endbossFight.checkBossFightPositioning();
+                this.endbossFight.checkBossAttack();
+                this.endbossFight.moveEndbossToAttack();
+                this.endbossFight.finishEndbossAttack();
+                this.endbossFight.checkEndbossAttackPause();
+                this.endbossFight.checkEndbossBottleCollisions();
+                this.endbossFight.checkEndbossStomp();
+                this.endbossFight.checkEndbossCollision();
+                this.endbossFight.checkEndbossDeath();
             }, 1000 / 60)
         );
     }
@@ -328,342 +325,6 @@ class World {
             this.canThrow = true;
         }
       
-    }
-
-    checkBossTrigger() {
-        if (!this.bossTriggered && this.character.x >= 3200) {
-            this.bossTriggered = true
-            this.character.inputDisabled = true;
-            this.throwDisabled = true;
-            this.character.freezeGravity = true;
-            this.character.lockCameraOnBoss = true;
-            this.level.levelStartX = 3100;
-            this.level.endboss.state = 'camera_to_boss';
-
-            setTimeout(() => {
-                this.character.speedY = 0;
-                this.character.freezeGravity = false;
-            }, 2000);
-        }
-    }
-
-    startBossIntro() {
-        let visibleRight = -this.camera_x + 720;
-
-        this.level.endboss.x = visibleRight + 100;
-        this.level.endboss.walkTarget = visibleRight - this.level.endboss.width - 30;
-        this.level.endboss.state = 'walking_in';
-        this.level.endboss.speed = 2;
-    }
-
-    checkBossIntroProgress() {
-        if (this.level.endboss.state === 'camera_to_boss') {
-            this.moveCameraToBossIntro();
-            return;
-        }
-
-        if (
-            this.level.endboss.state === 'walking_in' &&
-            this.level.endboss.x <= this.level.endboss.walkTarget
-        ) {
-            this.level.endboss.x = this.level.endboss.walkTarget;
-            this.level.endboss.state = 'alert';
-            this.level.endboss.alertStart = Date.now();
-            this.level.endboss.speed = 0;
-            this.audioManager.playSound("endbossAlertSound");
-        }
-    }
-
-        moveCameraToBossIntro() {
-        if (this.camera_x > this.bossIntroCameraTargetX) {
-            this.camera_x -= 4;
-        } else {
-            this.camera_x = this.bossIntroCameraTargetX;
-            this.startBossIntro();
-        }
-    }
-
-    checkBossAlertProgress() {
-        if (this.level.endboss.state === 'alert' && Date.now() - this.level.endboss.alertStart >= 1500) {
-            this.endbossHealthBar.endbossAppeared = true;
-            this.level.endboss.centerTarget = -this.camera_x + 260;
-            this.level.endboss.state = 'jumping_to_center';
-            this.level.endboss.jump();
-        }
-
-        if (this.level.endboss.state === 'jumping_to_center' && !this.level.endboss.isAboveGround() && this.level.endboss.speedY <= 0) {
-            this.level.endboss.state = 'pause_after_intro_jump';
-            this.level.endboss.speed = 0;
-            this.level.endboss.otherDirection = false;
-            this.triggerEarthquake(800, 20);
-            this.audioManager.playSound("earthquakeSound");
-
-            setTimeout(() => {
-                if (this.level.endboss.state === 'pause_after_intro_jump') {
-                    this.level.endboss.state = 'walking_to_fight_position';
-                    this.level.endboss.speed = 5;
-                }
-            }, 800);
-        }
-    }
-
-    checkBossFightPositioning() {
-        if (this.level.endboss.state !== 'walking_to_fight_position') {
-            return;
-        }
-
-        this.moveCameraToFightArea();
-        this.moveEndbossToFightPosition();
-
-        if (
-            this.camera_x === this.bossFightCameraTargetX &&
-            this.level.endboss.x === this.endbossFightTargetX
-        ) {
-            this.level.endboss.state = 'short_pause_after_intro';
-            this.level.endboss.speed = 0;
-            this.level.endboss.otherDirection = false;
-            this.audioManager.playSound("endbossAlertSound");
-            setTimeout(() => {
-                this.level.endboss.state = 'fighting';
-                this.level.endboss.speed = 5;
-                this.character.inputDisabled = false;
-                this.throwDisabled = false;
-            }, 1000);
-            
-        }
-    }
-
-    moveCameraToFightArea() {
-        if (this.camera_x < this.bossFightCameraTargetX) {
-            this.camera_x += 4;
-        } else {
-            this.camera_x = this.bossFightCameraTargetX;
-        }
-    }
-
-    moveEndbossToFightPosition() {
-        if (this.level.endboss.x > this.endbossFightTargetX) {
-            this.level.endboss.moveLeft();
-            this.level.endboss.otherDirection = false;
-        } else if (this.level.endboss.x < this.endbossFightTargetX) {
-            this.level.endboss.moveRight();
-            this.level.endboss.otherDirection = true;
-        } else {
-            this.level.endboss.x = this.endbossFightTargetX;
-        }
-
-        if (Math.abs(this.level.endboss.x - this.endbossFightTargetX) < this.level.endboss.speed) {
-            this.level.endboss.x = this.endbossFightTargetX;
-        }
-    }
-
-    checkBossAttack() {
-        const endboss = this.level.endboss;
-
-        if (endboss.state !== 'fighting' || endboss.attackOnCooldown || endboss.isAboveGround()) {
-            return;
-        }
-
-        this.faceEndbossToCharacter();
-
-        const endbossCenter = endboss.x + endboss.width / 2;
-        const characterCenter = this.character.x + this.character.width / 2;
-        const distanceToCharacter = Math.abs(endbossCenter - characterCenter);
-
-        if (distanceToCharacter > 180) {
-            this.moveEndbossTowardsCharacter();
-            return;
-        }
-
-        this.startEndbossJumpAttack();
-    }
-
-    faceEndbossToCharacter() {
-        const endboss = this.level.endboss;
-
-        if (endboss.x > this.character.x) {
-            endboss.otherDirection = false;
-        } else {
-            endboss.otherDirection = true;
-        }
-    }
-
-    moveEndbossTowardsCharacter() {
-        const endboss = this.level.endboss;
-
-        const endbossCenter = endboss.x + endboss.width / 2;
-        const characterCenter = this.character.x + this.character.width / 2;
-
-        endboss.speed = 5;
-
-        if (endbossCenter > characterCenter + 20) {
-            endboss.moveLeft();
-            endboss.otherDirection = false;
-        } else if (endbossCenter < characterCenter - 20) {
-            endboss.moveRight();
-            endboss.otherDirection = true;
-        }
-    }
-
-    startEndbossJumpAttack() {
-        const endboss = this.level.endboss;
-
-        endboss.attackOnCooldown = true;
-        endboss.hasJumpedToAttack = true;
-        endboss.attackStarted = true;
-        endboss.attackLanded = false;
-        endboss.attackTargetX = this.character.x + this.character.width / 2;
-        endboss.state = 'attacking';
-        endboss.speed = 0;
-        endboss.jump();
-    }
-
-    moveEndbossToAttack() {
-        const endboss = this.level.endboss;
-
-        if (!endboss.hasJumpedToAttack) {
-            return;
-        }
-
-        if (endboss.isAboveGround()) {
-            this.moveEndbossInAirToAttackTarget();
-        }
-    }
-
-    moveEndbossInAirToAttackTarget() {
-        const endboss = this.level.endboss;
-        const endbossCenter = endboss.x + endboss.width / 2;
-        const characterCenterAtJumpStart = endboss.attackTargetX;
-
-        if (endbossCenter < characterCenterAtJumpStart - 4) {
-            endboss.x += 4;
-            endboss.otherDirection = true;
-        } else if (endbossCenter > characterCenterAtJumpStart + 4) {
-            endboss.x -= 4;
-            endboss.otherDirection = false;
-        }
-    }
-
-    finishEndbossAttack() {
-        const endboss = this.level.endboss;
-
-        if (
-            endboss.state === 'attacking' &&
-            endboss.hasJumpedToAttack &&
-            !endboss.isAboveGround() &&
-            endboss.speedY <= 0 &&
-            !endboss.attackLanded
-        ) {
-            endboss.attackLanded = true;
-            endboss.attackPauseStarted = false;
-            endboss.speed = 0;
-            endboss.state = 'attack_pause';
-            this.triggerEarthquake(800, 18);
-            this.audioManager.playSound("earthquakeSound");
-        }
-    }
-
-    checkEndbossAttackPause() {
-        const endboss = this.level.endboss;
-
-        if (endboss.state !== 'attack_pause' || endboss.attackPauseStarted) {
-            return;
-        }
-
-        endboss.attackPauseStarted = true;
-
-        setTimeout(() => {
-            if (endboss.state === 'attack_pause') {
-                endboss.state = 'fighting';
-                endboss.speed = 5;
-                endboss.attackOnCooldown = false;
-                endboss.hasJumpedToAttack = false;
-                endboss.attackStarted = false;
-                endboss.attackLanded = false;
-                endboss.attackPauseStarted = false;
-            }
-        }, 1500);
-    }
-
-    checkEndbossBottleCollisions() {
-        this.throwableObjects.forEach((bottle) => {
-            if (this.level.endboss.state !== 'dead' && bottle.isColliding(this.level.endboss) && !bottle.objectHit) {
-                this.level.endboss.bossHit();
-                bottle.objectHit = true;
-                this.endbossHealthBar.setPercentage(this.level.endboss.energy);
-                this.audioManager.stopSound("throwBottleSound");
-                this.audioManager.playSound("smashBottleSound");
-                if (this.level.endboss.state !== 'dead') {
-                    this.audioManager.playSound("endbossHurtSound");
-                }
-            } else if (this.level.endboss.state == 'dead') {
-                setTimeout(() => {
-                    this.endScreen.wonGame = true;
-                }, 1000);
-        }
-        });
-    }
-
-    checkEndbossStomp() {
-        if (this.level.endboss.state !== 'dead' &&
-            this.level.endboss.state !== 'hidden' &&
-            !this.character.hasStompedEndbossInThisJump &&
-            this.character.isStompingEnemy(this.level.endboss) &&
-            this.character.speedY < 0
-        ) {
-            this.character.jumpAfterEndbossStomp();
-            this.audioManager.playSound("stompSound");
-            this.character.hasStompedEndbossInThisJump = true;
-            this.level.endboss.bossHit();
-            this.level.endboss.energy -= 10;
-            this.endbossHealthBar.setPercentage(this.level.endboss.energy);
-            this.character.firstStandingTime = null;
-            if (this.level.endboss.state !== 'dead') {
-                this.audioManager.playSound("endbossHurtSound");
-            }
-        } else if (this.level.endboss.state == 'dead') {
-            setTimeout(() => {
-                this.endScreen.wonGame = true;
-            }, 1500);
-        }
-        if (!this.character.isAboveGround()) {
-            this.character.hasStompedEndbossInThisJump = false;
-        }
-    }
-
-    checkEndbossCollision() {
-        if (
-            this.level.endboss.state !== 'dead' &&
-            this.level.endboss.state !== 'hidden' &&
-            !this.character.isHurt() &&
-            !this.character.isDead() &&
-            this.character.isColliding(this.level.endboss)
-        ) {
-            this.character.hit(10);
-            this.healthBar.setPercentage(this.character.energy);
-            if (this.character.energy > 0) {
-                this.audioManager.playSound("characterHurtSound");
-            } else if (this.character.energy <= 0 && !this.characterDeathStarted) {
-                this.characterDeathStarted = true;
-                this.audioManager.playSound("characterDieSound");
-                setTimeout(() => {
-                    this.endScreen.lostGame = true;
-                }, 1000);
-            }
-        }
-    }
-
-    checkEndbossDeath() {
-        const endboss = this.level.endboss;
-
-        if (endboss.state === 'dead' && !this.endbossDeathStarted) {
-            this.endbossDeathStarted = true;
-            this.audioManager.playSound("endbossDieSound");
-
-            setTimeout(() => {
-                this.endScreen.wonGame = true;
-            }, 1500);
-        }
     }
 
     triggerEarthquake(duration, intensity) {
