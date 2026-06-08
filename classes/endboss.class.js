@@ -79,49 +79,47 @@ class Endboss extends MovableObject {
     }
 
     animate() {
-        this.intervalIds.push(
-            setInterval(() => {
-                if (this.state === 'walking_in') {
-                    this.moveLeft();
-                } else if (this.state === 'jumping_to_center' && this.isAboveGround()) {
-                    if (this.x > this.centerTarget) {
-                        this.x -= 4;
-                    }
-                }
-            }, 1000 / 60)
-        );
+        this.intervalIds.push(setInterval(() => this.updateMovement(), 1000 / 60));
+        this.intervalIds.push(setInterval(() => this.updateStateAnimation(), 200));
+    }
 
-        this.intervalIds.push(
-            setInterval(() => {
-                if (this.state === 'walking_in') {
-                    this.playAnimation(this.IMAGES_WALKING);
-                } else if (this.state === 'alert') {
-                    this.playAnimation(this.IMAGES_ALERT);
-                } else if (this.state === 'jumping_to_center') {
-                    this.playAnimation(this.IMAGES_WALKING);
-                } else if (this.state === 'pause_after_intro_jump') {
-                    this.playAnimation(this.IMAGES_ALERT);
-                } else if (this.state === 'walking_to_fight_position') {
-                    this.playAnimation(this.IMAGES_WALKING);
-                } else if (this.state === 'short_pause_after_intro') {
-                    this.playAnimation(this.IMAGES_ALERT);
-                } else if (this.state === 'fighting') {
-                    this.playAnimation(this.IMAGES_WALKING);
-                } else if (this.state === 'attacking') {
-                    this.playAnimation(this.IMAGES_ATTACK);
-                } else if (this.state === 'attack_pause') {
-                    this.playAnimation(this.IMAGES_ALERT);
-                } else if (this.state === 'hurt') {
-                    this.playAnimation(this.IMAGES_HURT);
-                } else if (this.state === 'dead') {
-                    if (!this.onceAnimationStarted) {
-                        this.onceAnimationIndex = 0;
-                        this.onceAnimationStarted = true;
-                    }
-                    this.playAnimationOnce(this.IMAGES_DEAD);
-                }
-            }, 200)
-        );
+    updateMovement() {
+        if (this.state === 'walking_in') {
+            this.moveLeft();
+        } else if (this.state === 'jumping_to_center' && this.isAboveGround()) {
+            if (this.x > this.centerTarget) {
+                this.x -= 4;
+            }
+        }
+    }
+
+    updateStateAnimation() {
+        if (this.state === 'dead') {
+            this.playDeathAnimation();
+            return;
+        }
+        const images = this.animationForState();
+        if (images) {
+            this.playAnimation(images);
+        }
+    }
+
+    animationForState() {
+        const walkStates = ['walking_in', 'jumping_to_center', 'walking_to_fight_position', 'fighting'];
+        const alertStates = ['alert', 'pause_after_intro_jump', 'short_pause_after_intro', 'attack_pause'];
+        if (walkStates.includes(this.state)) return this.IMAGES_WALKING;
+        if (alertStates.includes(this.state)) return this.IMAGES_ALERT;
+        if (this.state === 'attacking') return this.IMAGES_ATTACK;
+        if (this.state === 'hurt') return this.IMAGES_HURT;
+        return null;
+    }
+
+    playDeathAnimation() {
+        if (!this.onceAnimationStarted) {
+            this.onceAnimationIndex = 0;
+            this.onceAnimationStarted = true;
+        }
+        this.playAnimationOnce(this.IMAGES_DEAD);
     }
 
     jump() {
@@ -130,24 +128,26 @@ class Endboss extends MovableObject {
 
     bossHit(damage = 10) {
         this.energy -= damage;
-        this.attackOnCooldown = false;
-        this.hasJumpedToAttack = false;
-        this.attackStarted = false;
-        this.attackLanded = false;
-        this.attackPauseStarted = false;
-        this.speed = 0;
+        this.resetAttackState();
         this.state = 'hurt';
-
         if (this.energy <= 0) {
             this.state = 'dead';
             return;
         }
-
         setTimeout(() => {
             if (this.state === 'hurt') {
                 this.state = 'fighting';
                 this.speed = 1.5;
             }
         }, 1000);
+    }
+
+    resetAttackState() {
+        this.attackOnCooldown = false;
+        this.hasJumpedToAttack = false;
+        this.attackStarted = false;
+        this.attackLanded = false;
+        this.attackPauseStarted = false;
+        this.speed = 0;
     }
 }
