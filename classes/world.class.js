@@ -14,16 +14,14 @@ class World {
     canThrow = true;
     endbossHealthBar = new EndbossHealthBar();
     endbossFight;
-    shakeIntensity = 0;
-    shakeDuration = 0;
-    shakeStart = 0;
+    renderer;
     endScreen = new Endscreen();
     intervalIds = [];
     gameEnded = false;
     characterDeathStarted = false;
     throwDisabled = false;
     stopped = false;
-    
+
     constructor(canvas, keyboard, gameState, audioManager) {
         this.level = createLevel();
         this.ctx = canvas.getContext('2d');
@@ -32,6 +30,7 @@ class World {
         this.gameState = gameState;
         this.audioManager = audioManager;
         this.endbossFight = new EndbossFight(this);
+        this.renderer = new Renderer(this);
         this.draw();
         this.setworld();
         this.checkCollisions();
@@ -43,81 +42,7 @@ class World {
     }
 
     draw() {
-        if (!this.endScreen.lostGame && !this.endScreen.wonGame && this.gameState.isGameStarted) {
-            this.renderActiveFrame();
-        }
-        if ((this.endScreen.lostGame || this.endScreen.wonGame) && this.gameState.isGameStarted) {
-            this.handleEndScreen();
-        }
-        let self = this;
-        if (!this.stopped) {
-            requestAnimationFrame(function () {
-                self.draw();
-            });
-        }
-    }
-
-    renderActiveFrame() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.renderScene(this.getShakeOffset());
-        this.renderStatusBars();
-        this.audioManager.playLoopSound("backgroundMusicSound");
-        this.audioManager.playLoopSound("chickenBackgroundSound");
-    }
-
-    getShakeOffset() {
-        if (this.shakeIntensity <= 0) {
-            return { x: 0, y: 0 };
-        }
-        let elapsed = Date.now() - this.shakeStart;
-        if (elapsed >= this.shakeDuration) {
-            this.shakeIntensity = 0;
-            return { x: 0, y: 0 };
-        }
-        let currentIntensity = this.shakeIntensity * (1 - elapsed / this.shakeDuration);
-        return {
-            x: (Math.random() - 0.5) * currentIntensity * 2,
-            y: (Math.random() - 0.5) * currentIntensity * 2
-        };
-    }
-
-    renderScene(shake) {
-        this.ctx.save();
-        this.ctx.translate(shake.x, shake.y);
-        this.addBackgroundObjectsToMap(this.level.backgroundObjects);
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.bottles);
-        this.addObjectToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);
-        if (this.endbossFight.bossTriggered && this.level.endboss.state !== 'camera_to_boss') {
-            this.addObjectToMap(this.level.endboss);
-        }
-        this.addObjectsToMap(this.throwableObjects);
-        this.ctx.translate(-this.camera_x, 0);
-        this.ctx.restore();
-    }
-
-    renderStatusBars() {
-        this.addObjectToMap(this.healthBar);
-        this.addObjectToMap(this.coinBar);
-        this.addObjectToMap(this.bottleBar);
-        if (this.endbossHealthBar.endbossAppeared) {
-            this.addObjectToMap(this.endbossHealthBar);
-        }
-    }
-
-    handleEndScreen() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.stopIntervalls();
-        this.audioManager.stopSound("backgroundMusicSound");
-        this.audioManager.stopSound("chickenBackgroundSound");
-        this.endScreen.show(this.endScreen.lostGame ? "lose" : "win");
-        if (!this.gameEnded) {
-            this.audioManager.playSound(this.endScreen.lostGame ? "lostGameSound" : "wonGameSound");
-        }
-        this.gameEnded = true;
+        this.renderer.draw();
     }
 
     updateCamera() {
@@ -135,50 +60,6 @@ class World {
         }
     }
 
-
-    addBackgroundObjectsToMap(objects) {
-        objects.forEach((object) => {
-            this.addBackgroundObjectToMap(object);
-        });
-    }
-
-    addBackgroundObjectToMap(object) {
-        this.ctx.save();
-        this.ctx.translate(this.camera_x * object.parallaxFactor, 0);
-        this.addObjectToMap(object);
-        this.ctx.restore();
-    }
-
-    addObjectsToMap(objects) {
-        objects.forEach(object =>{
-            this.addObjectToMap(object);
-        }) 
-    }
-
-    addObjectToMap(object) {
-        if(object.otherDirection) {
-           this.flipImage(object);
-        }
-        
-        object.drawObject(this.ctx);
-
-        if (object.otherDirection) {
-            this.flipImageBack(object)
-        }
-    }
-
-    flipImage(object) {
-        this.ctx.save();
-        this.ctx.translate(object.width, 0);
-        this.ctx.scale(-1, 1);
-        object.x = object.x * -1;
-    }
-
-    flipImageBack(object) {
-        object.x = object.x * -1;
-        this.ctx.restore();
-    }
-    
     checkCollisions() {
         this.intervalIds.push(
             setInterval(() => {
@@ -190,7 +71,6 @@ class World {
             }, 1000 / 60)
         );
     }
-    
 
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy, index) => {
@@ -322,12 +202,6 @@ class World {
         } else {
             this.audioManager.playSound("smallChickenDeadSound");
         }
-    }
-
-    triggerEarthquake(duration, intensity) {
-        this.shakeIntensity = intensity;
-        this.shakeDuration = duration;
-        this.shakeStart = Date.now();
     }
 
     startIntervalls() {
