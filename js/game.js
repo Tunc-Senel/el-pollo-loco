@@ -5,100 +5,98 @@ let world;
 let audioManager = new AudioManager();
 
 function init() {
+    initGameButtons();
+    initSoundControls();
+    initSettingsControls();
+    bindTouchControls();
+}
+
+function initGameButtons() {
     document.querySelector(".start-button").addEventListener("click", () => {
         showLoadingAndStartGame(false);
     });
-
     document.getElementById("restartButton").addEventListener("click", () => {
         showLoadingAndStartGame(true);
         document.getElementById("gameControls").classList.remove("d-none");
     });
-
-    document.getElementById("soundButton").addEventListener("click", () => {
-        audioManager.toggleMute();
-
-        document.getElementById("sound-on-btn").classList.toggle("d-none");
-        document.getElementById("sound-off-btn").classList.toggle("d-none");
-
-        syncSoundToggleButtons();
-    })
-
-    document.getElementById("settingsButton").addEventListener("click", () => {
-        document.getElementById("settingsOverlay").classList.remove("d-none")
-    })
-
-    document.getElementById("closeSettingsButton").addEventListener("click", () => {
-        document.getElementById("settingsOverlay").classList.add("d-none")
-    })
-
-    document.addEventListener("click", function (event) {
-        const overlay = document.getElementById("settingsOverlay");
-
-        if (overlay.classList.contains("d-none")) {
-            return;
-        }
-        if (event.target === overlay) {
-            overlay.classList.add("d-none");
-            return;
-        }
-        if (!overlay.contains(event.target) && !document.getElementById("settingsButton").contains(event.target)) {
-            overlay.classList.add("d-none");
-        }
-    });
-
-    document.querySelectorAll(".settings-tab").forEach((tabButtonClicked) => {
-        tabButtonClicked.addEventListener("click", () => {
-            document.querySelectorAll(".settings-tab").forEach((tabButton) => {
-                tabButton.classList.remove("active");
-            })
-
-            document.querySelectorAll(".settings-panel").forEach((panel) => {
-                panel.classList.remove("active");
-            });
-
-            tabButtonClicked.classList.add("active");
-
-            const selectedTab = tabButtonClicked.dataset.settingsTab;
-
-            document
-                .querySelector(`[data-settings-panel="${selectedTab}"]`)
-                .classList.add("active");     
-        });
-    });
-
-    document.querySelectorAll(".sfx-toggle-option").forEach((sfxButtonClicked) => {
-        sfxButtonClicked.addEventListener("click", () => {
-            const shouldMute = sfxButtonClicked.dataset.toggleSfxButton === "off";
-            audioManager.setMuteState("sound effects", shouldMute);
-            syncSoundToggleButtons();
-            syncSoundIcon();
-        });
-    });
-
-    document.querySelectorAll(".music-toggle-option").forEach((musicButtonClicked) => {
-        musicButtonClicked.addEventListener("click", () => {
-            const shouldMute = musicButtonClicked.dataset.toggleMusicButton === "off";
-            audioManager.setMuteState("music", shouldMute);
-            syncSoundToggleButtons();
-            syncSoundIcon();
-        });
-    });
-
-    document.getElementById("pauseButton").addEventListener("click", () => {
-        if (!gameState.isGameStarted) {
-            showLoadingAndStartGame(false);
-        } else if (gameState.isGameStarted) {
-            togglePause();
-            document.getElementById("pause-btn").classList.toggle("d-none");
-            document.getElementById("play-btn").classList.toggle("d-none");
-        }
-    });
-
+    document.getElementById("pauseButton").addEventListener("click", handlePauseButton);
     document.getElementById("fullscreenButton").addEventListener("click", () => {
         toggleFullscreen(document.getElementById("game-container"));
     });
+}
 
-    bindTouchControls();
+function handlePauseButton() {
+    if (!gameState.isGameStarted) {
+        showLoadingAndStartGame(false);
+    } else {
+        togglePause();
+        document.getElementById("pause-btn").classList.toggle("d-none");
+        document.getElementById("play-btn").classList.toggle("d-none");
+    }
+}
+
+function initSoundControls() {
+    document.getElementById("soundButton").addEventListener("click", () => {
+        audioManager.toggleMute();
+        document.getElementById("sound-on-btn").classList.toggle("d-none");
+        document.getElementById("sound-off-btn").classList.toggle("d-none");
+        syncSoundToggleButtons();
+    });
+    bindMuteToggles(".sfx-toggle-option", "sound effects", "toggleSfxButton");
+    bindMuteToggles(".music-toggle-option", "music", "toggleMusicButton");
+}
+
+function bindMuteToggles(selector, group, datasetKey) {
+    document.querySelectorAll(selector).forEach((button) => {
+        button.addEventListener("click", () => {
+            applyMuteToggle(group, button.dataset[datasetKey] === "off");
+        });
+    });
+}
+
+function applyMuteToggle(group, shouldMute) {
+    audioManager.setMuteState(group, shouldMute);
+    syncSoundToggleButtons();
+    syncSoundIcon();
+}
+
+function initSettingsControls() {
+    document.getElementById("settingsButton").addEventListener("click", () => {
+        document.getElementById("settingsOverlay").classList.remove("d-none");
+    });
+    document.getElementById("closeSettingsButton").addEventListener("click", () => {
+        document.getElementById("settingsOverlay").classList.add("d-none");
+    });
+    document.addEventListener("click", handleOutsideSettingsClick);
+    document.querySelectorAll(".settings-tab").forEach((tabButtonClicked) => {
+        tabButtonClicked.addEventListener("click", () => selectSettingsTab(tabButtonClicked));
+    });
+}
+
+function handleOutsideSettingsClick(event) {
+    const overlay = document.getElementById("settingsOverlay");
+    if (overlay.classList.contains("d-none")) {
+        return;
+    }
+    if (event.target === overlay) {
+        overlay.classList.add("d-none");
+        return;
+    }
+    if (!overlay.contains(event.target) && !document.getElementById("settingsButton").contains(event.target)) {
+        overlay.classList.add("d-none");
+    }
+}
+
+function selectSettingsTab(tabButtonClicked) {
+    document.querySelectorAll(".settings-tab").forEach((tabButton) => {
+        tabButton.classList.remove("active");
+    });
+    document.querySelectorAll(".settings-panel").forEach((panel) => {
+        panel.classList.remove("active");
+    });
+    tabButtonClicked.classList.add("active");
+    const selectedTab = tabButtonClicked.dataset.settingsTab;
+    document.querySelector(`[data-settings-panel="${selectedTab}"]`).classList.add("active");
 }
 
 function showLoadingAndStartGame(isRestart = false) {
@@ -112,16 +110,16 @@ function showLoadingAndStartGame(isRestart = false) {
     loadingText.innerText = "Loading... 0%";
 
     startGame(isRestart);
+    runLoadingBar(loadingScreen, loadingText);
+}
 
+function runLoadingBar(loadingScreen, loadingText) {
     let progress = 0;
-
     const loadingInterval = setInterval(() => {
         progress += 4;
         loadingText.innerText = `Loading... ${progress}%`;
-
         if (progress >= 100) {
             clearInterval(loadingInterval);
-
             setTimeout(() => {
                 loadingScreen.classList.add("d-none");
             }, 200);
@@ -130,25 +128,24 @@ function showLoadingAndStartGame(isRestart = false) {
 }
 
 function startGame(isRestart = false) {
-
-    if (world) {
-        world.stopped = true;
-        world.stopIntervalls();
-    }
+    stopCurrentWorld();
     audioManager.stopAllSounds();
-
     world = new World(canvas, keyboard, gameState, audioManager);
-
     if (isRestart) {
         setTimeout(() => {
             world.character.y = 220;
             world.character.speedY = 0;
         }, 710);
-     
     }
-
     gameState.isGameStarted = true;
     isPaused = false;
+}
+
+function stopCurrentWorld() {
+    if (world) {
+        world.stopped = true;
+        world.stopIntervalls();
+    }
 }
 
 function bindTouchControls() {
