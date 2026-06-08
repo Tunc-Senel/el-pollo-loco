@@ -15,7 +15,7 @@ function init() {
     });
 
     document.getElementById("soundButton").addEventListener("click", () => {
-        audioManager.toggleMute("both");
+        audioManager.toggleMute();
 
         document.getElementById("sound-on-btn").classList.toggle("d-none");
         document.getElementById("sound-off-btn").classList.toggle("d-none");
