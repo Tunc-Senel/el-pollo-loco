@@ -1,8 +1,12 @@
 /** 
- * Coin bar shown between health and bottle bars; starts empty and fills as coins are collected. 
+ * Coin bar shown between health and bottle bars; starts empty and fills as coins are collected.
  */
 class CoinBar extends StatusBar {
     percentage = 0;
+
+    /** 
+     * Blue coin sprites from empty (0%) to full (100%) in 20% steps; index chosen by resolveImageIndex.
+     */
     IMAGES = [
         "assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png",
         "assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png",
@@ -13,7 +17,7 @@ class CoinBar extends StatusBar {
     ]
 
     /** 
-     * Preloads the bar images, fixes its HUD position and shows the initial fill level. 
+     * Preloads the bar images, fixes its HUD position and shows the initial fill level.
      */
     constructor() {
         super();

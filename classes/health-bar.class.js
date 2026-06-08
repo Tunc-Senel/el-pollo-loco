@@ -1,8 +1,12 @@
 /** 
- * Health bar shown top-left; starts full (100%) and reflects the character's energy. 
+ * Health bar shown top-left; starts full (100%) and reflects the character's energy.
  */
 class HealthBar extends StatusBar {
     percentage = 100;
+
+    /** 
+     * Green health sprites from empty (0%) to full (100%) in 20% steps; index chosen by resolveImageIndex.
+     */
     IMAGES = [
             "assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png",
             "assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png",
@@ -13,7 +17,7 @@ class HealthBar extends StatusBar {
             ]
 
     /** 
-     * Preloads the bar images, fixes its HUD position and shows the initial fill level. 
+     * Preloads the bar images, fixes its HUD position and shows the initial fill level.
      */
     constructor() {
         super();
