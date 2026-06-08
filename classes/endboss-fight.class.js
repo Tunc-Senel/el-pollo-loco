@@ -1,21 +1,57 @@
+/**
+ * Controls the endboss fight as a whole: holds its state (triggered?, camera targets)
+ * and choreographs the intro sequence (make the boss appear, walk in, jump to the
+ * center, move into fighting position). The actual combat phase is extracted into
+ * EndbossCombat and driven from here. Accesses the World via a reference.
+ */
 class EndbossFight {
     world;
+
+    /**
+     * true once the character reaches the boss zone; triggers the intro sequence.
+     */
     bossTriggered = false;
+
+    /**
+     * Camera target position for the approach to the boss during the intro.
+     */
     bossIntroCameraTargetX = -3800;
+
+    /**
+     * Camera target position for the actual fighting area.
+     */
     bossFightCameraTargetX = -3100;
+
+    /**
+     * X position at which the boss takes up its fighting stance.
+     */
     endbossFightTargetX = 3500;
+
+    /**
+     * Encapsulates the combat phase (attacks, damage, death); also accesses the World.
+     */
     combat;
 
+    /**
+     * Stores the World reference and creates the combat component up front, so the
+     * combat phase is ready as soon as the intro hands over to fighting.
+     */
     constructor(world) {
         this.world = world;
         this.combat = new EndbossCombat(world);
     }
 
+    /**
+     * Each frame, first advances the intro choreography, then the combat phase.
+     */
     update() {
         this.runBossIntro();
         this.combat.update();
     }
 
+    /**
+     * Bundles the individual steps of the intro sequence from trigger to fighting position.
+     */
     runBossIntro() {
         this.checkBossTrigger();
         this.checkBossIntroProgress();
@@ -23,6 +59,11 @@ class EndbossFight {
         this.checkBossFightPositioning();
     }
 
+    /**
+     * Triggers the boss fight as soon as the character reaches the boss zone: freezes
+     * the character's input/gravity and starts the camera pan to the boss. Gravity is
+     * released again after a short delay.
+     */
     checkBossTrigger() {
         if (!this.bossTriggered && this.world.character.x >= 3200) {
             this.bossTriggered = true
@@ -40,6 +81,9 @@ class EndbossFight {
         }
     }
 
+    /**
+     * Positions the boss at the right edge of the screen and makes it walk into view.
+     */
     startBossIntro() {
         let visibleRight = -this.world.camera_x + 720;
 
@@ -49,6 +93,10 @@ class EndbossFight {
         this.world.level.endboss.speed = 2;
     }
 
+    /**
+     * Advances the intro: first the camera pan to the boss, then the walk-in up to the
+     * target point, where the boss switches into the alert state.
+     */
     checkBossIntroProgress() {
         if (this.world.level.endboss.state === 'camera_to_boss') {
             this.moveCameraToBossIntro();
@@ -67,6 +115,9 @@ class EndbossFight {
         }
     }
 
+    /** 
+     * Pans the camera to the boss and, once the target is reached, starts the walk-in. 
+     */
     moveCameraToBossIntro() {
         if (this.world.camera_x > this.bossIntroCameraTargetX) {
             this.world.camera_x -= 4;
@@ -76,11 +127,17 @@ class EndbossFight {
         }
     }
 
+    /**
+     * Bundles the two phases of the center jump: take-off from the alert state and landing.
+     */
     checkBossAlertProgress() {
         this.startBossCenterJump();
         this.landBossInCenter();
     }
 
+    /**
+     * After a short alert phase, makes the boss jump to the center and reveals its health bar.
+     */
     startBossCenterJump() {
         const endboss = this.world.level.endboss;
         if (endboss.state === 'alert' && Date.now() - endboss.alertStart >= 1500) {
@@ -91,6 +148,10 @@ class EndbossFight {
         }
     }
 
+    /**
+     * Catches the landing of the center jump: triggers an earthquake and, after a short
+     * pause, leads into the walk to the fighting position.
+     */
     landBossInCenter() {
         const endboss = this.world.level.endboss;
         if (endboss.state === 'jumping_to_center' && !endboss.isAboveGround() && endboss.speedY <= 0) {
@@ -108,6 +169,10 @@ class EndbossFight {
         }
     }
 
+    /**
+     * Moves camera and boss into the fighting position and hands over to the start of
+     * the actual fight once both have reached their target.
+     */
     checkBossFightPositioning() {
         const endboss = this.world.level.endboss;
         if (endboss.state !== 'walking_to_fight_position') {
@@ -120,6 +185,10 @@ class EndbossFight {
         }
     }
 
+    /**
+     * Ends the intro: after a short pause the boss switches into fighting mode and the
+     * character's controls are released again.
+     */
     startBossFightAfterPositioning() {
         const endboss = this.world.level.endboss;
         endboss.state = 'short_pause_after_intro';
@@ -134,6 +203,9 @@ class EndbossFight {
         }, 1000);
     }
 
+    /** 
+     * Pans the camera into the fighting area.
+     */
     moveCameraToFightArea() {
         if (this.world.camera_x < this.bossFightCameraTargetX) {
             this.world.camera_x += 4;
@@ -142,6 +214,10 @@ class EndbossFight {
         }
     }
 
+    /**
+     * Moves the boss towards its fighting position and snaps it in place once the
+     * remaining distance is smaller than one movement step (prevents overshooting).
+     */
     moveEndbossToFightPosition() {
         if (this.world.level.endboss.x > this.endbossFightTargetX) {
             this.world.level.endboss.moveLeft();
