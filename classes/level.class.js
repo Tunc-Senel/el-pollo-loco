@@ -1,3 +1,8 @@
+/**
+ * Container for everything that makes up a level: the enemy list, parallax background
+ * layers, clouds, coins, bottles and the endboss, plus the horizontal bounds the
+ * character and camera are clamped to. Populated by the level factory (createLevel).
+ */
 class Level {
     enemies;
     backgroundObjects;
@@ -5,9 +10,20 @@ class Level {
     coins;
     bottles;
     endboss;
+
+    /**
+     * Left edge the character cannot pass; raised during the boss fight to lock the arena.
+     */
     levelStartX = -700;
+
+    /**
+     * Right edge of the level (where the boss zone is reached).
+     */
     levelEndX = 3750;
 
+    /**
+     * Stores the level's enemies, background layers, clouds, coins, bottles and endboss.
+     */
     constructor(enemies, backgroundObjects, clouds, coins, bottles, endboss) {
        this.enemies = enemies;
        this.backgroundObjects = backgroundObjects;
@@ -16,5 +32,4 @@ class Level {
        this.bottles = bottles;
        this.endboss = endboss;
     }
-
 }

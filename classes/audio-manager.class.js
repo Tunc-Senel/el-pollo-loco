@@ -1,8 +1,20 @@
+/**
+ * Central audio controller. Holds every game sound as a preloaded Audio object and
+ * provides play/stop helpers plus mute handling. Sound effects and music can be muted
+ * independently; backgroundMusicSound is the only entry treated as "music", everything
+ * else counts as a sound effect.
+ */
 class AudioManager {
+    /**
+     * True only when both sound effects and music are muted (drives the sound on/off icon).
+     */
     isMuted = false;
     soundEffectsIsMuted = false;
     musicIsMuted = false;
 
+    /**
+     * All game sounds, keyed by name; preloaded once so playback has no startup delay.
+     */
     AUDIOS = {
         collectCoinSound: new Audio("assets/audio/collect-coin.mp3"),
         jumpSound:  new Audio("assets/audio/jump-sound.mp3"),
@@ -26,6 +38,9 @@ class AudioManager {
         endbossDieSound: new Audio("assets/audio/endboss-die-sound.mp3")
     }
 
+    /**
+     * Starts a looping sound (e.g. music, walking) only if it is not already playing.
+     */
     playLoopSound(sound) {
         const audio = this.AUDIOS[sound];
 
@@ -35,6 +50,9 @@ class AudioManager {
         }
     }
 
+    /**
+     * Plays a one-shot sound from the start, restarting it if it was already playing.
+     */
     playSound(sound) {
         const audio = this.AUDIOS[sound];
 
@@ -42,6 +60,9 @@ class AudioManager {
         audio.play().catch(() => {});
     }
 
+    /**
+     * Stops a sound and rewinds it to the start.
+     */
     stopSound(sound) {
         const audio = this.AUDIOS[sound];
 
@@ -49,12 +70,19 @@ class AudioManager {
         audio.currentTime = 0;
     }
 
+    /**
+     * Stops every sound; used when the game restarts or ends.
+     */
     stopAllSounds() {
         Object.keys(this.AUDIOS).forEach((sound) => {
             this.stopSound(sound);
         });
     }
 
+    /**
+     * Sets the mute state for one group ("sound effects" or "music") to an explicit value,
+     * recomputes the combined isMuted flag and applies it. Used by the settings toggles.
+     */
     setMuteState(sounds, shouldMute) {
         if (sounds == "sound effects") {
             this.soundEffectsIsMuted = shouldMute;
@@ -65,6 +93,9 @@ class AudioManager {
         this.applyMuteState();
     }
 
+    /**
+     * Applies the current mute flags to every Audio: music uses musicIsMuted, the rest soundEffectsIsMuted.
+     */
     applyMuteState() {
         for (const [key, value] of Object.entries(this.AUDIOS)) {
             if (key === "backgroundMusicSound") {
@@ -75,6 +106,10 @@ class AudioManager {
         }
     }
 
+    /**
+     * Toggles mute for the whole game at once (the sound button). Flips the combined
+     * state, mirrors it onto both groups and pushes it to all sounds via applyMuteState.
+     */
     toggleMute() {
         this.isMuted = !this.isMuted;
         this.soundEffectsIsMuted = this.isMuted;
