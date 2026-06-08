@@ -39,28 +39,36 @@ class MovableObject extends DrawableObject {
 
     applyGravity() {
         this.intervalIds.push(
-            setInterval( () => {
-                if (this.freezeGravity) {
-                    return;
-                }
-                if (this.isAboveGround() || this.speedY > 0) {    
-                    this.y -= this.speedY;
-                    this.speedY -= this.accelaration;
-                }
-                if (this.y > 275 && this instanceof Character) {
-                    this.y = 275;
-                    this.speedY = 0;
-                }
-                if (this.y > this.groundY && this instanceof Endboss) {
-                    this.y = this.groundY;
-                    this.speedY = 0;
-                }
+            setInterval(() => {
+                this.applyGravityStep();
             }, 1000 / 60)
         );
     }
 
+    applyGravityStep() {
+        if (this.freezeGravity) {
+            return;
+        }
+        if (this.isAboveGround() || this.speedY > 0) {
+            this.y -= this.speedY;
+            this.speedY -= this.accelaration;
+        }
+        this.clampToGround();
+    }
+
+    clampToGround() {
+        if (this.y > 275 && this instanceof Character) {
+            this.y = 275;
+            this.speedY = 0;
+        }
+        if (this.y > this.groundY && this instanceof Endboss) {
+            this.y = this.groundY;
+            this.speedY = 0;
+        }
+    }
+
     isAboveGround() {
-        if (this instanceof ThrowableObject) { // Throwable Object always falls
+        if (this instanceof ThrowableObject) {
             return true;
         } 
         if (this instanceof Endboss) {
@@ -82,26 +90,31 @@ class MovableObject extends DrawableObject {
     }
 
     hit(damage = 5) {
-        if (!this.isHurt()) {
-            this.firstStandingTime = null;
-            this.energy -= damage;
-            if (this.energy <= 0) {
-                this.energy = 0;
-            } else {
-                this.characterHurt = true;
-                this.lastHit = new Date().getTime()
-                const intervalId = setInterval( () => {
-                        if (this.x > this.world.level.levelStartX) {
-                            this.x -= 4;
-                        }
-                    }, 1000 / 60);
-                this.intervalIds.push(intervalId);
-                setTimeout(() => {
-                    clearInterval(intervalId);
-                    this.characterHurt = false;
-                }, 500);
-            }
+        if (this.isHurt()) {
+            return;
         }
+        this.firstStandingTime = null;
+        this.energy -= damage;
+        if (this.energy <= 0) {
+            this.energy = 0;
+        } else {
+            this.characterHurt = true;
+            this.lastHit = new Date().getTime();
+            this.startHurtKnockback();
+        }
+    }
+
+    startHurtKnockback() {
+        const intervalId = setInterval(() => {
+            if (this.x > this.world.level.levelStartX) {
+                this.x -= 4;
+            }
+        }, 1000 / 60);
+        this.intervalIds.push(intervalId);
+        setTimeout(() => {
+            clearInterval(intervalId);
+            this.characterHurt = false;
+        }, 500);
     }
 
     isHurt() {

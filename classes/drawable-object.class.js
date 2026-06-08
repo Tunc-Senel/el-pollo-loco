@@ -35,7 +35,7 @@ class DrawableObject {
         }
     }
 
-     isColliding(object) {
+    isColliding(object) {
         const characterLeft = this.x + this.offset.left;
         const characterRight = this.x + this.width - this.offset.right;
         const characterTop = this.y + this.offset.top;
@@ -76,7 +76,7 @@ class DrawableObject {
 
         return isFalling && isHorizontallyOverlapping && isCloseToEnemyTop;
     }
-    
+
     collectableObjectPlacement(x, y) {
         this.x = x;
         this.y = y;
