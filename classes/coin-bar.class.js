@@ -1,3 +1,6 @@
+/** 
+ * Coin bar shown between health and bottle bars; starts empty and fills as coins are collected. 
+ */
 class CoinBar extends StatusBar {
     percentage = 0;
     IMAGES = [
@@ -9,6 +12,9 @@ class CoinBar extends StatusBar {
         "assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png"
     ]
 
+    /** 
+     * Preloads the bar images, fixes its HUD position and shows the initial fill level. 
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);

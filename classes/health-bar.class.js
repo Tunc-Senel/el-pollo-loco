@@ -1,3 +1,6 @@
+/** 
+ * Health bar shown top-left; starts full (100%) and reflects the character's energy. 
+ */
 class HealthBar extends StatusBar {
     percentage = 100;
     IMAGES = [
@@ -9,6 +12,9 @@ class HealthBar extends StatusBar {
             "assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png"
             ]
 
+    /** 
+     * Preloads the bar images, fixes its HUD position and shows the initial fill level. 
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);

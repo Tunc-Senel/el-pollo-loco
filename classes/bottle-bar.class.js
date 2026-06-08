@@ -1,3 +1,6 @@
+/** 
+ * Bottle bar shown below the health bar; starts empty and fills as bottles are collected. 
+ */
 class BottleBar extends StatusBar {
     percentage = 0;
     IMAGES = [
@@ -9,6 +12,9 @@ class BottleBar extends StatusBar {
         "assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png",
     ]
 
+    /** 
+     * Preloads the bar images, fixes its HUD position and shows the initial fill level. 
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
