@@ -1,3 +1,10 @@
+/**
+ * Builds and returns the level: the enemy roster (small and normal chickens), the four
+ * parallax background layers tiled across the level width, clouds, coins, bottles and the
+ * endboss. This is a flat data/configuration function on purpose, so all object placements
+ * stay visible and editable in one place.
+ * @returns {Level} The fully populated level.
+ */
 function createLevel() {
     return new Level(
         [
