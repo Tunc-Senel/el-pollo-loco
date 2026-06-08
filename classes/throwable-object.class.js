@@ -39,6 +39,10 @@ class ThrowableObject extends MovableObject {
         this.isFlying = true;
         this.applyGravity();
         this.startThrowMovement();
+        this.startBottleAnimation();
+    }
+
+    startBottleAnimation() {
         this.intervalIds.push(
             setInterval(() => {
                 if (this.objectHit) {
@@ -80,15 +84,7 @@ class ThrowableObject extends MovableObject {
             this.startThrowMovement();
         }
 
-        this.intervalIds.push(
-            setInterval(() => {
-                if (this.objectHit) {
-                    this.playSplashAnimation();
-                } else {
-                    this.playAnimation(this.IMAGES_ROTATION);
-                }
-            }, 75)
-        );
+        this.startBottleAnimation();
     }
 
 }
