@@ -1,9 +1,26 @@
+/**
+ * The playable character (Pepe). Handles keyboard-driven movement and jumping,
+ * the idle/long-idle (sleep) timing, and selects the matching animation for each
+ * state (walk, jump, hurt, dead). Built on MovableObject for gravity and hit handling.
+ */
 class Character extends MovableObject {
     characterHurt = false;
+
+    /**
+     * Timestamp when standing still began; null while moving. Drives the idle/sleep switch.
+     */
     firstStandingTime = null;
+
+    /**
+     * Stored idle duration across a pause, so the sleep timer resumes correctly.
+     */
     standingTimeBeforePause = null;
     hasStompedEnemyInThisJump = false;
     hasStompedEndbossInThisJump = false;
+
+    /**
+     * When true, the character no longer drives the camera (the boss fight does).
+     */
     lockCameraOnBoss = false;
     energy = 100;
     x = 150;
@@ -19,6 +36,9 @@ class Character extends MovableObject {
         right: 30
     }
 
+    /**
+     * Short idle loop, shown while standing for under 8 seconds.
+     */
     IMAGES_STANDING = [
         "assets/img/2_character_pepe/1_idle/idle/I-1.png",
         "assets/img/2_character_pepe/1_idle/idle/I-2.png",
@@ -32,6 +52,9 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/1_idle/idle/I-10.png"
     ]
 
+    /**
+     * Sleep loop, shown after standing still for 8 seconds or more.
+     */
     IMAGES_LONG_STANDING = [
         "assets/img/2_character_pepe/1_idle/long_idle/I-11.png",
         "assets/img/2_character_pepe/1_idle/long_idle/I-12.png",
@@ -45,6 +68,9 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/1_idle/long_idle/I-20.png",
     ]
 
+    /**
+     * Walk cycle, played while moving on the ground.
+     */
     IMAGES_WALKING = [
         "assets/img/2_character_pepe/2_walk/W-21.png",
         "assets/img/2_character_pepe/2_walk/W-22.png",
@@ -54,6 +80,9 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/2_walk/W-26.png"
     ]
 
+    /**
+     * Jump frames, played while airborne.
+     */
     IMAGES_JUMPING = [
         "assets/img/2_character_pepe/3_jump/J-31.png",
         "assets/img/2_character_pepe/3_jump/J-32.png",
@@ -66,12 +95,18 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/3_jump/J-39.png",
     ]
 
+    /**
+     * Hurt frames, played briefly after taking damage.
+     */
     IMAGES_HURT = [
         "assets/img/2_character_pepe/4_hurt/H-41.png",
         "assets/img/2_character_pepe/4_hurt/H-42.png",
         "assets/img/2_character_pepe/4_hurt/H-43.png"
     ]
 
+    /**
+     * Death frames, played once when energy reaches zero.
+     */
     IMAGES_DEAD = [
         "assets/img/2_character_pepe/5_dead/D-51.png",
         "assets/img/2_character_pepe/5_dead/D-52.png",
@@ -81,6 +116,9 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/5_dead/D-56.png"
     ]
 
+    /**
+     * Preloads all animation sets and starts the animation loops and gravity.
+     */
     constructor() {
         super().loadImage("assets/img/2_character_pepe/1_idle/idle/I-1.png");
         this.loadImages(this.IMAGES_STANDING);
@@ -93,12 +131,19 @@ class Character extends MovableObject {
         this.applyGravity();
     }
 
+    /**
+     * Registers the three game loops: idle/sleep timing (500ms), movement input
+     * (60fps) and animation selection (75ms). Kept thin; each tick has its own method.
+     */
     animate() {
         this.intervalIds.push(setInterval(() => this.updateIdleAnimation(), 500));
         this.intervalIds.push(setInterval(() => this.handleMovementInput(), 1000 / 60));
         this.intervalIds.push(setInterval(() => this.updateActionAnimation(), 75));
     }
 
+    /**
+     * Switches between the idle and the sleep loop based on how long the character stood still.
+     */
     updateIdleAnimation() {
         if (this.inputDisabled || this.isDead()) {
             return;
@@ -115,6 +160,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Per frame: processes horizontal and jump input and keeps the camera following.
+     */
     handleMovementInput() {
         if (this.inputDisabled) {
             return;
@@ -126,6 +174,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Moves left/right while the key is held, or stops the walking sound when idle/hurt/airborne.
+     */
     handleHorizontalInput() {
         if (this.world.keyboard.RIGHT && !this.characterHurt) {
             this.moveCharacter("right");
@@ -138,6 +189,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Moves the character one step in the given direction, unless blocked by a level edge.
+     */
     moveCharacter(direction) {
         const atRightEdge = this.x >= this.world.level.levelEndX;
         const atLeftEdge = this.x <= this.world.level.levelStartX;
@@ -152,6 +206,9 @@ class Character extends MovableObject {
         this.firstStandingTime = null;
     }
 
+    /**
+     * Triggers a jump when up/space is pressed while grounded and not hurt.
+     */
     handleJumpInput() {
         if ((this.world.keyboard.UP || this.world.keyboard.SPACE) && !this.isAboveGround() && !this.characterHurt) {
             this.jump();
@@ -160,6 +217,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Picks the sprite for the current state, in priority order: dead, frozen, walk, jump, hurt.
+     */
     updateActionAnimation() {
         if (this.isDead()) {
             this.playDeathAnimation();
@@ -174,6 +234,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Plays the death animation once, initializing the one-shot index on first call.
+     */
     playDeathAnimation() {
         if (!this.onceAnimationStarted) {
             this.onceAnimationIndex = 0;
