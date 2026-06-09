@@ -28,11 +28,15 @@
     border-radius: 2.8cqw;
     box-shadow: 0 1.4cqw 0 rgba(90, 38, 0, 0.75);
     overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
 }
 
 /* === SETTINGS HEADER === */
 .settings-header {
     height: 8.9cqw;
+    flex-shrink: 0;
     padding: 0 2.8cqw;
     display: flex;
     justify-content: space-between;
@@ -63,6 +67,7 @@
 /* === SETTINGS TABS === */
 .settings-tabs {
     height: 6.65cqw;
+    flex-shrink: 0;
     padding: 0 2.2cqw;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -89,10 +94,33 @@
 
 /* === SETTINGS PANELS === */
 .settings-content {
-    height: calc(100% - 15.55cqw);
+    flex: 1;
+    min-height: 0;
     padding: 2.5cqw 3.05cqw;
     box-sizing: border-box;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #b5651d #ffd89c;
+}
+
+.settings-content::-webkit-scrollbar {
+    width: 2.2cqw;
+}
+
+.settings-content::-webkit-scrollbar-track {
+    margin: 1.1cqw 0;
+    border-radius: 1.1cqw;
+    background-color: #ffd89c;
+}
+
+.settings-content::-webkit-scrollbar-thumb {
+    border: 0.28cqw solid #ffd89c;
+    border-radius: 1.1cqw;
+    background-color: #b5651d;
+}
+
+.settings-content::-webkit-scrollbar-thumb:hover {
+    background-color: #8b410d;
 }
 
 .settings-panel {
@@ -178,6 +206,10 @@
     padding: 1.1cqw 1.65cqw;
 }
 
+.key-table-row > span {
+    font-size: 2.08cqw;
+}
+
 .key-table-header {
     justify-content: center;
     background-color: #dc7e21;
@@ -234,15 +266,27 @@
 /* === SETTINGS: SMALL-WIDTH READABILITY === */
 @media (max-width: 480px) {
     .settings-header h2 {
-        font-size: 22px;
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+
+    .settings-tabs {
+        height: 36px;
+        align-items: stretch;
     }
 
     .settings-tab {
-        font-size: 13px;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        line-height: 1.1;
+        font-size: 12px;
     }
 
     .sound-setting-row h4 {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .sound-setting-row p {
@@ -251,19 +295,79 @@
 
     .sfx-toggle-option,
     .music-toggle-option {
+        font-size: 12px;
+    }
+
+    .key-table-row > span {
         font-size: 13px;
     }
 
     .key-table-header span,
     .key-table-row kbd {
-        font-size: 12px;
+        font-size: 11px;
+    }
+
+    .key-table-row kbd {
+        margin: 3px 5px;
+        padding: 5px 4px;
+        white-space: nowrap;
     }
 
     .story-card h4 {
-        font-size: 17px;
+        font-size: 15px;
     }
 
     .story-card p {
         font-size: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .settings-header h2 {
+        font-size: 17px;
+        letter-spacing: 1px;
+    }
+
+    .settings-tab {
+        font-size: 10px;
+        white-space: nowrap;
+        padding: 0 2px;
+        border-left-width: 1px;
+        border-right-width: 1px;
+    }
+
+    .sound-setting-row h4 {
+        font-size: 12px;
+    }
+
+    .sfx-toggle-option,
+    .music-toggle-option {
+        font-size: 11px;
+    }
+
+    .key-table-row > span {
+        font-size: 11px;
+    }
+
+    .key-table-header span,
+    .key-table-row kbd {
+        font-size: 9px;
+    }
+
+    .key-table-row kbd {
+        margin: 2px 3px;
+        padding: 4px 2px;
+    }
+
+    .key-table-row > * {
+        padding: 1.1cqw 1cqw;
+    }
+
+    .sound-setting-row p {
+        font-size: 10px;
+    }
+
+    .story-card h4 {
+        font-size: 13px;
     }
 }
