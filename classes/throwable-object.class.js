@@ -56,6 +56,9 @@ class ThrowableObject extends MovableObject {
     /**
      * Places the bottle at the spawn position, preloads its sprites and immediately
      * starts the throw. otherDirection carries the travel direction ("left"/"right").
+     * @param {number} x Horizontal spawn position.
+     * @param {number} y Vertical spawn position.
+     * @param {string} otherDirection Travel direction ("left" or "right").
      */
     constructor(x, y, otherDirection) {
         super().loadImage("assets/img/6_salsa_bottle/salsa_bottle.png");

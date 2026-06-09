@@ -20,6 +20,8 @@ class Coin extends DrawableObject {
 
     /**
      * Loads the coin sprite and places it at its level position.
+     * @param {number} x Horizontal position in the level.
+     * @param {number} y Vertical position in the level.
      */
     constructor(x, y) {
         super().loadImage(this.IMAGE);

@@ -23,6 +23,7 @@ class Endscreen {
     /**
      * Shows the end screen for the given outcome ("win" or "lose"): sets the image, reveals
      * the overlay and hides the controls. Does nothing if that screen is already showing.
+     * @param {string} type The outcome to show ("win" or "lose").
      */
     show(type) {
         if (this.currentScreen === type) {

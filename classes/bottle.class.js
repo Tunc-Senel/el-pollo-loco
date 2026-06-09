@@ -24,6 +24,8 @@ class Bottle extends DrawableObject {
 
     /**
      * Preloads the sprites, picks the correct one for the height and places the bottle.
+     * @param {number} x Horizontal position in the level.
+     * @param {number} y Vertical position; also decides the ground vs. floating sprite.
      */
     constructor(x, y) {
         super().loadImage("assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png");
@@ -35,6 +37,7 @@ class Bottle extends DrawableObject {
     /**
      * Chooses the sprite by spawn height: bottles low on the ground get one of the two
      * ground variants at random, higher ones use the floating sprite.
+     * @param {number} y Vertical spawn position; 250 or more counts as on the ground.
      */
     selectCorrectBottle(y) {
         if (y >= 250) {

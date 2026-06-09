@@ -15,6 +15,9 @@ class BackgroundObject extends MovableObject {
 
     /**
      * Loads the layer image and stores its horizontal position and parallax factor.
+     * @param {string} imagePath Path to the layer image.
+     * @param {number} x Horizontal start position of the tile.
+     * @param {number} [parallaxFactor=1] Scroll factor relative to the camera (lower = further back).
      */
     constructor(imagePath, x, parallaxFactor = 1) {
         super().loadImage(imagePath);

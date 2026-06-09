@@ -14,6 +14,7 @@ class EndbossCombat {
 
     /**
      * Stores the World reference used to access character, endboss, audio and UI bars.
+     * @param {World} world The game world this combat logic belongs to.
      */
     constructor(world) {
         this.world = world;
@@ -53,6 +54,8 @@ class EndbossCombat {
 
     /** 
      * X-axis center of an object; basis for distance and direction calculations. 
+     * @param {DrawableObject} object The object to measure.
+     * @returns {number} The object's horizontal center.
      */
     centerOf(object) {
         return object.x + object.width / 2;
@@ -185,6 +188,7 @@ class EndbossCombat {
 
     /** 
      * Resets all attack flags so the next attack cycle can start cleanly. 
+     * @param {Endboss} endboss The endboss whose attack flags are reset.
      */
     resetEndbossAttackFlags(endboss) {
         endboss.attackOnCooldown = false;
@@ -212,6 +216,7 @@ class EndbossCombat {
 
     /** 
      * Applies a bottle hit: damage, update the bar, matching sounds. 
+     * @param {ThrowableObject} bottle The bottle that hit the endboss.
      */
     applyBottleHitOnEndboss(bottle) {
         const endboss = this.world.level.endboss;

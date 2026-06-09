@@ -23,6 +23,12 @@ class Level {
 
     /**
      * Stores the level's enemies, background layers, clouds, coins, bottles and endboss.
+     * @param {MovableObject[]} enemies The level's enemies.
+     * @param {BackgroundObject[]} backgroundObjects The parallax background layers.
+     * @param {Cloud[]} clouds The decorative clouds.
+     * @param {Coin[]} coins The collectable coins.
+     * @param {Bottle[]} bottles The collectable bottles.
+     * @param {Endboss} endboss The level's endboss.
      */
     constructor(enemies, backgroundObjects, clouds, coins, bottles, endboss) {
        this.enemies = enemies;

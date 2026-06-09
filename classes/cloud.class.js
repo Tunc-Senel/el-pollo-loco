@@ -10,6 +10,7 @@ class Cloud extends MovableObject {
 
     /**
      * Loads the cloud image, offsets its start position randomly and starts drifting.
+     * @param {number} xPosition Base horizontal position the cloud is randomly offset from.
      */
     constructor(xPosition) {
         super().loadImage("../assets/img/5_background/layers/4_clouds/1.png")

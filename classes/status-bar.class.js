@@ -11,6 +11,7 @@ class StatusBar extends DrawableObject {
 
     /** 
      * Updates the fill level and switches to the sprite matching the new percentage.
+     * @param {number} percentage The new fill level (0-100).
      */
     setPercentage(percentage) {
         this.percentage = percentage;

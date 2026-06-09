@@ -71,6 +71,10 @@ class World {
      * Builds the level, links input/audio and immediately starts the render loop
      * and collision checks. endbossFight and renderer are created before draw(),
      * since the render loop needs both to draw the boss and the scene.
+     * @param {HTMLCanvasElement} canvas The canvas to render into.
+     * @param {Keyboard} keyboard Shared keyboard input state.
+     * @param {GameState} gameState Shared game state (e.g. whether the game started).
+     * @param {AudioManager} audioManager The shared audio controller.
      */
     constructor(canvas, keyboard, gameState, audioManager) {
         this.level = createLevel();
@@ -158,6 +162,8 @@ class World {
     /**
      * Handles stomping an enemy: bounce jump, sound, marking it as dead. Removal is
      * delayed so the death animation stays visible.
+     * @param {MovableObject} enemy The stomped enemy.
+     * @param {number} index The enemy's index in the enemies array.
      */
     handleEnemyStomp(enemy, index) {
         this.character.jumpAfterEnemyStomp();
@@ -270,6 +276,7 @@ class World {
 
     /**
      * Lets a bottle shatter on the ground (triggers the splash animation).
+     * @param {ThrowableObject} bottle The bottle to check against the ground.
      */
     handleBottleGroundHit(bottle) {
         if (bottle.y >= 350 && !bottle.objectHit) {
@@ -281,6 +288,7 @@ class World {
 
     /** 
      * Checks a bottle for hits on enemies and kills the hit enemy on contact.
+     * @param {ThrowableObject} bottle The bottle to check against the enemies.
      */
     handleBottleEnemyHits(bottle) {
         this.level.enemies.forEach((enemy, index) => {
@@ -295,6 +303,8 @@ class World {
 
     /**
      * Marks an enemy as killed by a bottle; delayed removal for the death animation.
+     * @param {MovableObject} enemy The enemy hit by the bottle.
+     * @param {number} index The enemy's index in the enemies array.
      */
     killEnemyByBottle(enemy, index) {
         this.playEnemyDeadSound(enemy);
@@ -306,6 +316,7 @@ class World {
 
     /**
      * Plays the death sound matching the enemy size (large vs. small chicken).
+     * @param {MovableObject} enemy The enemy whose death sound is played.
      */
     playEnemyDeadSound(enemy) {
         if (enemy.height > 50) {

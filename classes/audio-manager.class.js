@@ -40,6 +40,7 @@ class AudioManager {
 
     /**
      * Starts a looping sound (e.g. music, walking) only if it is not already playing.
+     * @param {string} sound The key of the sound in AUDIOS.
      */
     playLoopSound(sound) {
         const audio = this.AUDIOS[sound];
@@ -52,6 +53,7 @@ class AudioManager {
 
     /**
      * Plays a one-shot sound from the start, restarting it if it was already playing.
+     * @param {string} sound The key of the sound in AUDIOS.
      */
     playSound(sound) {
         const audio = this.AUDIOS[sound];
@@ -62,6 +64,7 @@ class AudioManager {
 
     /**
      * Stops a sound and rewinds it to the start.
+     * @param {string} sound The key of the sound in AUDIOS.
      */
     stopSound(sound) {
         const audio = this.AUDIOS[sound];
@@ -82,6 +85,8 @@ class AudioManager {
     /**
      * Sets the mute state for one group ("sound effects" or "music") to an explicit value,
      * recomputes the combined isMuted flag and applies it. Used by the settings toggles.
+     * @param {string} sounds The group to set ("sound effects" or "music").
+     * @param {boolean} shouldMute Whether that group should be muted.
      */
     setMuteState(sounds, shouldMute) {
         if (sounds == "sound effects") {

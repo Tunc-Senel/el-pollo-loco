@@ -15,6 +15,10 @@ class Renderer {
     shakeDuration = 0;
     shakeStart = 0;
 
+    /**
+     * Stores the World reference and caches its canvas context for drawing.
+     * @param {World} world The game world to render.
+     */
     constructor(world) {
         this.world = world;
         this.ctx = world.ctx;
@@ -129,6 +133,7 @@ class Renderer {
 
     /**
      * Draws all background layers individually, since each has its own parallax offset.
+     * @param {BackgroundObject[]} objects The background layers to draw.
      */
     addBackgroundObjectsToMap(objects) {
         objects.forEach((object) => {
@@ -139,6 +144,7 @@ class Renderer {
     /**
      * Draws a background layer with its own parallax factor so that more distant
      * layers scroll along more slowly than the foreground.
+     * @param {BackgroundObject} object The background layer to draw.
      */
     addBackgroundObjectToMap(object) {
         this.ctx.save();
@@ -149,6 +155,7 @@ class Renderer {
 
     /**
      * Draws a list of similar objects.
+     * @param {DrawableObject[]} objects The objects to draw.
      */
     addObjectsToMap(objects) {
         objects.forEach(object => {
@@ -159,6 +166,7 @@ class Renderer {
     /**
      * Draws a single object and mirrors it horizontally when needed, so figures are
      * shown facing their direction of travel.
+     * @param {DrawableObject} object The object to draw.
      */
     addObjectToMap(object) {
         if (object.otherDirection) {
@@ -175,6 +183,7 @@ class Renderer {
     /**
      * Mirrors the canvas for an object facing left. object.x is negated so the
      * mirrored coordinate is correct; flipImageBack undoes this.
+     * @param {DrawableObject} object The object being mirrored.
      */
     flipImage(object) {
         this.ctx.save();
@@ -185,6 +194,7 @@ class Renderer {
 
     /**
      * Reverts the mirroring from flipImage and restores object.x.
+     * @param {DrawableObject} object The object whose mirroring is reverted.
      */
     flipImageBack(object) {
         object.x = object.x * -1;
@@ -194,6 +204,8 @@ class Renderer {
     /**
      * Starts a screen shake. Used mainly by the endboss fight for impact and landing
      * earthquakes; getShakeOffset evaluates the values in the render loop.
+     * @param {number} duration How long the shake lasts, in milliseconds.
+     * @param {number} intensity The starting shake strength in pixels.
      */
     triggerEarthquake(duration, intensity) {
         this.shakeIntensity = intensity;

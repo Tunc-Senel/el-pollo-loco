@@ -33,6 +33,7 @@ class DrawableObject {
 
     /** 
      * Sets the currently shown image (used for single, non-animated sprites).
+     * @param {string} path Path to the image file.
      */
     loadImage(path) {
         this.img = new Image();
@@ -41,6 +42,7 @@ class DrawableObject {
 
     /** 
      * Preloads a set of images into the cache so playAnimation can swap frames instantly. 
+     * @param {string[]} arr Paths of the images to preload.
      */
     loadImages(arr) {
         arr.forEach(path => {
@@ -52,6 +54,7 @@ class DrawableObject {
 
     /** 
      * Draws the current image; the try/catch guards against frames that failed to load. 
+     * @param {CanvasRenderingContext2D} ctx The canvas context to draw on.
      */
     drawObject(ctx) {
         try {
@@ -65,6 +68,8 @@ class DrawableObject {
      * Box collision between this object and another, both shrunk by their offsets.
      * The extra +25 on the top edge keeps shallow vertical touches from counting,
      * so brushing past an enemy's head is not treated as a hit.
+     * @param {DrawableObject} object The other object to test against.
+     * @returns {boolean} True if the bounding boxes overlap.
      */
     isColliding(object) {
         const characterLeft = this.x + this.offset.left;
@@ -85,6 +90,8 @@ class DrawableObject {
     /**
      * Pure horizontal overlap test (ignores vertical position). Used to pick up
      * ground bottles already when the character walks over them.
+     * @param {DrawableObject} object The other object to test against.
+     * @returns {boolean} True if the objects overlap on the x-axis.
      */
     isOverlappingHorizontally(object) {
         const characterLeft = this.x + this.offset.left;
@@ -100,6 +107,8 @@ class DrawableObject {
      * Detects a valid stomp on an enemy: only counts while falling, horizontally
      * overlapping and with the feet near the enemy's top, so the hit reads as
      * landing on the enemy rather than running into it.
+     * @param {DrawableObject} enemy The enemy being tested for a stomp.
+     * @returns {boolean} True if this object is stomping the enemy from above.
      */
     isStompingEnemy(enemy) {
         const characterBottom = this.y + this.height - this.offset.bottom;
@@ -119,6 +128,8 @@ class DrawableObject {
 
     /** 
      * Places a collectable (coin/bottle) at its level position. 
+     * @param {number} x Horizontal position in the level.
+     * @param {number} y Vertical position in the level.
      */
     collectableObjectPlacement(x, y) {
         this.x = x;

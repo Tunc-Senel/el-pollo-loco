@@ -191,6 +191,7 @@ class Character extends MovableObject {
 
     /**
      * Moves the character one step in the given direction, unless blocked by a level edge.
+     * @param {string} direction Direction to move ("left" or "right").
      */
     moveCharacter(direction) {
         const atRightEdge = this.x >= this.world.level.levelEndX;

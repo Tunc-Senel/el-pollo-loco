@@ -35,6 +35,7 @@ class EndbossFight {
     /**
      * Stores the World reference and creates the combat component up front, so the
      * combat phase is ready as soon as the intro hands over to fighting.
+     * @param {World} world The game world this fight belongs to.
      */
     constructor(world) {
         this.world = world;
