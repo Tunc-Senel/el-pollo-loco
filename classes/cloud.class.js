@@ -13,7 +13,7 @@ class Cloud extends MovableObject {
      * @param {number} xPosition Base horizontal position the cloud is randomly offset from.
      */
     constructor(xPosition) {
-        super().loadImage("../assets/img/5_background/layers/4_clouds/1.png")
+        super().loadImage("assets/img/5_background/layers/4_clouds/1.png")
         this.x = xPosition + (Math.random() * 500);
         this.animate();
     }
