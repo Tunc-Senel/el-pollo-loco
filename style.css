@@ -1,4 +1,4 @@
-/* FONTS */
+/* === FONTS === */
 @font-face {
   font-display: swap;
   font-family: 'Rye';
@@ -7,6 +7,7 @@
   src: url('./assets/fonts/rye-v17-latin-regular.woff2') format('woff2');
 }
 
+/* === GLOBAL === */
 body {
     display: flex;
     flex-direction: column;
@@ -29,6 +30,12 @@ h1 {
     text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
+/* Hidden everywhere; shown via the d-none toggle in JS. */
+.d-none {
+    display: none !important;
+}
+
+/* === GAME CONTAINER & CANVAS === */
 canvas {
     display: block;
     width: 100%;
@@ -56,6 +63,7 @@ canvas {
     object-fit: fill;
 }
 
+/* === START & END SCREENS === */
 .start-screen {
     position: absolute;
     inset: 0;
@@ -108,10 +116,7 @@ canvas {
     cursor: pointer;
 }
 
-.d-none {
-    display: none !important;
-}
-
+/* === GAME CONTROLS (top bar) === */
 .game-controls {
     position: absolute;
     top: 12px;
@@ -155,6 +160,7 @@ canvas {
     padding-left: 2px;
 }
 
+/* === LOADING SCREEN === */
 .loading-screen {
     position: absolute;
     inset: 0;
@@ -199,6 +205,7 @@ canvas {
     animation: loadingRotate 1s linear infinite;
 }
 
+/* === SETTINGS OVERLAY === */
 .settings-overlay {
     position: absolute;
     inset: 0;
@@ -224,6 +231,7 @@ canvas {
     overflow: hidden;
 }
 
+/* === SETTINGS HEADER === */
 .settings-header {
     height: 64px;
     padding: 0 20px;
@@ -253,6 +261,7 @@ canvas {
     cursor: pointer;
 }
 
+/* === SETTINGS TABS === */
 .settings-tabs {
     height: 48px;
     padding: 0 16px;
@@ -279,6 +288,7 @@ canvas {
     background-color: #f6ae50;
 }
 
+/* === SETTINGS PANELS === */
 .settings-content {
     height: calc(100% - 112px);
     padding: 18px 22px 18px;
@@ -294,6 +304,7 @@ canvas {
     display: block;
 }
 
+/* === SETTINGS: SOUND ROWS === */
 .sound-setting-row {
     min-height: 76px;
     margin-bottom: 14px;
@@ -344,6 +355,7 @@ canvas {
     color: #fff3cf;
 }
 
+/* === SETTINGS: KEY ASSIGNMENT === */
 .key-assignment-table {
     border: 3px solid #5a2600;
     border-radius: 12px;
@@ -394,6 +406,7 @@ canvas {
     box-shadow: 0 3px 0 #8b410d;
 }
 
+/* === SETTINGS: STORY === */
 .story-card {
     padding: 18px;
     border: 3px solid #7a3500;
@@ -417,6 +430,7 @@ canvas {
     margin-bottom: 0;
 }
 
+/* === ANIMATIONS === */
 @keyframes loadingRotate {
     from {
         transform: rotate(0deg);
@@ -426,6 +440,7 @@ canvas {
     }
 }
 
+/* === ROTATE DEVICE OVERLAY (mobile portrait) === */
 .rotate-device-overlay {
     display: none;
 }
@@ -460,6 +475,7 @@ canvas {
     }
 }
 
+/* === MOBILE TOUCH CONTROLS === */
 .mobile-controls {
     display: none;
 }
@@ -510,6 +526,7 @@ canvas {
     }
 }
 
+/* === LANDSCAPE / SHORT VIEWPORT === */
 @media (max-height: 600px) {
     h1 {
         display: none;
@@ -521,6 +538,7 @@ canvas {
     }
 }
 
+/* === FOOTER === */
 .page-footer {
     position: fixed;
     bottom: 0;

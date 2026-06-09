@@ -13,25 +13,31 @@
 
         <!-- AUTOREN-STYLESHEET -->
         <link rel="stylesheet" type="text/css" href="./style.css">
-       
+
     </head>
 
     <body>
 
+        <!-- ROTATE DEVICE OVERLAY (mobile portrait) -->
         <div id="rotateDeviceOverlay" class="rotate-device-overlay">
             <img class="rotate-device-icon" src="assets/img/icons/rotate-device.png" alt="Rotate Device">
             <p>Turn your device to play</p>
         </div>
 
+        <!-- TITLE -->
         <h1>
             El Pollo Locco
         </h1>
 
+        <!-- GAME CONTAINER -->
         <div id="game-container" class="game-container">
             <canvas id="canvas" width="720" height="480"></canvas>
 
+            <!-- SETTINGS OVERLAY -->
             <div id="settingsOverlay" class="settings-overlay d-none">
                 <section class="settings-window">
+
+                    <!-- SETTINGS HEADER -->
                     <header class="settings-header">
                         <h2>Settings</h2>
 
@@ -44,6 +50,7 @@
                         </button>
                     </header>
 
+                    <!-- SETTINGS TABS -->
                     <nav class="settings-tabs" aria-label="Settings tabs">
                         <button class="settings-tab active" data-settings-tab="sounds">
                             Sounds
@@ -58,7 +65,10 @@
                         </button>
                     </nav>
 
+                    <!-- SETTINGS CONTENT -->
                     <div class="settings-content">
+
+                        <!-- SETTINGS PANEL: SOUNDS -->
                         <section
                             id="soundsSettings"
                             class="settings-panel active"
@@ -89,6 +99,7 @@
                             </div>
                         </section>
 
+                        <!-- SETTINGS PANEL: KEY ASSIGNMENT -->
                         <section
                             class="settings-panel"
                             data-settings-panel="keys"
@@ -127,6 +138,7 @@
                             </div>
                         </section>
 
+                        <!-- SETTINGS PANEL: STORY -->
                         <section
                             class="settings-panel"
                             data-settings-panel="story"
@@ -155,6 +167,7 @@
                 </section>
             </div>
 
+            <!-- GAME CONTROLS (sound, settings, pause, fullscreen) -->
             <div id="gameControls" class="game-controls">
                 <button class="control-button" id="soundButton">
                     <img id="sound-on-btn" src="assets/img/icons/sound-on.png" alt="Sound On">
@@ -175,6 +188,7 @@
                 </button>
             </div>
 
+            <!-- MOBILE TOUCH CONTROLS -->
             <div id="mobileControls" class="mobile-controls">
                 <div class="mobile-controls-left">
                     <button class="mobile-button" id="touchLeft" aria-label="Move left">
@@ -195,15 +209,18 @@
                 </div>
             </div>
 
+            <!-- START SCREEN -->
             <div id="startScreen" class="start-screen">
                 <button class="start-button">START GAME</button>
             </div>
 
+            <!-- END SCREEN -->
             <div id="endScreenOverlay" class="start-screen d-none">
                 <img id="endScreenImage" class="end-screen-image" src="" alt="End Screen">
                 <button class="start-button" id="restartButton">RESTART GAME</button>
             </div>
 
+            <!-- LOADING SCREEN -->
             <div id="loadingScreen" class="loading-screen d-none">
                 <h2 id="loadingText">Loading... 0%</h2>
 
@@ -214,38 +231,51 @@
 
         </div>
 
+        <!-- FOOTER -->
         <footer class="page-footer">
             <a href="./footerpages/impressum.html" class="footer-link">Impressum</a>
             <span class="footer-divider"></span>
             <a href="./footerpages/datenschutz.html" class="footer-link">Datenschutz</a>
         </footer>
-        
-         <!-- AUTOREN-JAVASCRIPT -->
+
+        <!-- AUTOREN-JAVASCRIPT -->
+
+        <!-- BASE CLASSES -->
         <script src="./classes/drawable-object.class.js"></script>
         <script src="./classes/movable-object.class.js"></script>
+
+        <!-- GAME OBJECTS -->
         <script src="./classes/character.class.js"></script>
         <script src="./classes/chicken.class.js"></script>
         <script src="./classes/small-chicken.class.js"></script>
         <script src="./classes/coin.class.js"></script>
         <script src="./classes/bottle.class.js"></script>
         <script src="./classes/cloud.class.js"></script>
+        <script src="./classes/background-object.class.js"></script>
+        <script src="./classes/throwable-object.class.js"></script>
+        <script src="./classes/endboss.class.js"></script>
+
+        <!-- STATUS BARS -->
         <script src="./classes/status-bar.class.js"></script>
         <script src="./classes/health-bar.class.js"></script>
         <script src="./classes/coin-bar.class.js"></script>
         <script src="./classes/bottle-bar.class.js"></script>
         <script src="./classes/endboss-health-bar.class.js"></script>
-        <script src="./classes/endboss.class.js"></script>
+
+        <!-- INPUT, STATE, AUDIO & LEVEL -->
+        <script src="./classes/keyboard.class.js"></script>
         <script src="./classes/game-state.class.js"></script>
         <script src="./classes/audio-manager.class.js"></script>
         <script src="./classes/endscreen.class.js"></script>
+        <script src="./classes/level.class.js"></script>
+
+        <!-- ENDBOSS FIGHT, RENDERER & WORLD -->
         <script src="./classes/endboss-combat.class.js"></script>
         <script src="./classes/endboss-fight.class.js"></script>
         <script src="./classes/renderer.class.js"></script>
         <script src="./classes/world.class.js"></script>
-        <script src="./classes/background-object.class.js"></script>
-        <script src="./classes/keyboard.class.js"></script>
-        <script src="./classes/level.class.js"></script>
-        <script src="./classes/throwable-object.class.js"></script>
+
+        <!-- LEVEL DATA & ENTRY POINT -->
         <script src="./levels/level1.js"></script>
         <script src="./js/game.js" defer></script>
 
