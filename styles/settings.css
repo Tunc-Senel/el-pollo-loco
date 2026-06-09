@@ -1,0 +1,228 @@
+/* === SETTINGS OVERLAY ===
+   Styles for the in-game settings window: overlay, header, tabs and the
+   sound / key-assignment / story panels. Loaded by index.html after style.css. */
+
+/* === SETTINGS OVERLAY === */
+.settings-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 25;
+    padding: 56px 28px 24px;
+    background-color: rgba(41, 19, 4, 0.5);
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-window {
+    width: 100%;
+    height: 100%;
+    max-width: 630px;
+    max-height: 385px;
+    background: linear-gradient(#ffc96e, #f3a94d);
+    border: 4px solid #5a2600;
+    border-radius: 20px;
+    box-shadow: 0 10px 0 rgba(90, 38, 0, 0.75);
+    overflow: hidden;
+}
+
+/* === SETTINGS HEADER === */
+.settings-header {
+    height: 64px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings-header h2 {
+    margin: 0;
+    font-size: 34px;
+    letter-spacing: 5px;
+}
+
+.settings-close-button {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 3px solid #5a2600;
+    border-radius: 50%;
+    background: linear-gradient(#ffd45a, #f59b23);
+    color: #5a2600;
+    font-family: Arial, sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 28px;
+    cursor: pointer;
+}
+
+/* === SETTINGS TABS === */
+.settings-tabs {
+    height: 48px;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: end;
+    border-bottom: 3px solid #5a2600;
+}
+
+.settings-tab {
+    height: 42px;
+    border: 3px solid transparent;
+    border-bottom: none;
+    border-radius: 14px 14px 0 0;
+    background-color: transparent;
+    color: #321500;
+    font-family: 'Rye', cursive;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.settings-tab.active {
+    border-color: #5a2600;
+    background-color: #f6ae50;
+}
+
+/* === SETTINGS PANELS === */
+.settings-content {
+    height: calc(100% - 112px);
+    padding: 18px 22px 18px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.settings-panel {
+    display: none;
+}
+
+.settings-panel.active {
+    display: block;
+}
+
+/* === SETTINGS: SOUND ROWS === */
+.sound-setting-row {
+    min-height: 76px;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border: 2px solid #7a3500;
+    border-radius: 14px;
+    background-color: rgba(255, 220, 145, 0.42);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.sound-setting-row h4 {
+    margin: 0 0 6px;
+    font-size: 19px;
+}
+
+.sound-setting-row p {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+}
+
+.toggle-selection {
+    display: flex;
+    flex-shrink: 0;
+    border: 3px solid #5a2600;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.sfx-toggle-option,
+.music-toggle-option {
+    min-width: 56px;
+    padding: 8px 10px;
+    border: none;
+    background-color: #ffd47a;
+    color: #5a2600;
+    font-family: 'Rye', cursive;
+    cursor: pointer;
+}
+
+.sfx-toggle-option.active,
+.music-toggle-option.active {
+    background-color: #e78320;
+    color: #fff3cf;
+}
+
+/* === SETTINGS: KEY ASSIGNMENT === */
+.key-assignment-table {
+    border: 3px solid #5a2600;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.key-table-row {
+    min-height: 42px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    align-items: center;
+    border-bottom: 2px solid #9c4b13;
+}
+
+.key-table-row:last-child {
+    border-bottom: none;
+}
+
+.key-table-row > * {
+    padding: 8px 12px;
+}
+
+.key-table-header {
+    justify-content: center;
+    background-color: #dc7e21;
+    color: #fff2cf;
+}
+
+.key-table-header span {
+    text-align: center;
+    font-size: 15px;
+}
+
+.key-table-header span:first-of-type {
+    text-align: left;
+}
+
+.key-table-row kbd {
+    margin: 5px 8px;
+    padding: 6px 8px;
+    border: 2px solid #5a2600;
+    border-radius: 7px;
+    background-color: #ffe1a0;
+    color: #421c00;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 3px 0 #8b410d;
+}
+
+/* === SETTINGS: STORY === */
+.story-card {
+    padding: 18px;
+    border: 3px solid #7a3500;
+    border-radius: 16px;
+    background-color: rgba(255, 225, 164, 0.5);
+}
+
+.story-card h4 {
+    margin: 0 0 14px;
+    font-size: 23px;
+}
+
+.story-card p {
+    margin: 0 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.story-card p:last-child {
+    margin-bottom: 0;
+}
