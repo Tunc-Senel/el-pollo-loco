@@ -1,3 +1,4 @@
+/* === LAYOUT === */
 .legal-page {
     display: block;
     min-height: 100vh;
@@ -6,6 +7,7 @@
     box-sizing: border-box;
 }
 
+/* === CONTENT CARD === */
 .legal-content {
     max-width: 720px;
     margin: 0 auto;
@@ -17,6 +19,7 @@
     color: #421c00;
 }
 
+/* === TYPOGRAPHY === */
 .legal-content h1 {
     margin: 0 0 24px;
     padding: 0;
@@ -48,6 +51,7 @@
     color: #8b410d;
 }
 
+/* === CREDITS LIST === */
 .credits-list {
     margin: 0 0 16px;
     padding-left: 22px;
@@ -61,6 +65,7 @@
     word-break: break-word;
 }
 
+/* === BACK LINK === */
 .legal-back-link {
     display: inline-block;
     margin-top: 24px;
@@ -75,6 +80,7 @@
     box-shadow: 0 6px 0 #5a2600;
 }
 
+/* === MOBILE === */
 @media (max-width: 480px) {
     .legal-page {
         padding: 24px 12px;
