@@ -68,12 +68,7 @@ function handlePauseButton() {
  * Wires the sound on/off button and the SFX/music toggle groups.
  */
 function initSoundControls() {
-    document.getElementById("soundButton").addEventListener("click", () => {
-        audioManager.toggleMute();
-        document.getElementById("sound-on-btn").classList.toggle("d-none");
-        document.getElementById("sound-off-btn").classList.toggle("d-none");
-        syncSoundToggleButtons();
-    });
+    document.getElementById("soundButton").addEventListener("click", applySoundButtonToggle);
     bindMuteToggles(".sfx-toggle-option", "sound effects", "toggleSfxButton");
     bindMuteToggles(".music-toggle-option", "music", "toggleMusicButton");
     syncSoundToggleButtons();
@@ -250,15 +245,33 @@ function bindTouchButton(buttonId, key) {
 }
 
 /**
- * Toggles the paused state and starts or stops the world loops accordingly.
+ * Toggles the sound button: flips mute, swaps the on/off icon and syncs the toggle buttons.
+ */
+function applySoundButtonToggle() {
+    audioManager.toggleMute();
+    document.getElementById("sound-on-btn").classList.toggle("d-none");
+    document.getElementById("sound-off-btn").classList.toggle("d-none");
+    syncSoundToggleButtons();
+}
+
+/**
+ * Toggles the paused state: stops/starts the world loops and mutes on pause. On resume it
+ * unmutes again, unless the user re-enabled a sound while paused (then their choice is kept).
  */
 function togglePause() {
     isPaused = !isPaused;
-
     if (isPaused) {
         world.stopIntervalls();
+        if (audioManager.soundEffectsIsMuted && audioManager.musicIsMuted) {
+            return;
+        } else {
+            applySoundButtonToggle();
+        }
     } else {
         world.startIntervalls();
+        if (audioManager.soundEffectsIsMuted && audioManager.musicIsMuted) {
+            applySoundButtonToggle();
+        }
     }
 }
 
