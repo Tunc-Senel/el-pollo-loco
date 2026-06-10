@@ -35,6 +35,7 @@ function init() {
 function initGameButtons() {
     document.querySelector(".start-button").addEventListener("click", () => {
         showLoadingAndStartGame(false);
+        document.getElementById("gameControls").classList.remove("d-none");
     });
     document.getElementById("restartButton").addEventListener("click", () => {
         showLoadingAndStartGame(true);
