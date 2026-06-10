@@ -180,9 +180,9 @@ class World {
      * Damages the character, updates the health bar and, on a lethal hit, triggers
      * the death sequence with a delayed game over exactly once. Shared by enemy and
      * endboss contact (hence the variable damage amount).
-     * @param {number} [damage=5] Amount of damage.
+     * @param {number} [damage=10] Amount of damage.
      */
-    damageCharacter(damage = 5) {
+    damageCharacter(damage = 10) {
         this.character.hit(damage);
         this.healthBar.setPercentage(this.character.energy);
         if (this.character.energy > 0) {
