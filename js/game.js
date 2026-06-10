@@ -2,18 +2,22 @@
  * The game canvas element the world renders into.
  */
 let canvas = document.getElementById("canvas");
+
 /**
  * Shared keyboard state, read by the character each frame.
  */
 let keyboard = new Keyboard();
+
 /**
  * Global game state (e.g. whether the game has started).
  */
 let gameState = new GameState();
+
 /**
  * The active World instance; recreated on each (re)start.
  */
 let world;
+
 /**
  * Single audio controller shared across the game.
  */
@@ -64,9 +68,16 @@ function handlePauseButton() {
  * Wires the sound on/off button and the SFX/music toggle groups.
  */
 function initSoundControls() {
-    document.getElementById("soundButton").addEventListener("click", applySoundButtonToggle);
+    document.getElementById("soundButton").addEventListener("click", () => {
+        audioManager.toggleMute();
+        document.getElementById("sound-on-btn").classList.toggle("d-none");
+        document.getElementById("sound-off-btn").classList.toggle("d-none");
+        syncSoundToggleButtons();
+    });
     bindMuteToggles(".sfx-toggle-option", "sound effects", "toggleSfxButton");
     bindMuteToggles(".music-toggle-option", "music", "toggleMusicButton");
+    syncSoundToggleButtons();
+    syncSoundIcon();
 }
 
 /**
@@ -183,7 +194,7 @@ function runLoadingBar(loadingScreen, loadingText) {
 
 /**
  * (Re)creates the world: stops any current world, resets audio and, on restart, repositions the character.
- * @param {boolean} [isRestart=false] Whether the game is being restarted.
+ * @param {boolean} [isRestart = false] Whether the game is being restarted.
  */
 function startGame(isRestart = false) {
     stopCurrentWorld();
@@ -239,29 +250,15 @@ function bindTouchButton(buttonId, key) {
 }
 
 /**
- * Toggles the sound button: flips mute, swaps the on/off icon and syncs the toggle buttons.
- */
-function applySoundButtonToggle() {
-    audioManager.toggleMute();
-    document.getElementById("sound-on-btn").classList.toggle("d-none");
-    document.getElementById("sound-off-btn").classList.toggle("d-none");
-    syncSoundToggleButtons();
-}
-
-/**
- * Toggles the paused state: stops/starts the world loops and mutes on pause. On resume it
- * unmutes again, unless the user re-enabled a sound while paused (then their choice is kept).
+ * Toggles the paused state and starts or stops the world loops accordingly.
  */
 function togglePause() {
     isPaused = !isPaused;
+
     if (isPaused) {
         world.stopIntervalls();
-        applySoundButtonToggle();
     } else {
         world.startIntervalls();
-        if (audioManager.soundEffectsIsMuted && audioManager.musicIsMuted) {
-            applySoundButtonToggle();
-        }
     }
 }
 
@@ -383,4 +380,7 @@ document.addEventListener("keyup", (event) => {
     }
 })
 
+/**
+ * Runs init once the page has fully loaded.
+ */
 window.onload = init;

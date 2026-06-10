@@ -39,6 +39,45 @@ class AudioManager {
     }
 
     /**
+     * Key under which the mute state is persisted in localStorage.
+     */
+    STORAGE_KEY = "elPolloLoco.muteState";
+
+    /**
+     * Restores the saved mute state on creation, so the sound settings survive a page reload.
+     */
+    constructor() {
+        this.loadMuteState();
+        this.applyMuteState();
+    }
+
+    /**
+     * Loads the saved mute flags from localStorage; falls back to "unmuted" if none/invalid.
+     */
+    loadMuteState() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(this.STORAGE_KEY));
+            if (saved) {
+                this.soundEffectsIsMuted = !!saved.soundEffectsIsMuted;
+                this.musicIsMuted = !!saved.musicIsMuted;
+                this.isMuted = this.soundEffectsIsMuted && this.musicIsMuted;
+            }
+        } catch {
+        }
+    }
+
+    /**
+     * Persists the current mute flags so they can be restored after a reload.
+     */
+    saveMuteState() {
+        const state = {
+            soundEffectsIsMuted: this.soundEffectsIsMuted,
+            musicIsMuted: this.musicIsMuted
+        };
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(state));
+    }
+
+    /**
      * Starts a looping sound (e.g. music, walking) only if it is not already playing.
      * @param {string} sound The key of the sound in AUDIOS.
      */
@@ -96,6 +135,7 @@ class AudioManager {
         }
         this.isMuted = this.soundEffectsIsMuted && this.musicIsMuted;
         this.applyMuteState();
+        this.saveMuteState();
     }
 
     /**
@@ -120,5 +160,6 @@ class AudioManager {
         this.soundEffectsIsMuted = this.isMuted;
         this.musicIsMuted = this.isMuted;
         this.applyMuteState();
+        this.saveMuteState();
     }
 }
