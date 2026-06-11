@@ -1,0 +1,145 @@
+/* === LEGAL PAGES (Impressum & Datenschutz) ===
+   Shared styling for the legal pages: a calm, sand-toned layout that matches the
+   game's desert theme while staying professional and easy to read. */
+
+/* === GLOBAL === */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f0e3cc;
+    color: #3d2410;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+/* === PAGE FRAME === */
+.legal-page {
+    min-height: 100vh;
+    padding: 32px 24px 64px;
+    box-sizing: border-box;
+}
+
+/* === BACK TO GAME (top) === */
+.legal-back-link {
+    display: inline-block;
+    max-width: 760px;
+    margin: 0 auto 24px;
+    width: 100%;
+    color: #a0521d;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+}
+
+.legal-back-link:hover {
+    color: #7a3500;
+}
+
+.legal-back-link:hover span {
+    color: #7a3500;
+    text-decoration: underline;
+}
+
+
+/* === CONTENT CARD === */
+.legal-content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 44px;
+    background-color: #fbf4e6;
+    border: 1px solid #e0cba8;
+    border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(90, 38, 0, 0.08);
+}
+
+/* === TYPOGRAPHY === */
+.legal-content h1 {
+    margin: 0 0 8px;
+    padding: 0 0 16px;
+    border-bottom: 2px solid #d98c3f;
+    font-family: 'Rye', Georgia, serif;
+    font-size: 38px;
+    line-height: 1.2;
+    color: #5a2600;
+}
+
+.legal-content h2 {
+    margin: 36px 0 12px;
+    font-size: 24px;
+    color: #5a2600;
+}
+
+.legal-content h3 {
+    margin: 26px 0 8px;
+    font-size: 19px;
+    color: #7a3500;
+}
+
+.legal-content h4 {
+    margin: 20px 0 6px;
+    font-size: 16px;
+    color: #7a3500;
+}
+
+.legal-content p {
+    margin: 0 0 14px;
+}
+
+.legal-content ul {
+    margin: 0 0 16px;
+    padding-left: 22px;
+}
+
+.legal-content li {
+    margin-bottom: 6px;
+    word-break: break-word;
+}
+
+/* === LINKS === */
+.legal-content a {
+    color: #a0521d;
+    word-break: break-word;
+}
+
+.legal-content a:hover {
+    color: #7a3500;
+}
+
+/* === CREDITS LIST === */
+.credits-list {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* === MOBILE === */
+@media (max-width: 600px) {
+    .legal-page {
+        padding: 24px 14px 48px;
+    }
+
+    .legal-content {
+        padding: 26px 22px;
+    }
+
+    .legal-content h1 {
+        font-size: 30px;
+    }
+
+    .legal-content h2 {
+        font-size: 21px;
+    }
+
+    .legal-content h3 {
+        font-size: 17px;
+    }
+
+    body {
+        font-size: 15px;
+    }
+
+    .credits-list {
+        font-size: 13px;
+    }
+}
