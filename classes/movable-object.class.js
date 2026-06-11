@@ -11,6 +11,11 @@ class MovableObject extends DrawableObject {
      */
     currentImage = 0;
 
+    /**
+     * The image set currently looping; used to detect animation switches and restart cleanly. 
+     */
+    currentAnimation = null;
+
     /** 
      * Index of the next frame for one-shot animations like dying (playAnimationOnce). 
      */
@@ -42,9 +47,14 @@ class MovableObject extends DrawableObject {
     freezeGravity = false;
 
     /** 
-     * Advances a looping animation by one frame, wrapping around at the end. 
+     * Advances a looping animation by one frame, wrapping around at the end. Restarts at
+     * frame 0 when the image set changes, so switching states never jumps mid-cycle. 
      */
     playAnimation(images) {
+        if (this.currentAnimation !== images) {
+            this.currentAnimation = images;
+            this.currentImage = 0;
+        }
         this.currentImage = this.currentImage % images.length;
         let path = images[this.currentImage];
         this.img = this.imageCache[path];

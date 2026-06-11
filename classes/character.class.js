@@ -145,7 +145,7 @@ class Character extends MovableObject {
      * Switches between the idle and the sleep loop based on how long the character stood still.
      */
     updateIdleAnimation() {
-        if (this.inputDisabled || this.isDead()) {
+        if (this.inputDisabled || this.isDead() || this.isMovingOrAirborne()) {
             return;
         }
         if (this.firstStandingTime === null) {
@@ -158,6 +158,15 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_LONG_STANDING);
             this.world.audioManager.playLoopSound("snoringSound");
         }
+    }
+
+    /**
+     * True while a move key is held or the character is airborne; used to suppress the
+     * idle animation so it never interrupts the walk or jump cycle.
+     */
+    isMovingOrAirborne() {
+        const moving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+        return moving || this.isAboveGround() || this.characterHurt;
     }
 
     /**
