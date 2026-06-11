@@ -84,10 +84,11 @@ class Renderer {
      */
     renderScene(shake) {
         const world = this.world;
+        const camX = Math.round(world.camera_x);
         this.ctx.save();
-        this.ctx.translate(shake.x, shake.y);
+        this.ctx.translate(Math.round(shake.x), Math.round(shake.y));
         this.addBackgroundObjectsToMap(world.level.backgroundObjects);
-        this.ctx.translate(world.camera_x, 0);
+        this.ctx.translate(camX, 0);
         this.addObjectsToMap(world.level.clouds);
         this.addObjectsToMap(world.level.coins);
         this.addObjectsToMap(world.level.bottles);
@@ -97,7 +98,6 @@ class Renderer {
             this.addObjectToMap(world.level.endboss);
         }
         this.addObjectsToMap(world.throwableObjects);
-        this.ctx.translate(-world.camera_x, 0);
         this.ctx.restore();
     }
 
@@ -148,7 +148,7 @@ class Renderer {
      */
     addBackgroundObjectToMap(object) {
         this.ctx.save();
-        this.ctx.translate(this.world.camera_x * object.parallaxFactor, 0);
+        this.ctx.translate(Math.round(this.world.camera_x * object.parallaxFactor), 0);
         this.addObjectToMap(object);
         this.ctx.restore();
     }
