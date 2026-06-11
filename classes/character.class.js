@@ -81,18 +81,36 @@ class Character extends MovableObject {
     ]
 
     /**
-     * Jump frames, played while airborne.
+     * Take-off frames, shown in the first moments after leaving the ground.
      */
-    IMAGES_JUMPING = [
+    IMAGES_JUMPING_START = [
         "assets/img/2_character_pepe/3_jump/J-31.png",
         "assets/img/2_character_pepe/3_jump/J-32.png",
-        "assets/img/2_character_pepe/3_jump/J-33.png",
+        "assets/img/2_character_pepe/3_jump/J-33.png"
+    ]
+
+    /**
+     * Rising frames, shown while the character still moves upward (speedY > 0).
+     */
+    IMAGES_JUMPING_UP = [
         "assets/img/2_character_pepe/3_jump/J-34.png",
-        "assets/img/2_character_pepe/3_jump/J-35.png",
+        "assets/img/2_character_pepe/3_jump/J-35.png"
+    ]
+
+    /**
+     * Falling frames, shown while the character descends (speedY < 0).
+     */
+    IMAGES_JUMPING_DOWN = [
         "assets/img/2_character_pepe/3_jump/J-36.png",
-        "assets/img/2_character_pepe/3_jump/J-37.png",
+        "assets/img/2_character_pepe/3_jump/J-37.png"
+    ]
+
+    /**
+     * Landing frames, shown just before touching the ground again.
+     */
+    IMAGES_JUMPING_LANDING = [
         "assets/img/2_character_pepe/3_jump/J-38.png",
-        "assets/img/2_character_pepe/3_jump/J-39.png",
+        "assets/img/2_character_pepe/3_jump/J-39.png"
     ]
 
     /**
@@ -124,7 +142,10 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_STANDING);
         this.loadImages(this.IMAGES_LONG_STANDING);
         this.loadImages(this.IMAGES_WALKING);
-        this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_JUMPING_START);
+        this.loadImages(this.IMAGES_JUMPING_UP);
+        this.loadImages(this.IMAGES_JUMPING_DOWN);
+        this.loadImages(this.IMAGES_JUMPING_LANDING);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.animate();
@@ -238,9 +259,26 @@ class Character extends MovableObject {
         } else if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround() && !this.characterHurt) {
             this.playAnimation(this.IMAGES_WALKING);
         } else if (this.isAboveGround() && !this.characterHurt) {
-            this.playAnimation(this.IMAGES_JUMPING);
+            this.playJumpAnimation();
         } else if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
+        }
+    }
+
+    /**
+     * Selects the jump frame set from the actual flight phase (take-off, rising, falling,
+     * landing) using speedY and height, so the animation follows the real arc and never
+     * loops the whole jump sequence mid-air.
+     */
+    playJumpAnimation() {
+        if (this.speedY > 19) {
+            this.playAnimationHold(this.IMAGES_JUMPING_START);
+        } else if (this.speedY > 0) {
+            this.playAnimationHold(this.IMAGES_JUMPING_UP);
+        } else if (this.y > 240) {
+            this.playAnimationHold(this.IMAGES_JUMPING_LANDING);
+        } else {
+            this.playAnimationHold(this.IMAGES_JUMPING_DOWN);
         }
     }
 

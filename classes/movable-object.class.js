@@ -62,6 +62,22 @@ class MovableObject extends DrawableObject {
     }
 
     /** 
+     * Plays an image set once and then holds its last frame. Restarts at frame 0 when the
+     * set changes, so each phase (e.g. a jump phase) advances once instead of looping. 
+     */
+    playAnimationHold(images) {
+        if (this.currentAnimation !== images) {
+            this.currentAnimation = images;
+            this.currentImage = 0;
+        }
+        const index = Math.min(this.currentImage, images.length - 1);
+        this.img = this.imageCache[images[index]];
+        if (this.currentImage < images.length - 1) {
+            this.currentImage++;
+        }
+    }
+
+    /** 
      * Plays an animation once and then holds the last frame (used for death animations). 
      */
     playAnimationOnce(images) {
