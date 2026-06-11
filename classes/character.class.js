@@ -136,7 +136,7 @@ class Character extends MovableObject {
      * (60fps) and animation selection (75ms). Kept thin; each tick has its own method.
      */
     animate() {
-        this.intervalIds.push(setInterval(() => this.updateIdleAnimation(), 500));
+        this.intervalIds.push(setInterval(() => this.updateIdleAnimation(), 180));
         this.intervalIds.push(setInterval(() => this.handleMovementInput(), 1000 / 60));
         this.intervalIds.push(setInterval(() => this.updateActionAnimation(), 75));
     }
