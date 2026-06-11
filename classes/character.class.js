@@ -194,7 +194,8 @@ class Character extends MovableObject {
      * Per frame: processes horizontal and jump input and keeps the camera following.
      */
     handleMovementInput() {
-        if (this.inputDisabled) {
+        if (this.inputDisabled || this.isDead()) {
+            this.world.audioManager.stopSound("characterWalkingSound");
             return;
         }
         this.handleHorizontalInput();
