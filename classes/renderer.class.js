@@ -7,10 +7,6 @@
 class Renderer {
     world;
     ctx;
-
-    /**
-     * Screen-shake state (intensity/duration/start time) for the earthquake effect.
-     */
     shakeIntensity = 0;
     shakeDuration = 0;
     shakeStart = 0;

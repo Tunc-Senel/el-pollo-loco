@@ -6,10 +6,6 @@
  */
 class EndbossCombat {
     world;
-
-    /**
-     * Prevents the endboss's death sequence from being triggered more than once. 
-     */
     endbossDeathStarted = false;
 
     /**

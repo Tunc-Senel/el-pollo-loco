@@ -1,26 +1,7 @@
-/**
- * The game canvas element the world renders into.
- */
 let canvas = document.getElementById("canvas");
-
-/**
- * Shared keyboard state, read by the character each frame.
- */
 let keyboard = new Keyboard();
-
-/**
- * Global game state (e.g. whether the game has started).
- */
 let gameState = new GameState();
-
-/**
- * The active World instance; recreated on each (re)start.
- */
 let world;
-
-/**
- * Single audio controller shared across the game.
- */
 let audioManager = new AudioManager();
 
 /**

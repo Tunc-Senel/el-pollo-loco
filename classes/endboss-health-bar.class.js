@@ -6,15 +6,7 @@
 class EndbossHealthBar extends StatusBar {
     percentage = 100;
     otherDirection = true;
-
-    /**
-     * Set to true when the boss enters; the renderer only draws the bar after that.
-     */
     endbossAppeared = false;
-
-    /**
-     * Orange endboss sprites from empty (0%) to full (100%) in 20% steps; index chosen by resolveImageIndex.
-     */
     IMAGES = [
             "assets/img/7_statusbars/2_statusbar_endboss/orange/orange0.png",
             "assets/img/7_statusbars/2_statusbar_endboss/orange/orange20.png",

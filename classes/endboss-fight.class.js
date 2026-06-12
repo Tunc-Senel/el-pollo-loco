@@ -6,30 +6,10 @@
  */
 class EndbossFight {
     world;
-
-    /**
-     * true once the character reaches the boss zone; triggers the intro sequence.
-     */
     bossTriggered = false;
-
-    /**
-     * Camera target position for the approach to the boss during the intro.
-     */
     bossIntroCameraTargetX = -3800;
-
-    /**
-     * Camera target position for the actual fighting area.
-     */
     bossFightCameraTargetX = -3100;
-
-    /**
-     * X position at which the boss takes up its fighting stance.
-     */
     endbossFightTargetX = 3500;
-
-    /**
-     * Encapsulates the combat phase (attacks, damage, death); also accesses the World.
-     */
     combat;
 
     /**

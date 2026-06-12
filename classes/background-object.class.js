@@ -7,10 +7,6 @@ class BackgroundObject extends MovableObject {
     width = 720;
     height = 480;
     y = 480 - this.height;
-
-    /**
-     * How strongly this layer follows the camera (1 = foreground speed, lower = further back).
-     */
     parallaxFactor = 1;
 
     /**

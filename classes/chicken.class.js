@@ -13,28 +13,15 @@ class Chicken extends MovableObject {
         left: 0,
         right: 0
     }
-
     isDeadByBottle = false;
     isDeadByStomp = false;
     intervalIds = [];
-
-    /**
-     * Guards animate() so loops are not started again while the chicken is paused.
-     */
     intervalStopped = false;
-
-    /**
-     * Walk cycle, looped while the chicken is alive.
-     */
     IMAGES_WALKING = [
         "assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
         "assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
         "assets/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png"
     ]
-
-    /**
-     * Single dead frame, shown once the chicken is killed.
-     */
     DEAD_IMAGE = [
         "assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png"
     ]

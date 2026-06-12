@@ -3,10 +3,6 @@
  */
 class CoinBar extends StatusBar {
     percentage = 0;
-
-    /** 
-     * Blue coin sprites from empty (0%) to full (100%) in 20% steps; index chosen by resolveImageIndex.
-     */
     IMAGES = [
         "assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png",
         "assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png",

@@ -12,11 +12,7 @@ class Coin extends DrawableObject {
         left: 20,
         right: 20
     }
-
-    /**
-     * Coin sprite.
-     */
-    IMAGE = "assets/img/8_coin/coin_1.png"
+    IMAGE = "assets/img/8_coin/coin_1.png";
 
     /**
      * Loads the coin sprite and places it at its level position.

@@ -3,10 +3,6 @@
  */
 class HealthBar extends StatusBar {
     percentage = 100;
-
-    /** 
-     * Green health sprites from empty (0%) to full (100%) in 20% steps; index chosen by resolveImageIndex.
-     */
     IMAGES = [
             "assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png",
             "assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png",

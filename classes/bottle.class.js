@@ -12,10 +12,6 @@ class Bottle extends DrawableObject {
         left: 10,
         right: 10
     }
-
-    /**
-     * Sprites: indexes 0/1 are the two ground variants, index 2 is the floating bottle.
-     */
     IMAGES = [
         "assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png",
         "assets/img/6_salsa_bottle/2_salsa_bottle_on_ground.png",

@@ -11,60 +11,20 @@ class World {
     audioManager;
     ctx;
     keyboard;
-
-    /** 
-     * Horizontal camera offset; follows the character and is steered during the boss fight.
-     */
     camera_x;
     healthBar = new HealthBar();
     coinBar = new CoinBar();
     bottleBar = new BottleBar();
-
-    /** 
-     * Currently flying/shattering thrown bottles; removed after their splash.
-     */
     throwableObjects = [];
-
-    /**
-     * Prevents rapid fire: a new throw is only allowed after F has been released.
-     */
     canThrow = true;
     endbossHealthBar = new EndbossHealthBar();
-
-    /**
-     * Encapsulates the entire endboss combat logic; accesses this World via a reference.
-     */
     endbossFight;
-
-    /**
-     * Encapsulates all drawing (render loop, objects, HUD, screen shake).
-     */
     renderer;
     endScreen = new Endscreen();
-
-    /**
-     * IDs of the World's own loops so they can be stopped collectively on pause/end.
-     */
     intervalIds = [];
-
-    /**
-     * Ensures the win/lose sound is played only once.
-     */
     gameEnded = false;
-
-    /**
-     * Prevents the character's death sequence from being triggered more than once.
-     */
     characterDeathStarted = false;
-
-    /**
-     * Locks throwing during the boss intro sequence.
-     */
     throwDisabled = false;
-
-    /**
-     * Stops the requestAnimationFrame loop when the world is restarted. 
-     */
     stopped = false;
 
     /**

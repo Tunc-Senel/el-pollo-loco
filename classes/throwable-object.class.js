@@ -5,45 +5,17 @@
  */
 class ThrowableObject extends MovableObject {
     accelaration = 0.5;
-
-    /** 
-     * Set on the first hit (ground or enemy); switches the sprite to the splash animation.
-     */
     objectHit = false;
-
-    /**
-     *  Set once the splash animation has finished, so the world can clean the bottle up.
-     */
     remove = false;
-
-    /**
-     * Frame index of the one-shot splash animation. 
-     */
     splashAnimationIndex = 0;
-
-    /** 
-     * true while the bottle is still in flight (used to resume throw movement after a pause).
-     */
     isFlying = false;
-
-    /** 
-     * "left" or "right"; the direction the bottle travels. 
-     */
     throwDirection = false;
-
-    /** 
-     * Rotation frames cycled while the bottle is in flight.
-     */
     IMAGES_ROTATION = [
         "assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
         "assets/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
         "assets/img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
         "assets/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png"
     ]
-
-    /** 
-     * Splash frames played once on impact, in order; the last frame triggers removal.
-     */
     IMAGES_SPLASH = [
         "assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",
         "assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png",

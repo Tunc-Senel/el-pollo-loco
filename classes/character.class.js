@@ -5,24 +5,12 @@
  */
 class Character extends MovableObject {
     characterHurt = false;
-
-    /**
-     * Timestamp when standing still began; null while moving. Drives the idle/sleep switch.
-     */
+    energy = 100;
     firstStandingTime = null;
-
-    /**
-     * Stored idle duration across a pause, so the sleep timer resumes correctly.
-     */
     standingTimeBeforePause = null;
     hasStompedEnemyInThisJump = false;
     hasStompedEndbossInThisJump = false;
-
-    /**
-     * When true, the character no longer drives the camera (the boss fight does).
-     */
     lockCameraOnBoss = false;
-    energy = 100;
     x = 150;
     y = 275;
     width = 100;
@@ -35,10 +23,6 @@ class Character extends MovableObject {
         left: 20,
         right: 30
     }
-
-    /**
-     * Short idle loop, shown while standing for under 8 seconds.
-     */
     IMAGES_STANDING = [
         "assets/img/2_character_pepe/1_idle/idle/I-1.png",
         "assets/img/2_character_pepe/1_idle/idle/I-2.png",
@@ -51,10 +35,6 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/1_idle/idle/I-9.png",
         "assets/img/2_character_pepe/1_idle/idle/I-10.png"
     ]
-
-    /**
-     * Sleep loop, shown after standing still for 8 seconds or more.
-     */
     IMAGES_LONG_STANDING = [
         "assets/img/2_character_pepe/1_idle/long_idle/I-11.png",
         "assets/img/2_character_pepe/1_idle/long_idle/I-12.png",
@@ -67,10 +47,6 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/1_idle/long_idle/I-19.png",
         "assets/img/2_character_pepe/1_idle/long_idle/I-20.png",
     ]
-
-    /**
-     * Walk cycle, played while moving on the ground.
-     */
     IMAGES_WALKING = [
         "assets/img/2_character_pepe/2_walk/W-21.png",
         "assets/img/2_character_pepe/2_walk/W-22.png",
@@ -79,52 +55,28 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/2_walk/W-25.png",
         "assets/img/2_character_pepe/2_walk/W-26.png"
     ]
-
-    /**
-     * Take-off frames, shown in the first moments after leaving the ground.
-     */
     IMAGES_JUMPING_START = [
         "assets/img/2_character_pepe/3_jump/J-31.png",
         "assets/img/2_character_pepe/3_jump/J-32.png",
         "assets/img/2_character_pepe/3_jump/J-33.png"
     ]
-
-    /**
-     * Rising frames, shown while the character still moves upward (speedY > 0).
-     */
     IMAGES_JUMPING_UP = [
         "assets/img/2_character_pepe/3_jump/J-34.png",
         "assets/img/2_character_pepe/3_jump/J-35.png"
     ]
-
-    /**
-     * Falling frames, shown while the character descends (speedY < 0).
-     */
     IMAGES_JUMPING_DOWN = [
         "assets/img/2_character_pepe/3_jump/J-36.png",
         "assets/img/2_character_pepe/3_jump/J-37.png"
     ]
-
-    /**
-     * Landing frames, shown just before touching the ground again.
-     */
     IMAGES_JUMPING_LANDING = [
         "assets/img/2_character_pepe/3_jump/J-38.png",
         "assets/img/2_character_pepe/3_jump/J-39.png"
     ]
-
-    /**
-     * Hurt frames, played briefly after taking damage.
-     */
     IMAGES_HURT = [
         "assets/img/2_character_pepe/4_hurt/H-41.png",
         "assets/img/2_character_pepe/4_hurt/H-42.png",
         "assets/img/2_character_pepe/4_hurt/H-43.png"
     ]
-
-    /**
-     * Death frames, played once when energy reaches zero.
-     */
     IMAGES_DEAD = [
         "assets/img/2_character_pepe/5_dead/D-51.png",
         "assets/img/2_character_pepe/5_dead/D-52.png",

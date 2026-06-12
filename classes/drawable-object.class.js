@@ -9,21 +9,9 @@ class DrawableObject {
     width;
     height;
     img;
-
-    /** 
-     * Preloaded images keyed by path, so animations can switch frames without reloading.
-     */
     imageCache = {};
-
-    /**
-     * true when the object faces left; the renderer mirrors it accordingly.
-     */
     otherDirection = false;
     energy = 100;
-
-    /**
-     * Inset of the visual sprite from its bounding box, for more forgiving collisions.
-     */
     offset = {
         top: 0,
         bottom: 0,

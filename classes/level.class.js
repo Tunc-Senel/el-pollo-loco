@@ -10,15 +10,7 @@ class Level {
     coins;
     bottles;
     endboss;
-
-    /**
-     * Left edge the character cannot pass; raised during the boss fight to lock the arena.
-     */
     levelStartX = -700;
-
-    /**
-     * Right edge of the level (where the boss zone is reached).
-     */
     levelEndX = 3750;
 
     /**

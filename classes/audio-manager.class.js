@@ -5,16 +5,10 @@
  * else counts as a sound effect.
  */
 class AudioManager {
-    /**
-     * True only when both sound effects and music are muted (drives the sound on/off icon).
-     */
     isMuted = false;
     soundEffectsIsMuted = false;
     musicIsMuted = false;
-
-    /**
-     * All game sounds, keyed by name; preloaded once so playback has no startup delay.
-     */
+    STORAGE_KEY = "elPolloLoco.muteState";
     AUDIOS = {
         collectCoinSound: new Audio("assets/audio/collect-coin.mp3"),
         jumpSound:  new Audio("assets/audio/jump-sound.mp3"),
@@ -37,11 +31,6 @@ class AudioManager {
         endbossHurtSound: new Audio("assets/audio/endboss-hurt-sound.mp3"),
         endbossDieSound: new Audio("assets/audio/endboss-die-sound.mp3")
     }
-
-    /**
-     * Key under which the mute state is persisted in localStorage.
-     */
-    STORAGE_KEY = "elPolloLoco.muteState";
 
     /**
      * Restores the saved mute state on creation, so the sound settings survive a page reload.

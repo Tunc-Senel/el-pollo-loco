@@ -6,44 +6,17 @@
  * differ per type.
  */
 class MovableObject extends DrawableObject {
-    /**
-     * Index of the next frame for looping animations (playAnimation). 
-     */
     currentImage = 0;
-
-    /**
-     * The image set currently looping; used to detect animation switches and restart cleanly. 
-     */
     currentAnimation = null;
-
-    /** 
-     * Index of the next frame for one-shot animations like dying (playAnimationOnce). 
-     */
     onceAnimationIndex = 0;
     onceAnimationStarted  = false;
     otherDirection = false; 
     speed = 0;
-
-    /** 
-     * Vertical speed; positive means rising, decreased over time by gravity. 
-     */
     speedY = 0;
     accelaration = 0.9;
-
-    /** 
-     * Timestamp of the last hit, used by isHurt to grant brief invulnerability. 
-     */
     lastHit = 0;
-
-    /** 
-     * IDs of this object's own loops so they can be stopped on pause/restart. 
-     */
     intervalIds = [];
     inputDisabled = false;
-
-    /** 
-     * When true, gravity is skipped (e.g. while the character is frozen during the boss intro). 
-     */
     freezeGravity = false;
 
     /** 

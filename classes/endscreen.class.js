@@ -6,15 +6,7 @@
 class Endscreen {
     lostGame = false;
     wonGame = false;
-
-    /**
-     * The screen currently displayed ("win"/"lose"/null); prevents re-applying the same screen.
-     */
     currentScreen = null;
-
-    /**
-     * End screen images keyed by outcome.
-     */
     IMAGES = {
         win: 'assets/img/You won, you lost/You won A.png',
         lose: 'assets/img/You won, you lost/Game Over.png'

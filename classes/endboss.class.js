@@ -6,45 +6,17 @@
 class Endboss extends MovableObject {
     width = 200;
     height = 200;
-
-    /**
-     * Ground level for the boss (differs from the character's), used by gravity clamping.
-     */
     groundY = 230;
     energy = 100;
     speed = 3;
-
-    /**
-     * Current state machine value (hidden, walking_in, alert, fighting, attacking, dead, ...).
-     */
     state = 'hidden';
     world = null;
-
-    /**
-     * Target X the boss walks to during the intro.
-     */
     walkTarget = 0;
-
-    /**
-     * Target X for the jump into the center during the intro.
-     */
     centerTarget = 0;
-
-    /**
-     * Timestamp when the alert phase began, used to time the center jump.
-     */
     alertStart = 0;
     currentImage = 0;
-
-    /**
-     * Attack-cycle flags, set/reset by the combat logic to sequence a jump attack.
-     */
     attackOnCooldown = false;
     hasJumpedToAttack = false;
-
-    /**
-     * Character center captured at take-off; the boss aims for this while airborne.
-     */
     attackTargetX = 0;
     attackStarted = false;
     attackLanded = false;
@@ -55,10 +27,6 @@ class Endboss extends MovableObject {
         left: 30,
         right: 20
     };
-
-    /**
-     * Alert frames, shown while the boss pauses/threatens.
-     */
     IMAGES_ALERT = [
         'assets/img/4_enemie_boss_chicken/2_alert/G5.png',
         'assets/img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -69,20 +37,12 @@ class Endboss extends MovableObject {
         'assets/img/4_enemie_boss_chicken/2_alert/G11.png',
         'assets/img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
-
-    /**
-     * Walk cycle, used for walking in, repositioning and the base fighting stance.
-     */
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
         'assets/img/4_enemie_boss_chicken/1_walk/G2.png',
         'assets/img/4_enemie_boss_chicken/1_walk/G3.png',
         'assets/img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
-
-    /**
-     * Attack frames, played during a jump attack.
-     */
     IMAGES_ATTACK = [
         'assets/img/4_enemie_boss_chicken/3_attack/G13.png',
         'assets/img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -93,25 +53,16 @@ class Endboss extends MovableObject {
         'assets/img/4_enemie_boss_chicken/3_attack/G19.png',
         'assets/img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
-
-    /**
-     * Hurt frames, played briefly after taking a hit.
-     */
     IMAGES_HURT = [
         'assets/img/4_enemie_boss_chicken/4_hurt/G21.png',
         'assets/img/4_enemie_boss_chicken/4_hurt/G22.png',
         'assets/img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
-
-    /**
-     * Death frames, played once when the boss is defeated.
-     */
     IMAGES_DEAD = [
         'assets/img/4_enemie_boss_chicken/5_dead/G24.png',
         'assets/img/4_enemie_boss_chicken/5_dead/G25.png',
         'assets/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-
 
     /**
      * Preloads all animation sets, places the boss on the ground and starts its loops.
