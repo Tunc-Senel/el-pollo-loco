@@ -22,8 +22,8 @@ body {
 
 /* === BACK TO GAME (top) === */
 .legal-back-link {
-    display: inline-block;
-    max-width: 760px;
+    display: block;
+    max-width: 848px;
     margin: 0 auto 24px;
     width: 100%;
     color: #a0521d;
@@ -63,6 +63,10 @@ body {
     font-size: 38px;
     line-height: 1.2;
     color: #5a2600;
+}
+
+.mobile-legal-header {
+    display: none;
 }
 
 .legal-content h2 {
@@ -117,6 +121,15 @@ body {
 @media (max-width: 600px) {
     .legal-page {
         padding: 24px 14px 48px;
+    }
+
+    .desktop-legal-header {
+        display: none;
+    }
+
+    .mobile-legal-header {
+        display: flex;
+        flex-direction: column;
     }
 
     .legal-content {
