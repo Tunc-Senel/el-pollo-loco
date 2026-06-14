@@ -3,6 +3,8 @@ let keyboard = new Keyboard();
 let gameState = new GameState();
 let world;
 let audioManager = new AudioManager();
+let isPaused = false;
+let muteStateBeforePause = null;
 
 /**
  * Entry point (called on window load): wires up all UI controls.
@@ -236,24 +238,46 @@ function applySoundButtonToggle() {
 }
 
 /**
- * Toggles the paused state: stops/starts the world loops and mutes on pause. On resume it
- * unmutes again, unless the user re-enabled a sound while paused (then their choice is kept).
+ * Toggles the paused state: stops/starts the world loops. On pause it remembers the current
+ * mute state and then mutes everything; on resume it restores exactly that saved state, so
+ * the player's sound choice stays the way it was before pausing.
  */
 function togglePause() {
     isPaused = !isPaused;
     if (isPaused) {
-        world.stopIntervalls();
-        if (audioManager.soundEffectsIsMuted && audioManager.musicIsMuted) {
-            return;
-        } else {
-            applySoundButtonToggle();
-        }
+        pauseWorldAndMute();
     } else {
-        world.startIntervalls();
-        if (audioManager.soundEffectsIsMuted && audioManager.musicIsMuted) {
-            applySoundButtonToggle();
-        }
+        resumeWorldAndRestoreSound();
     }
+}
+
+/**
+ * Pauses the world loops, stores the mute state from before the pause and mutes all sound.
+ */
+function pauseWorldAndMute() {
+    world.stopIntervalls();
+    muteStateBeforePause = {
+        soundEffectsIsMuted: audioManager.soundEffectsIsMuted,
+        musicIsMuted: audioManager.musicIsMuted
+    };
+    audioManager.setMuteState("sound effects", true);
+    audioManager.setMuteState("music", true);
+    syncSoundToggleButtons();
+    syncSoundIcon();
+}
+
+/**
+ * Resumes the world loops and restores the mute state captured before the pause.
+ */
+function resumeWorldAndRestoreSound() {
+    world.startIntervalls();
+    if (muteStateBeforePause) {
+        audioManager.setMuteState("sound effects", muteStateBeforePause.soundEffectsIsMuted);
+        audioManager.setMuteState("music", muteStateBeforePause.musicIsMuted);
+        muteStateBeforePause = null;
+    }
+    syncSoundToggleButtons();
+    syncSoundIcon();
 }
 
 /**
